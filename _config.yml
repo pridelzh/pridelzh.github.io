@@ -1,0 +1,30 @@
+title: "PrideLzh Blog"
+description: "Research notes on AI, computer vision and medical intelligence."
+url: "https://pridelzh.github.io"
+baseurl: ""
+author: "PrideLzh"
+email: "your-email@example.com"
+github_url: "https://github.com/pridelzh"
+scholar_url: "https://scholar.google.com/"
+lang: "en"
+timezone: "Asia/Shanghai"
+permalink: /notes/:year/:month/:day/:title/
+markdown: kramdown
+highlighter: rouge
+future: false
+plugins:
+  - jekyll-feed
+research_categories:
+  - Computer Vision
+  - Medical AI
+  - Multimodal Learning
+  - Large Language Models
+  - Paper Reading
+  - Programming
+  - Research Thoughts
+exclude:
+  - docs
+  - test
+  - Gemfile
+  - Gemfile.lock
+  - vendor
