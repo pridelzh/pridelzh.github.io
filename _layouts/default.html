@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% assign document_title = page.title | default: site.title %}
+    {% assign document_description = page.description | default: page.excerpt | default: site.description %}
+    <title>{% if page.title %}{{ document_title | escape }} · {{ site.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+    <meta name="description" content="{{ document_description | strip_html | normalize_whitespace | escape }}">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    {% feed_meta %}
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["$", "$"], ["\\(", "\\)"]],
+          displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+          processEscapes: true
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </head>
+  <body>
+    <div class="site-shell">
+      {% include header.html %}
+      <main class="site-main">
+        {{ content }}
+      </main>
+      {% include footer.html %}
+    </div>
+  </body>
+</html>
