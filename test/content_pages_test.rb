@@ -49,4 +49,15 @@ class ContentPagesTest < Minitest::Test
       end
     end
   end
+
+  def test_sample_post_preserves_mathjax_display_delimiters
+    build_site do |destination|
+      post = output(destination, "notes/2026/07/31/understanding-transformer/index.html")
+
+      assert_match(
+        /\\\[\s*\\operatorname\{Attention\}\(Q,K,V\).*?\\\]/m,
+        post
+      )
+    end
+  end
 end

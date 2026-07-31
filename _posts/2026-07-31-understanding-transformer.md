@@ -16,10 +16,10 @@ operation projects an input sequence into queries, keys, and values.
 
 For a key dimension of $d_k$, scaled dot-product attention is
 
-\[
+$$
 \operatorname{Attention}(Q,K,V)
 = \operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
-\]
+$$
 
 The scale factor keeps large dot products from pushing the softmax into regions
 with very small gradients. A compact NumPy version makes the data flow explicit:
