@@ -118,20 +118,20 @@ excerpt: "A practical note on calibration error and temperature scaling."
 
 ## Motivation
 
-For class probabilities \(p_k\), confidence is \(\max_k p_k\).
+For class probabilities $p_k$, confidence is $\max_k p_k$.
 
-\[
+$$
 \operatorname{ECE}
 = \sum_{m=1}^{M}\frac{|B_m|}{n}
   \left|\operatorname{acc}(B_m)-\operatorname{conf}(B_m)\right|
-\]
+$$
 
 ```python
 def temperature_scale(logits, temperature):
     return logits / temperature
 ```
 
-![Reliability diagram](/assets/images/reliability-diagram.png)
+![Reliability diagram]({{ '/assets/images/reliability-diagram.png' | relative_url }})
 ````
 
 Authoring rules:
@@ -145,13 +145,13 @@ Authoring rules:
   Jekyll uses the first paragraph.
 - Use fenced code blocks with a language name such as `python`, `ruby`, or
   `bash` so Rouge can highlight them.
-- Put images in `assets/images/` (create it when first needed) and reference
-  them with a root-relative URL such as
-  `![Alt text](/assets/images/example.png)`. Use descriptive alt text and
-  commit the image with the post.
-- Write inline LaTeX between `$...$` or `\(...\)`. Write display equations
-  between `\[...\]` as in the example; MathJax 3 is loaded by the default
-  layout.
+- Put images in `assets/images/` (create it when first needed) and pass their
+  path through Liquid's `relative_url` filter, for example
+  `![Alt text]({{ '/assets/images/example.png' | relative_url }})`. Use
+  descriptive alt text and commit the image with the post.
+- Write inline LaTeX between `$...$`. Write display equations between `$$`
+  delimiters on their own lines, as in the example; MathJax 3 is loaded by the
+  default layout.
 - Preview the post and inspect its generated URL. The configured permalink is
   `/notes/:year/:month/:day/:title/`.
 

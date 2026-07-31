@@ -320,7 +320,8 @@ Implement:
 - Relative URL filters on every internal link
 - Dynamic document title and meta description
 - Feed discovery metadata through `{% feed_meta %}`
-- MathJax 3 configuration for `$...$`, `\(...\)`, `$$...$$`, and `\[...\]`
+- MathJax 3 configuration with `$...$` for inline authoring and `$$...$$` for
+  display authoring
 - Wine-red links, Georgia-based prose, sans-serif metadata, thin separators
 - A centered 960-pixel shell
 - `.content-grid` as the desktop two-column primitive
@@ -610,10 +611,10 @@ matter contract, a concise explanatory note, one Python fenced-code example,
 inline math `$d_k$`, and display math:
 
 ```latex
-\[
+$$
 \operatorname{Attention}(Q,K,V)
 = \operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
-\]
+$$
 ```
 
 - [ ] **Step 6: Run the content-page tests**

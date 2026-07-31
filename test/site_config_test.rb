@@ -1,5 +1,6 @@
 require "minitest/autorun"
 require "date"
+require "uri"
 require "yaml"
 
 class SiteConfigTest < Minitest::Test
@@ -20,6 +21,26 @@ class SiteConfigTest < Minitest::Test
     assert_equal "kramdown", @config.fetch("markdown")
     assert_equal "rouge", @config.fetch("highlighter")
     assert_includes @config.fetch("plugins"), "jekyll-feed"
+  end
+
+  def test_author_name_is_exact
+    assert_equal "PrideLzh", @config.fetch("author")
+  end
+
+  def test_email_has_an_address_shape
+    email = @config.fetch("email")
+
+    refute_empty email
+    assert_match URI::MailTo::EMAIL_REGEXP, email
+  end
+
+  def test_scholar_url_is_non_empty_https
+    raw_scholar_url = @config.fetch("scholar_url")
+    scholar_url = URI.parse(raw_scholar_url)
+
+    refute_empty raw_scholar_url
+    assert_equal "https", scholar_url.scheme
+    refute_empty scholar_url.host
   end
 
   def test_research_categories_are_stable_and_ordered

@@ -10,7 +10,7 @@ module SiteTestHelper
     index.md about.md archive.md categories.md 404.md
   ].freeze
 
-  def build_site(extra_files: {}, include_project_posts: true)
+  def build_site(extra_files: {}, include_project_posts: true, config_overrides: {})
     Dir.mktmpdir("pridelzh-site") do |tmp|
       source = File.join(tmp, "source")
       destination = File.join(tmp, "site")
@@ -30,10 +30,12 @@ module SiteTestHelper
       end
 
       config = Jekyll.configuration(
-        "source" => source,
-        "destination" => destination,
-        "future" => true,
-        "quiet" => true
+        {
+          "source" => source,
+          "destination" => destination,
+          "future" => true,
+          "quiet" => true
+        }.merge(config_overrides)
       )
       Dir.chdir(source) { Jekyll::Site.new(config).process }
       yield destination
