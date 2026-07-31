@@ -1,0 +1,112 @@
+---
+layout: default
+---
+<div class="content-grid">
+  <section class="home-feed" aria-labelledby="recent-notes-heading">
+    <div class="home-introduction prose">
+      {{ content }}
+    </div>
+
+    <h2 id="recent-notes-heading">Recent research notes</h2>
+
+    {% if site.posts.size > 0 %}
+      <div class="post-previews">
+        {% for post in site.posts limit: 8 %}
+          <article class="post-preview">
+            <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
+              {{ post.date | date: "%B %-d, %Y" }}
+            </time>
+            <h3 class="post-title">
+              <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            </h3>
+
+            <div class="post-meta">
+              {% assign primary_category = post.categories | first %}
+              {% if primary_category %}
+                <a class="post-category" href="{{ '/categories/' | relative_url }}#{{ primary_category | slugify }}">
+                  {{ primary_category }}
+                </a>
+              {% endif %}
+
+              {% if post.tags.size > 0 %}
+                <ul class="post-tags" aria-label="Tags">
+                  {% for tag in post.tags %}
+                    <li>{{ tag }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+
+            <p class="post-excerpt">
+              {{ post.excerpt | strip_html | normalize_whitespace }}
+            </p>
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if site.posts.size > 8 %}
+        <details class="more-posts">
+          <summary>More posts</summary>
+          <ol class="older-posts">
+            {% for post in site.posts offset: 8 %}
+              <li class="older-post">
+                <time datetime="{{ post.date | date_to_xmlschema }}">
+                  {{ post.date | date: "%Y-%m-%d" }}
+                </time>
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              </li>
+            {% endfor %}
+          </ol>
+          <a href="{{ '/archive/' | relative_url }}">View the complete archive</a>
+        </details>
+      {% endif %}
+    {% else %}
+      <p class="empty-state">Research notes will appear here.</p>
+    {% endif %}
+  </section>
+
+  <aside class="home-sidebar" aria-label="Research navigation">
+    <section class="sidebar-section">
+      <h2>Research categories</h2>
+      <ul class="category-list">
+        {% for area in site.research_categories %}
+          {% assign category_posts = site.categories[area] %}
+          <li>
+            <a href="{{ '/categories/' | relative_url }}#{{ area | slugify }}">{{ area }}</a>
+            <span class="post-count">{{ category_posts | size }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="sidebar-section">
+      <h2>About</h2>
+      <p>
+        {{ site.author }} is a Computer Science student exploring computer vision,
+        medical AI, multimodal learning, and foundation models.
+      </p>
+      <ul class="profile-links">
+        <li><a href="{{ site.github_url }}">GitHub</a></li>
+        <li><a href="mailto:{{ site.email }}">Email</a></li>
+        <li><a href="{{ site.scholar_url }}">Google Scholar</a></li>
+      </ul>
+    </section>
+
+    <section class="sidebar-section">
+      <h2>Archive by year</h2>
+      {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+      {% if posts_by_year.size > 0 %}
+        <ul class="year-list">
+          {% for year in posts_by_year %}
+            <li>
+              <a href="{{ '/archive/' | relative_url }}#{{ year.name }}">{{ year.name }}</a>
+              <span class="post-count">{{ year.items | size }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No archive entries yet.</p>
+      {% endif %}
+    </section>
+  </aside>
+</div>
