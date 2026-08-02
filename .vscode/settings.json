@@ -1,0 +1,6 @@
+{
+  "markdown.copyFiles.destination": {
+    "/_posts/**/*": "/assets/images/${documentBaseName}/${fileName}"
+  },
+  "markdown.copyFiles.overwriteBehavior": "nameIncrementally"
+}
