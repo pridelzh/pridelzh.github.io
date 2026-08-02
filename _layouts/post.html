@@ -8,8 +8,8 @@ layout: default
   </header>
 
   <div class="prose">
-    {% assign local_asset_prefix = 'src="../assets/' %}
-    {% capture public_asset_prefix %}src="{{ '/assets/' | relative_url }}{% endcapture %}
+    {% assign local_asset_prefix = '<img src="../assets/' %}
+    {% capture public_asset_prefix %}<img src="{{ '/assets/' | relative_url }}{% endcapture %}
     {{ content | replace: local_asset_prefix, public_asset_prefix }}
   </div>
 

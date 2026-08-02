@@ -61,6 +61,8 @@ class ContentPagesTest < Minitest::Test
       ---
 
       ![Cycle detection diagram](../assets/images/2026-08-02-paste-probe/image.png)
+
+      <script src="../assets/scripts/not-an-image.js"></script>
     MARKDOWN
 
     ["", "/research"].each do |baseurl|
@@ -77,6 +79,7 @@ class ContentPagesTest < Minitest::Test
 
         assert_includes post, %(src="#{expected_src}")
         assert File.file?(File.join(destination, "assets/images/2026-08-02-paste-probe/image.png"))
+        assert_includes post, 'src="../assets/scripts/not-an-image.js"'
       end
     end
   end
