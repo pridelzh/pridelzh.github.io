@@ -14,8 +14,8 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Solution:** Use two pointers, one fast and one slow. Move the fast pointer two steps and the slow pointer one step at a time. If they meet, the linked list is circular; if the fast pointer reaches the end, it is not circular.
 
-   **Image example:** 
-   ![alt text](image.png)
+   **Image example:**
+   ![Floyd's cycle detection with fast and slow pointers](../assets/images/2026-08-02-record-algorithm-exercise/image.png)
 
    **Code example:**
    ```cpp
@@ -48,4 +48,3 @@ excerpt: "A record of traditional algorithm exercises."
    **Time complexity:** O(n), where n is the number of nodes in the linked list.
 
    **Points:** if a linked list is circular, the fast pointer will eventually meet the slow pointer just like a running competition. If it is not circular, the fast pointer will reach the end of the list (null) before meeting the slow pointer.
-   
