@@ -17,6 +17,8 @@ The maintained source tree is:
 ```text
 .
 ├── .gitignore
+├── .vscode/
+│   └── settings.json
 ├── 404.md
 ├── Gemfile
 ├── Gemfile.lock
@@ -32,23 +34,30 @@ The maintained source tree is:
 │   ├── page.html
 │   └── post.html
 ├── _posts/
-│   └── 2026-07-31-understanding-transformer.md
+│   ├── 2026-07-31-understanding-transformer.md
+│   └── 2026-08-02-record-algorithm-exercise.md
 ├── about.md
 ├── archive.md
 ├── assets/
-│   └── css/
-│       └── style.css
+│   ├── css/
+│   │   └── style.css
+│   └── images/
+│       └── 2026-08-02-record-algorithm-exercise/
+│           └── image.png
 ├── categories.md
 ├── docs/
 │   └── superpowers/
 │       ├── plans/
-│       │   └── 2026-07-31-research-blog-implementation.md
+│       │   ├── 2026-07-31-research-blog-implementation.md
+│       │   └── 2026-08-02-vscode-image-paste-implementation.md
 │       └── specs/
-│           └── 2026-07-31-research-blog-design.md
+│           ├── 2026-07-31-research-blog-design.md
+│           └── 2026-08-02-vscode-image-paste-design.md
 ├── index.md
 └── test/
     ├── content_pages_test.rb
     ├── home_test.rb
+    ├── image_authoring_test.rb
     ├── layout_test.rb
     ├── readme_test.rb
     ├── site_config_test.rb
@@ -57,6 +66,8 @@ The maintained source tree is:
 
 - `.gitignore` excludes generated builds, local dependency caches, worktrees,
   and task-control files.
+- `.vscode/settings.json` controls portable image-paste destinations for posts
+  opened from this repository workspace.
 - `404.md` supplies the not-found page and links visitors back into the site.
 - `Gemfile` declares the GitHub Pages-compatible Ruby dependency set.
 - `Gemfile.lock` pins the resolved Ruby gems for repeatable local builds.
@@ -74,19 +85,29 @@ The maintained source tree is:
 - `_layouts/page.html` wraps top-level informational pages consistently.
 - `_layouts/post.html` renders an individual research note.
 - `_posts/2026-07-31-understanding-transformer.md` is the sample research post.
+- `_posts/2026-08-02-record-algorithm-exercise.md` demonstrates the portable
+  image-paste convention in a post.
 - `about.md` contains the academic profile and external profile links.
 - `archive.md` generates the year-grouped post archive.
 - `assets/css/style.css` provides typography, two-column layout, code, formula,
   and responsive styling.
+- `assets/images/` contains committed public media for posts, organized into
+  post-specific directories when images are pasted from VS Code.
 - `categories.md` generates the stable research-area index.
 - `docs/superpowers/plans/2026-07-31-research-blog-implementation.md` records the
   implementation and verification plan.
+- `docs/superpowers/plans/2026-08-02-vscode-image-paste-implementation.md`
+  records the portable image-paste implementation plan.
 - `docs/superpowers/specs/2026-07-31-research-blog-design.md` records the agreed
   site design and scope.
+- `docs/superpowers/specs/2026-08-02-vscode-image-paste-design.md` records the
+  portable image-paste design.
 - `index.md` provides home-page front matter and the introductory text.
 - `test/content_pages_test.rb` builds and checks content pages, post rendering,
   and internal links.
 - `test/home_test.rb` checks the recent/older post split and the empty state.
+- `test/image_authoring_test.rb` checks the editor mapping and rendered image
+  URL for the portable image-paste workflow.
 - `test/layout_test.rb` checks navigation, assets, MathJax, and responsive CSS.
 - `test/readme_test.rb` protects the essential operator workflow.
 - `test/site_config_test.rb` checks public identity, build settings, and ordered
@@ -134,6 +155,25 @@ def temperature_scale(logits, temperature):
 ![Reliability diagram]({{ '/assets/images/reliability-diagram.png' | relative_url }})
 ````
 
+### Paste an image directly from VS Code
+
+Open the repository root as the VS Code workspace, edit a file under `_posts/`,
+and press `Ctrl+V`. The committed `.vscode/settings.json` automatically stores
+the image in `assets/images/<post-file-basename>/` and inserts a link that works
+in the VS Code preview. Jekyll converts that source-relative link to the public
+GitHub Pages asset URL when it builds the post.
+
+Commit both the Markdown file and its new image directory. Because the setting
+belongs to this repository, the same behavior applies after cloning it onto a
+different computer; no image-paste extension is required.
+
+As an editor-independent fallback, place the image under `assets/images/`
+manually and use Liquid explicitly:
+
+```markdown
+![Descriptive alt text]({{ '/assets/images/example.png' | relative_url }})
+```
+
 Authoring rules:
 
 - Keep the filename date and the `date` front-matter value aligned.
@@ -145,10 +185,8 @@ Authoring rules:
   Jekyll uses the first paragraph.
 - Use fenced code blocks with a language name such as `python`, `ruby`, or
   `bash` so Rouge can highlight them.
-- Put images in `assets/images/` (create it when first needed) and pass their
-  path through Liquid's `relative_url` filter, for example
-  `![Alt text]({{ '/assets/images/example.png' | relative_url }})`. Use
-  descriptive alt text and commit the image with the post.
+- Use descriptive alt text and commit each image with its post. Keep manually
+  managed images under `assets/images/`.
 - Write inline LaTeX between `$...$`. Write display equations between `$$`
   delimiters on their own lines, as in the example; MathJax 3 is loaded by the
   default layout.

@@ -13,6 +13,11 @@ class ReadmeTest < Minitest::Test
     [
       "Create a new post",
       "_posts/YYYY-MM-DD-short-slug.md",
+      "Ctrl+V",
+      ".vscode/settings.json",
+      "assets/images/<post-file-basename>/",
+      "Open the repository root",
+      "editor-independent fallback",
       "bundle exec jekyll serve",
       "Replace an old Hexo site",
       "Deploy to GitHub Pages",
