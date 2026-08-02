@@ -49,8 +49,6 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Points:** if a linked list is circular, the fast pointer will eventually meet the slow pointer just like a running competition. If it is not circular, the fast pointer will reach the end of the list (null) before meeting the slow pointer.
 
----
-
 2. **Problem:** Merge two linked list into one.
 
    **Solution:** Use a new begin node and then traverse both linked lists, comparing the values of the current nodes. Append the smaller value to the new list and move the pointer of that list forward. Continue until one of the lists is exhausted, then append the remaining nodes from the other list.
@@ -95,8 +93,6 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Points:** Just traverse both linked lists once and compare their values to merge them in sorted order.
 
----
-
 3. **Problem:** Use linked lists to store large numbers, try to add them.
 
    **Solution:** Traverse both linked lists simultaneously, adding corresponding digits along with any carry from the previous addition. Create a new linked list to store the result.
@@ -140,8 +136,6 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Points:** A carry is maintained during the addition process, and the result is stored in a new linked list.
 
----
-
 4. **Problem:** Delete the last No.n node from a linked list.
 
    **Solution:** Use two pointers, one fast and one slow. Move the fast pointer n steps ahead, then move both pointers until the fast pointer reaches the end. The slow pointer will then point to the node to be deleted.
@@ -179,8 +173,6 @@ excerpt: "A record of traditional algorithm exercises."
    **Time complexity:** O(n), where n is the number of nodes in the linked list.
 
    **Points:** Let the fast pointer move n+1 steps ahead, then move both pointers until the fast pointer reaches the end. The slow pointer will then point to the node to be deleted.
-
----
 
 5. **Problem:** Exchange nodes two by two in a linked list.
 
