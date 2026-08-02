@@ -13,7 +13,7 @@ class ContentPagesTest < Minitest::Test
 
       assert_includes about, "PrideLzh"
       assert_includes about, "Foundation Models"
-      assert_includes about, "https://github.com/pridelzh"
+      assert_includes about, "https://github.com/pridelizihao"
       assert_includes archive, "2026"
       assert_includes archive, "Understanding Transformer"
 
