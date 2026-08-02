@@ -14,6 +14,7 @@ class ReadmeTest < Minitest::Test
       "Create a new post",
       "_posts/YYYY-MM-DD-short-slug.md",
       "Ctrl+V",
+      "Keep post files directly under `_posts/`; nested post directories are not supported by the paste mapping.",
       ".vscode/settings.json",
       "assets/images/<post-file-basename>/",
       "Open the repository root",

@@ -103,11 +103,11 @@ The maintained source tree is:
 - `docs/superpowers/specs/2026-08-02-vscode-image-paste-design.md` records the
   portable image-paste design.
 - `index.md` provides home-page front matter and the introductory text.
-- `test/content_pages_test.rb` builds and checks content pages, post rendering,
-  and internal links.
+- `test/content_pages_test.rb` protects post rendering, rendered image
+  URLs/baseurl behavior, and internal links.
 - `test/home_test.rb` checks the recent/older post split and the empty state.
-- `test/image_authoring_test.rb` checks the editor mapping and rendered image
-  URL for the portable image-paste workflow.
+- `test/image_authoring_test.rb` protects the VS Code settings and source asset
+  conventions for the portable image-paste workflow.
 - `test/layout_test.rb` checks navigation, assets, MathJax, and responsive CSS.
 - `test/readme_test.rb` protects the essential operator workflow.
 - `test/site_config_test.rb` checks public identity, build settings, and ordered
@@ -162,6 +162,8 @@ and press `Ctrl+V`. The committed `.vscode/settings.json` automatically stores
 the image in `assets/images/<post-file-basename>/` and inserts a link that works
 in the VS Code preview. Jekyll converts that source-relative link to the public
 GitHub Pages asset URL when it builds the post.
+
+Keep post files directly under `_posts/`; nested post directories are not supported by the paste mapping.
 
 Commit both the Markdown file and its new image directory. Because the setting
 belongs to this repository, the same behavior applies after cloning it onto a

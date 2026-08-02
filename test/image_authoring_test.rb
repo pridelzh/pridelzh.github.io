@@ -13,10 +13,13 @@ class ImageAuthoringTest < Minitest::Test
     assert File.file?(settings_path), "missing committed VS Code folder settings"
 
     settings = JSON.parse(File.read(settings_path))
+    destinations = settings.fetch("markdown.copyFiles.destination")
+    assert_equal ["/_posts/*"], destinations.keys
     assert_equal(
       "/assets/images/${documentBaseName}/${fileName}",
-      settings.fetch("markdown.copyFiles.destination").fetch("/_posts/**/*")
+      destinations["/_posts/*"]
     )
+    refute destinations.key?("/_posts/**/*"), "recursive post mapping is not supported"
     assert_equal "nameIncrementally", settings.fetch("markdown.copyFiles.overwriteBehavior")
   end
 
