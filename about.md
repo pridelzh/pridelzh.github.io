@@ -9,7 +9,7 @@ learn from visual, medical, and multimodal data.
 
 ## Education
 
-Computer Science
+School of Computer Science and Technology, Soochow University, 2023 - 2027
 
 ## Research interests
 
