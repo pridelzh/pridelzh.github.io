@@ -49,6 +49,8 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Points:** if a linked list is circular, the fast pointer will eventually meet the slow pointer just like a running competition. If it is not circular, the fast pointer will reach the end of the list (null) before meeting the slow pointer.
 
+---
+
 2. **Problem:** Merge two linked list into one.
 
    **Solution:** Use a new begin node and then traverse both linked lists, comparing the values of the current nodes. Append the smaller value to the new list and move the pointer of that list forward. Continue until one of the lists is exhausted, then append the remaining nodes from the other list.
@@ -93,6 +95,8 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Points:** Just traverse both linked lists once and compare their values to merge them in sorted order.
 
+---
+
 3. **Problem:** Use linked lists to store large numbers, try to add them.
 
    **Solution:** Traverse both linked lists simultaneously, adding corresponding digits along with any carry from the previous addition. Create a new linked list to store the result.
@@ -136,6 +140,8 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Points:** A carry is maintained during the addition process, and the result is stored in a new linked list.
 
+---
+
 4. **Problem:** Delete the last No.n node from a linked list.
 
    **Solution:** Use two pointers, one fast and one slow. Move the fast pointer n steps ahead, then move both pointers until the fast pointer reaches the end. The slow pointer will then point to the node to be deleted.
@@ -173,5 +179,51 @@ excerpt: "A record of traditional algorithm exercises."
    **Time complexity:** O(n), where n is the number of nodes in the linked list.
 
    **Points:** Let the fast pointer move n+1 steps ahead, then move both pointers until the fast pointer reaches the end. The slow pointer will then point to the node to be deleted.
+
+---
+
+5. **Problem:** Exchange nodes two by two in a linked list.
+
+   **Solution:** Serveral times of pointers exchange, we can exchange the nodes two by two in a linked list.
+
+   **Code example:**
+   ```cpp
+    struct ListNode {
+         int val;
+         ListNode *next;
+         ListNode(int x) : val(x), next(NULL) {}
+     };
+    
+     class Solution {
+    public:
+        ListNode* swapPairs(ListNode* head) {
+            if (head==nullptr){
+                return nullptr;
+            }
+            if (head->next==nullptr){
+                return head;
+            }
+
+            ListNode* prev = new ListNode();
+            ListNode* temp = prev;
+            temp->next = head;
+
+            while(temp->next!=nullptr and temp->next->next!=nullptr){
+                ListNode* node1 = temp->next;
+                ListNode* node2 = temp->next->next;
+                temp->next = node2;
+                node1->next = node2->next;
+                node2->next = node1;
+                temp = node1;
+            }
+
+            return prev->next;
+        }
+    };
+   ```
+
+   **Time complexity:** O(n), where n is the number of nodes in the linked list.
+
+   **Points:** Four nodes are involved in the swapping process: the previous node, the first node to be swapped, the second node to be swapped, and the next node after the second node.
 
    
