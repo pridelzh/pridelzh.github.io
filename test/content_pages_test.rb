@@ -50,6 +50,37 @@ class ContentPagesTest < Minitest::Test
     end
   end
 
+  def test_vscode_pasted_image_resolves_for_root_and_project_baseurls
+    post_source = <<~MARKDOWN
+      ---
+      layout: post
+      title: "Paste Probe"
+      date: 2026-08-02
+      categories:
+        - Programming
+      ---
+
+      ![Cycle detection diagram](../assets/images/2026-08-02-paste-probe/image.png)
+    MARKDOWN
+
+    ["", "/research"].each do |baseurl|
+      build_site(
+        extra_files: {
+          "_posts/2026-08-02-paste-probe.md" => post_source,
+          "assets/images/2026-08-02-paste-probe/image.png" => "fixture image"
+        },
+        include_project_posts: false,
+        config_overrides: { "baseurl" => baseurl }
+      ) do |destination|
+        post = output(destination, "notes/2026/08/02/paste-probe/index.html")
+        expected_src = "#{baseurl}/assets/images/2026-08-02-paste-probe/image.png"
+
+        assert_includes post, %(src="#{expected_src}")
+        assert File.file?(File.join(destination, "assets/images/2026-08-02-paste-probe/image.png"))
+      end
+    end
+  end
+
   def test_sample_post_preserves_mathjax_display_delimiters
     build_site do |destination|
       post = output(destination, "notes/2026/07/31/understanding-transformer/index.html")

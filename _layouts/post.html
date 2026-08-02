@@ -8,7 +8,9 @@ layout: default
   </header>
 
   <div class="prose">
-    {{ content }}
+    {% assign local_asset_prefix = 'src="../assets/' %}
+    {% capture public_asset_prefix %}src="{{ '/assets/' | relative_url }}{% endcapture %}
+    {{ content | replace: local_asset_prefix, public_asset_prefix }}
   </div>
 
   <footer class="post-footer">
