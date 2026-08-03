@@ -408,34 +408,34 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Code example:**
    ```cpp
-    struct TreeNode {
+   struct TreeNode {
          int val;
          TreeNode *left;
          TreeNode *right;
          TreeNode(int x) : val(x), left(NULL), right(NULL) {}
      };
 
-     class Solution {
-     public:
-         TreeNode* sortedArrayToBST(vector<int>& nums) {
-             if(nums.empty()){
-                 return nullptr;
-             }
-             return buildBST(nums, 0, nums.size()-1);
-         }
+    class Solution {
+    public:
+        TreeNode* sortedArrayToBST(vector<int>& nums) {
+            if(nums.empty()){
+                return nullptr;
+            }
+            return buildBST(nums, 0, nums.size()-1);
+        }
 
-     private:
-         TreeNode* buildBST(vector<int>& nums, int start, int end) {
-             if(start>end){
-                 return nullptr;
-             }
-             int mid = start + (end - start) / 2;
-             TreeNode* root = new TreeNode(nums[mid]);
-             root->left = buildBST(nums, start, mid-1);
-             root->right = buildBST(nums, mid+1, end);
-             return root;   
-         }
-     };
+    private:
+        TreeNode* buildBST(vector<int>& nums, int start, int end) {
+            if(start>end){
+                return nullptr;
+            }
+            int mid = start + (end - start) / 2;
+            TreeNode* root = new TreeNode(nums[mid]);
+            root->left = buildBST(nums, start, mid-1);
+            root->right = buildBST(nums, mid+1, end);
+            return root;   
+        }
+    };
    ```
 
    **Time complexity:** O(n), where n is the number of elements in the array.
