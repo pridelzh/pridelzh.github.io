@@ -218,4 +218,228 @@ excerpt: "A record of traditional algorithm exercises."
 
    **Points:** Four nodes are involved in the swapping process: the previous node, the first node to be swapped, the second node to be swapped, and the next node after the second node.
 
+6. **Problem:** Deep copy a linked list with random pointers.
+
+   **Solution:** Use a hash map to store the mapping between original nodes and their copies. First, create all the new nodes and store them in the hash map. Then, iterate through the original list again to set the next and random pointers of the new nodes based on the hash map.
+
+   **Image example:**
+   ![Deep copy a linked list with random pointers](../assets/images/2026-08-02-record-algorithm-exercise/image-1.png)
+
+   **Code example:**
+   ```cpp
+    struct Node {
+         int val;
+         Node* next;
+         Node* random;
+         Node(int _val) {
+              val = _val;
+              next = NULL;
+              random = NULL;
+         }
+    };
+
+    class Solution {
+    public:
+        Node* copyRandomList(Node* head) {
+            unordered_map<Node*, Node*> hmap;
+
+            Node*current = head;
+            while(current!=nullptr){
+                hmap[current] = new Node(current->val);
+                current = current->next;
+            }
+
+            current = head;
+            while(current!=nullptr){
+                hmap[current]->next = hmap[current->next];
+                hmap[current]->random = hmap[current->random];
+                current = current->next;
+            }
+
+            return hmap[head];
+        }
+    };
+   ```
+
+   **Time complexity:** O(n), where n is the number of nodes in the linked list.
+
+   **Points:** The key is to use a hash map to store the mapping between original nodes and their copies, and then set the next and random pointers of the new nodes based on the hash map.
+
+7. **Problem:** Calculate the depth of a binary tree.
+
+   **Solution:** Do a depth-first search (DFS) or breadth-first search (BFS) to traverse the tree and keep track of the maximum depth encountered.
+
+   **Image example:**
+   ![binary tree](../assets/images/2026-08-02-record-algorithm-exercise/image-2.png)
+
+   **Code example:**
+   ```cpp
+    struct TreeNode {
+         int val;
+         TreeNode *left;
+         TreeNode *right;
+         TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+     };
+
+     class Solution {
+     public:
+         int maxDepth(TreeNode* root) {
+             if(root==nullptr){
+                 return 0;
+             }
+             return 1 + max(maxDepth(root->left), maxDepth(root->right));
+         }
+     };
+
+     class Solution1 {
+     public:
+         int maxDepth(TreeNode* root) {
+             if(root==nullptr){
+                 return 0;
+             }
+             queue<TreeNode*> q;
+             q.push(root);
+             int depth = 0;
+             while(!q.empty()){
+                 int size = q.size();
+                 while(size!=0){
+                     TreeNode* node = q.front();
+                     q.pop();
+                     if(node->left!=nullptr){
+                         q.push(node->left);
+                     }
+                     if(node->right!=nullptr){
+                         q.push(node->right);
+                     }
+                     size--;
+                 }
+                 depth++;
+             }
+             return depth;
+         }
+     };
+   ```
+
+   **Time complexity:** O(n), where n is the number of nodes in the binary tree.
+
+   **Points:** The key is to use a recursive approach to traverse the tree and keep track of the maximum depth encountered.
+
+8. **Problem:** Invert a binary tree.
+
+   **Solution:** Use a recursive approach to traverse the tree. For each node, swap its left and right children, then recursively invert the left and right subtrees.
+
+   **Image example:**
+   ![Invert a binary tree](../assets/images/2026-08-02-record-algorithm-exercise/image-3.png)
+
+   **Code example:**
+   ```cpp
+    struct TreeNode {
+         int val;
+         TreeNode *left;
+         TreeNode *right;
+         TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+     };
+
+     class Solution {
+     public:
+         TreeNode* invertTree(TreeNode* root) {
+             if(root==nullptr){
+                 return nullptr;
+             }
+             else{
+                TreeNode* left = invertTree(root->left);
+                TreeNode* right = invertTree(root->right);
+                root->left = right;
+                root->right = left;
+             }
+             return root;
+         }
+     };
+   ```
+
+   **Time complexity:** O(n), where n is the number of nodes in the binary tree.
+
+   **Points:** The key is to use a recursive approach to traverse the tree and swap the left and right children of each node.
+
+9. **Problem:** Judge if a binary tree is a symmetric binary tree.
+
+   **Solution:** Judge left->right and right->left are equal or not and left->left and right->right are equal or not. If they are equal, the binary tree is symmetric; otherwise, it is not.
+
+   **Image example:**
+   ![Judge a binary is symmetric or not](../assets/images/2026-08-02-record-algorithm-exercise/image-4.png)
+
+   **Code example:**
+   ```cpp
+    struct TreeNode {
+         int val;
+         TreeNode *left;
+         TreeNode *right;
+         TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+     };
+
+     class Solution {
+     public:
+         bool isSymmetric(TreeNode* root) {
+             if(root==nullptr){
+                 return true;
+             }
+             return isMirror(root->left, root->right);
+         }
+
+         bool isMirror(TreeNode* left, TreeNode* right){
+             if(left==nullptr and right==nullptr){
+                 return true;
+             }
+             if(left==nullptr or right==nullptr){
+                 return false;
+             }
+             return (left->val==right->val) and isMirror(left->left, right->right) and isMirror(left->right, right->left);
+         }
+     };
+   ```
+
+   **Time complexity:** O(n), where n is the number of nodes in the binary tree.
+
+   **Points:** The key is to use a recursive approach to traverse the tree and check if the left and right subtrees are mirrors of each other.
+
+10. **Problem:** Make a sorted array into a balanced binary search tree.
+
+   **Solution:** Use a recursive approach to build the tree. Select the middle element of the array as the root, and recursively build the left and right subtrees from the elements before and after the middle element.
+
+   **Code example:**
+   ```cpp
+    struct TreeNode {
+         int val;
+         TreeNode *left;
+         TreeNode *right;
+         TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+     };
+
+     class Solution {
+     public:
+         TreeNode* sortedArrayToBST(vector<int>& nums) {
+             if(nums.empty()){
+                 return nullptr;
+             }
+             return buildBST(nums, 0, nums.size()-1);
+         }
+
+     private:
+         TreeNode* buildBST(vector<int>& nums, int start, int end) {
+             if(start>end){
+                 return nullptr;
+             }
+             int mid = start + (end - start) / 2;
+             TreeNode* root = new TreeNode(nums[mid]);
+             root->left = buildBST(nums, start, mid-1);
+             root->right = buildBST(nums, mid+1, end);
+             return root;   
+         }
+     };
+   ```
+
+   **Time complexity:** O(n), where n is the number of elements in the array.
+
+   **Points:** The key is to use a recursive approach to build the tree by selecting the middle element of the array as the root and recursively building the left and right subtrees.
+
    
