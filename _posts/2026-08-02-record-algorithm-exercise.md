@@ -404,166 +404,164 @@ excerpt: "A record of traditional algorithm exercises."
 
 10. **Problem:** Make a sorted array into a balanced binary search tree.
 
-   **Solution:** Use a recursive approach to build the tree. Select the middle element of the array as the root, and recursively build the left and right subtrees from the elements before and after the middle element.
+    **Solution:** Use a recursive approach to build the tree. Select the middle element of the array as the root, and recursively build the left and right subtrees from the elements before and after the middle element.
 
-   **Code example:**
-   ```cpp
-   struct TreeNode {
-         int val;
-         TreeNode *left;
-         TreeNode *right;
-         TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-     };
+    **Code example:**
+    ```cpp
+       struct TreeNode {
+             int val;
+             TreeNode *left;
+             TreeNode *right;
+             TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+         };
 
-    class Solution {
-    public:
-        TreeNode* sortedArrayToBST(vector<int>& nums) {
-            if(nums.empty()){
-                return nullptr;
+        class Solution {
+        public:
+            TreeNode* sortedArrayToBST(vector<int>& nums) {
+                if(nums.empty()){
+                    return nullptr;
+                }
+                return buildBST(nums, 0, nums.size()-1);
             }
-            return buildBST(nums, 0, nums.size()-1);
-        }
 
-    private:
-        TreeNode* buildBST(vector<int>& nums, int start, int end) {
-            if(start>end){
-                return nullptr;
+        private:
+            TreeNode* buildBST(vector<int>& nums, int start, int end) {
+                if(start>end){
+                    return nullptr;
+                }
+                int mid = start + (end - start) / 2;
+                TreeNode* root = new TreeNode(nums[mid]);
+                root->left = buildBST(nums, start, mid-1);
+                root->right = buildBST(nums, mid+1, end);
+                return root;
             }
-            int mid = start + (end - start) / 2;
-            TreeNode* root = new TreeNode(nums[mid]);
-            root->left = buildBST(nums, start, mid-1);
-            root->right = buildBST(nums, mid+1, end);
-            return root;   
-        }
-    };
-   ```
+        };
+    ```
 
-   **Time complexity:** O(n), where n is the number of elements in the array.
+    **Time complexity:** O(n), where n is the number of elements in the array.
 
-   **Points:** The key is to use a recursive approach to build the tree by selecting the middle element of the array as the root and recursively building the left and right subtrees.
+    **Points:** The key is to use a recursive approach to build the tree by selecting the middle element of the array as the root and recursively building the left and right subtrees.
 
 11. **Problem:** Find the kth smallest element in a binary search tree.
 
-   **Solution:** Use an in-order traversal to visit the nodes in ascending order. Keep a count of the visited nodes and return the k th node.
+    **Solution:** Use an in-order traversal to visit the nodes in ascending order. Keep a count of the visited nodes and return the k th node.
 
-   **Code example:**
-   ```cpp
-    struct TreeNode {
-         int val;
-         TreeNode *left;
-         TreeNode *right;
-         TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-     };
+    **Code example:**
+    ```cpp
+        struct TreeNode {
+             int val;
+             TreeNode *left;
+             TreeNode *right;
+             TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+         };
 
-     class Solution {
-     public:
-         int kthSmallest(TreeNode* root, int k) {
-             int count = 0;
-             int result = 0;
-             inorder(root, k, count, result);
-             return result;
-         }
-
-     private:
-         void inorder(TreeNode* node, int k, int& count, int& result) {
-             if(node==nullptr){
-                 return;
+         class Solution {
+         public:
+             int kthSmallest(TreeNode* root, int k) {
+                 int count = 0;
+                 int result = 0;
+                 inorder(root, k, count, result);
+                 return result;
              }
-             inorder(node->left, k, count, result);
-             count++;
-             if(count==k){
-                 result = node->val;
-                 return;
+
+         private:
+             void inorder(TreeNode* node, int k, int& count, int& result) {
+                 if(node==nullptr){
+                     return;
+                 }
+                 inorder(node->left, k, count, result);
+                 count++;
+                 if(count==k){
+                     result = node->val;
+                     return;
+                 }
+                 inorder(node->right, k, count, result);
              }
-             inorder(node->right, k, count, result);
-         }
-     };
-   ```
+         };
+    ```
 
-   **Time complexity:** O(n), where n is the number of nodes in the binary tree.
+    **Time complexity:** O(n), where n is the number of nodes in the binary tree.
 
-   **Points:** The key is to use a recursive approach to traverse the tree and find the kth smallest element by performing an in-order traversal.
+    **Points:** The key is to use a recursive approach to traverse the tree and find the kth smallest element by performing an in-order traversal.
 
 12. **Problem:** Make a binary tree into a linked list.
 
-   **Solution:** use preorder traversal to visit the nodes in the tree and link them together in a linked list.
+    **Solution:** use preorder traversal to visit the nodes in the tree and link them together in a linked list.
 
-   **Code example:**
-   ```cpp
-    struct TreeNode {
-         int val;
-         TreeNode *left;
-         TreeNode *right;
-         TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-     };
+    **Code example:**
+    ```cpp
+        struct TreeNode {
+             int val;
+             TreeNode *left;
+             TreeNode *right;
+             TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+         };
 
-     class Solution {
-     public:
-        void preorder(TreeNode*node, vector<int>& result){
-            if(node==nullptr){
-                return;
+         class Solution {
+         public:
+            void preorder(TreeNode*node, vector<int>& result){
+                if(node==nullptr){
+                    return;
+                }
+
+                result.push_back(node->val);
+                preorder(node->left, result);
+                preorder(node->right, result);
             }
 
-            result.push_back(node->val);
-            preorder(node->left, result);
-            preorder(node->right, result);
-        }  
-
-        void flatten(TreeNode* root) {
-            vector<int> result;
-            preorder(root, result);
-            TreeNode* current = root;
-            for(int i=1; i<result.size(); i++){
-                current->left = nullptr;
-                current->right = new TreeNode(result[i]);
-                current = current->right;
+            void flatten(TreeNode* root) {
+                vector<int> result;
+                preorder(root, result);
+                TreeNode* current = root;
+                for(int i=1; i<result.size(); i++){
+                    current->left = nullptr;
+                    current->right = new TreeNode(result[i]);
+                    current = current->right;
+                }
             }
-        }
-     };
-   ```
+         };
+    ```
 
-   **Time complexity:** O(n), where n is the number of nodes in the binary tree.
+    **Time complexity:** O(n), where n is the number of nodes in the binary tree.
 
-   **Space complexity:** O(n), where n is the number of nodes in the binary tree.
+    **Space complexity:** O(n), where n is the number of nodes in the binary tree.
 
-   **Points:** The key is to use a recursive approach to traverse the tree and convert it into a linked list by performing a preorder traversal.
+    **Points:** The key is to use a recursive approach to traverse the tree and convert it into a linked list by performing a preorder traversal.
 
 13. **Problem:** Calculate the total number of islands in a 2D grid.
 
-   **Solution:** Use DFS (Depth-First Search) to traverse the grid. When encountering a '1' (land), initiate a DFS to mark all connected '1's as visited, incrementing the island count.
+    **Solution:** Use DFS (Depth-First Search) to traverse the grid. When encountering a '1' (land), initiate a DFS to mark all connected '1's as visited, incrementing the island count.
 
-   **Code example:**
-   ```cpp
-    class Solution {
-    public:
-        void dfs(int i, int j, vector<vector<char>>& grid) {
-            grid[i][j] = '0'; // Mark the cell as visited
-            int rows = grid.size();
-            int columns = grid[0].size();
-            if (i-1 >= 0 && grid[i-1][j] == '1') dfs(i-1, j, grid); // Up
-            if (i+1 < rows && grid[i+1][j] == '1') dfs(i+1, j, grid); // Down
-            if (j-1 >= 0 && grid[i][j-1] == '1') dfs(i, j-1, grid); // Left
-            if (j+1 < columns && grid[i][j+1] == '1') dfs(i, j+1, grid); // Right
-        }
+    **Code example:**
+    ```cpp
+        class Solution {
+        public:
+            void dfs(int i, int j, vector<vector<char>>& grid) {
+                grid[i][j] = '0'; // Mark the cell as visited
+                int rows = grid.size();
+                int columns = grid[0].size();
+                if (i-1 >= 0 && grid[i-1][j] == '1') dfs(i-1, j, grid); // Up
+                if (i+1 < rows && grid[i+1][j] == '1') dfs(i+1, j, grid); // Down
+                if (j-1 >= 0 && grid[i][j-1] == '1') dfs(i, j-1, grid); // Left
+                if (j+1 < columns && grid[i][j+1] == '1') dfs(i, j+1, grid); // Right
+            }
 
-        int numIslands(vector<vector<char>>& grid) {
-            int rows = grid.size();
-            int columns = grid[0].size();
-            int count = 0;
-            for(int i=0;i<rows;i++){
-                for(int j=0;j<columns;j++){
-                    if(grid[i][j]=='1'){
-                        count++;
-                        dfs(i,j,grid);
+            int numIslands(vector<vector<char>>& grid) {
+                int rows = grid.size();
+                int columns = grid[0].size();
+                int count = 0;
+                for(int i=0;i<rows;i++){
+                    for(int j=0;j<columns;j++){
+                        if(grid[i][j]=='1'){
+                            count++;
+                            dfs(i,j,grid);
+                        }
                     }
                 }
-            }    
-        }
-    };
-   ```
+            }
+        };
+    ```
 
-   **Time complexity:** O(m*n), where m is the number of rows and n is the number of columns in the grid.
+    **Time complexity:** O(m*n), where m is the number of rows and n is the number of columns in the grid.
 
-   **Points:** The key is to use a recursive approach to traverse the grid and mark all connected '1's as visited.
-
-   
+    **Points:** The key is to use a recursive approach to traverse the grid and mark all connected '1's as visited.
