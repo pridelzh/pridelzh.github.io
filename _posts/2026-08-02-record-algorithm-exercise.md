@@ -772,4 +772,65 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(log n), where n is the number of elements in the array.
 
     **Points:** The key is to use binary search twice to find the first and last occurrences of the target value.
-    
+
+18. **Problem:** search rotating array.
+
+    **Solution:** First fing the place where the array is rotated, then use binary search.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int search(vector<int>& nums, int target) {
+            if(!nums.size()){
+                return -1;
+            }
+
+            if(nums.size()==1){
+                return nums[0]==target ? 0 : -1;
+            }
+            
+            int left = 1;
+            int right = nums.size() - 1;
+            int temptarget=nums[0];
+
+            // Find the rotation point
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] <= temptarget) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            if (target >= temptarget) {
+                left = 0;
+            } 
+            else {
+                right = nums.size() - 1;
+            }
+
+            // Perform binary search in the appropriate half
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] == target) {
+                    return mid;
+                } 
+                else if (nums[mid] < target) {
+                    left = mid + 1;
+                } 
+                else {    
+                    right = mid - 1;
+                }
+            }
+
+            return -1;
+        }
+    };
+    ```
+
+    **Time complexity:** O(log n), where n is the number of elements in the array.
+
+    **Points:** The key is to use binary search to efficiently find the target value in a sorted array, first finding the rotation point and then performing a standard binary search in the appropriate half, paying attention to the boundaries and the actions taken at each step.
+
