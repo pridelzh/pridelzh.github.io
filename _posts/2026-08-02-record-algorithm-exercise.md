@@ -688,4 +688,31 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use a topological sort approach to determine if all courses can be completed, ensuring no circular dependencies exist.
 
-    
+16. **Problem:** Binary Search.
+
+    **Solution:** Use binary search to find the first occurrence of the target value or its insertion point in a sorted array.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int searchInsert(vector<int>& nums, int target) {
+            int left = 0;
+            int right = nums.size() - 1;
+
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] >= target) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            return left;
+        }
+    };
+    ```
+
+    **Time complexity:** O(log n), where n is the number of elements in the sorted array.
+
+    **Points:** The key is to use a binary search approach to efficiently find the insertion point or the target value in a sorted array.
