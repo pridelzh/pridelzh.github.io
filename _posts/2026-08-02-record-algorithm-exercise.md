@@ -565,3 +565,73 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(m*n), where m is the number of rows and n is the number of columns in the grid.
 
     **Points:** The key is to use a recursive approach to traverse the grid and mark all connected '1's as visited.
+
+14. **Problem:** Bad orange.
+
+    **Solution:** BFS to make the bad oranges rot all the good oranges.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int orangesRotting(vector<vector<int>>& grid) {
+            int rows=grid.size();
+            int columns=grid[0].size();
+            int freecount=0;
+
+            queue<pair<int, int>> q;
+
+            for(int i=0;i<rows;i++){
+                for(int j=0;j<columns;j++){
+                    if(grid[i][j]==1){
+                        freecount++;
+                    }
+                    else if(grid[i][j]==2){
+                        q.push({i,j});
+                    }
+                }
+            }
+
+            int minutes=0;
+
+            while(!q.empty()){
+                if(freecount==0){
+                    return minutes;
+                }
+
+                int size=q.size();
+                minutes++;
+
+                for(int i=0;i<size;i++){
+                    auto [x,y] = q.front();
+                    q.pop();
+
+                    freecount -= rot(grid,x-1,y,q);
+                    freecount -= rot(grid,x+1,y,q);
+                    freecount -= rot(grid,x,y-1,q);
+                    freecount -= rot(grid,x,y+1,q);
+                }
+            }
+
+            return freecount>0 ? -1 : minutes;
+        }
+
+        int rot(vector<vector<int>>&grid,int x,int y,queue<pair<int,int>>&q){
+            int rows=grid.size();
+            int columns=grid[0].size();
+
+            if(x<0 or x>=rows or y<0 or y>=columns or grid[x][y]!=1){
+                return 0;
+            }
+
+            grid[x][y]=2;
+            q.push({x,y});
+
+            return 1;
+        }
+    };
+    ```
+
+    **Time complexity:** O(m*n), where m is the number of rows and n is the number of columns in the grid.
+
+    **Points:** The key is to use a breadth-first search approach to simulate the rotting process, ensuring all adjacent good oranges become bad in each time step.
