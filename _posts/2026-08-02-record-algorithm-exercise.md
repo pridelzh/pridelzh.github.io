@@ -716,3 +716,60 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(log n), where n is the number of elements in the sorted array.
 
     **Points:** The key is to use a binary search approach to efficiently find the insertion point or the target value in a sorted array.
+
+17. **Problem:** Search the first and the last location of the target in a sorted array.
+
+    **Solution:** Use binary search to find the first and last occurrences of the target value.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<int> searchRange(vector<int>& nums, int target) {
+            int left = 0;
+            int right = nums.size() - 1;
+            int first = -1;
+            int last = -1;
+
+            // Find first occurrence
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] > target) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+                if (nums[mid] == target) {
+                    first = mid;
+                    right = mid - 1; // Continue searching in the left half
+                }
+            }
+
+            // Find last occurrence
+            left = 0;
+            right = nums.size() - 1;
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] < target) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+                if (nums[mid] == target) {
+                    last = mid;
+                    left = mid + 1; // Continue searching in the right half
+                }
+            }
+
+            vector<int> result;
+            result.push_back(first);
+            result.push_back(last);
+            return result;
+        }
+    };
+    ```
+
+    **Time complexity:** O(log n), where n is the number of elements in the array.
+
+    **Points:** The key is to use binary search twice to find the first and last occurrences of the target value.
+    
