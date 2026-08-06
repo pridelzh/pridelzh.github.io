@@ -635,3 +635,57 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(m*n), where m is the number of rows and n is the number of columns in the grid.
 
     **Points:** The key is to use a breadth-first search approach to simulate the rotting process, ensuring all adjacent good oranges become bad in each time step.
+
+15. **Problem:** The table of class.
+
+    **Solution:** The ready of each class is its indegree and only the classes with zero indegree can be taken, when a class is taken, its neighbors' indegrees are reduced, the algorithm is like BFS.
+
+    **Image example:**
+    ![The Image example of graph](../assets/images/2026-08-02-record-algorithm-exercise/image-5.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public: 
+        bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+            vector<int> indeg(numCourses, 0);
+            vector<vector<int>> edge(numCourses, vector<int>());
+
+            for(auto& p: prerequisites){
+                indeg[p[0]]++;
+                edge[p[1]].push_back(p[0]);
+            }
+
+            queue<int> q;
+            int count = 0;
+
+            for(int i=0;i<numCourses;i++){
+                if(indeg[i]==0){
+                    q.push(i);
+                    count++;
+                }
+            }
+
+            while(!q.empty()){
+                int course = q.front();
+                q.pop();
+
+                for(int neighbor: edge[course]){
+                    indeg[neighbor]--;
+                    if(indeg[neighbor]==0){
+                        q.push(neighbor);
+                        count++;
+                    }
+                }
+            }
+
+            return count==numCourses;
+        }
+    };
+    ```
+
+    **Time complexity:** O(numCourses + prerequisites.size()).
+
+    **Points:** The key is to use a topological sort approach to determine if all courses can be completed, ensuring no circular dependencies exist.
+
+    
