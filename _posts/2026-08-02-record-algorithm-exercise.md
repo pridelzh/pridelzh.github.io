@@ -834,3 +834,84 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use binary search to efficiently find the target value in a sorted array, first finding the rotation point and then performing a standard binary search in the appropriate half, paying attention to the boundaries and the actions taken at each step.
 
+19. **Problem:** Effective brackets.
+
+    **Solution:** Use a stack to keep track of the opening brackets and ensure that each closing bracket matches the most recent opening bracket.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        bool isValid(string s) {
+            stack<char> st;
+            for(char c : s) {
+                if(c == '(' or c == '{' or c == '[') {
+                    st.push(c);
+                } 
+                else {
+                    if(st.empty()) {
+                        return false;
+                    }
+                    char top = st.top();
+                    st.pop();
+                    if(c == ')' and top != '('){
+                        return false;
+                    }
+                    if(c == '}' and top != '{'){
+                        return false;
+                    }
+                    if(c == ']' and top != '['){
+                        return false;
+                    }
+                }
+            }
+            return st.empty() ? true : false;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the length of the string.
+
+    **Points:** The key is to use a stack to match opening and closing brackets, ensuring that each closing bracket corresponds to the most recent opening bracket.
+
+20. **Problem:** Decode the string.
+
+    **Solution:** Use a stack to store the position of the elements and the times it will be repeated.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        string decodeString(string s) {
+            stack<pair<int, int>> st;
+            string ans;
+            int count = 0;
+            for(auto ch:s){
+                if(isdigit(ch)){
+                    count = count*10 + (ch-'0');
+                }
+                else if(isalpha(ch)){
+                    ans += ch;
+                }
+                else if(ch=='['){
+                    st.push({ans.size(), count});
+                    count = 0;
+                }
+                else if(ch==']'){
+                    auto [pos, times] = st.top();
+                    st.pop();
+                    string temp = ans.substr(pos, ans.size()-pos);
+                    for(int i=0;i<times-1;i++){
+                        ans += temp;
+                    }
+                }
+            }
+            return ans;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the length of the input string.
+
+    **Points:** The key is to use a stack to store the position and repetition count of each opening bracket, allowing for efficient string reconstruction when closing brackets are encountered.
+
