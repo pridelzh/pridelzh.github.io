@@ -990,3 +990,96 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n) average, O(n^2) worst case.
 
     **Points:** The key is to use the quick select algorithm to efficiently find the kth largest element without fully sorting the array.
+
+23. **Problem:** Find the most k frequent elements.
+
+    **Solution:** Use a hash map to count the frequency of each element, then use a max-heap to keep track of the k most frequent elements.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<int> topKFrequent(vector<int>& nums, int k) {
+            unordered_map<int, int> freqMap;
+            for(int num : nums) {
+                freqMap[num]++;
+            }
+
+            priority_queue<pair<int, int>> maxHeap;
+            for(auto& entry : freqMap) {
+                maxHeap.push({entry.second, entry.first});
+            }
+
+            vector<int> result;
+            for(int i = 0; i < k; i++) {
+                result.push_back(maxHeap.top().second);
+                maxHeap.pop();
+            }
+
+            return result;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n log n), where n is the number of elements in the array.
+
+    **Points:** The key is to use a hash map to count the frequency of each element and a max-heap to efficiently retrieve the k most frequent elements.
+
+24. **Problem:** Find the best time to buy stock.
+
+    **Solution:** Use the algorithm of greedy to find the maximum profit.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int maxProfit(vector<int>& prices) {
+            if(!prices.size()){
+                return 0;
+            }
+
+            int minPrice = prices[0];
+            int maxProfit = 0;
+
+            for(int price : prices) {
+                minPrice = min(minPrice, price);
+                maxProfit = max(maxProfit, price - minPrice);
+            }
+
+            return maxProfit;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use a greedy approach to track the minimum price seen so far and calculate the maximum profit by comparing the current price with the minimum price.
+
+25. **Problem:** Jump game.
+
+    **Solution:** Use the algorithm of greedy to find the longest position it can reach.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        bool canJump(vector<int>& nums) {
+            int maxReach = 0;
+            
+            for(int i = 0; i < nums.size(); i++){
+                if(i <= maxReach){
+                    maxReach = max(maxReach, i + nums[i]);
+                    if (maxReach >= nums.size() - 1) {
+                        return true;
+                    }
+                }
+            }
+           
+            return false;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use a greedy approach to track the maximum position that can be reached, updating it as we iterate through the array, paying attention to whether the current position is reachable.
