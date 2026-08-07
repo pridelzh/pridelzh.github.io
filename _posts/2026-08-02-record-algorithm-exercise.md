@@ -1083,3 +1083,70 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use a greedy approach to track the maximum position that can be reached, updating it as we iterate through the array, paying attention to whether the current position is reachable.
+
+26. **Problem:** Jump game II.
+
+    **Solution:** Use the algorithm of greedy to find the minimum number of jumps to reach the end of the array.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int jump(vector<int>& nums) {
+            int jumps = 0;
+            int currentEnd = 0;
+            int farthest = 0;
+
+            for(int i = 0; i < nums.size() - 1; i++) {
+                farthest = max(farthest, i + nums[i]);
+                if(i == currentEnd) {
+                    jumps++;
+                    currentEnd = farthest;
+                }
+                if(currentEnd >= nums.size() - 1) {
+                    return jumps;
+                }
+            }
+
+            return jumps;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use a greedy approach to track the farthest position that can be reached with the current number of jumps, and increment the jump count whenever we reach the end of the current jump range.
+
+27. **Problem:** Separate the word into different strings partitions.
+
+    **Solution:** Use the algorithm of greedy to find the max number of partitions and its length.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<int> partitionLabels(string s) {
+            vector<int> last(26, -1);
+            for(int i = 0; i < s.size(); i++) {
+                last[s[i] - 'a'] = i;
+            }
+
+            vector<int> result;
+            int start = 0, end = 0;
+            for(int i = 0; i < s.size(); i++) {
+                end = max(end, last[s[i] - 'a']);
+                if(i == end) {
+                    result.push_back(end - start + 1);
+                    start = i + 1;
+                }
+            }
+
+            return result;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the length of the string.
+
+    **Points:** The key is ensure that all the preshowed characters are in the same partition and will never appear in the later partitions, so the end is updated accordingly and when the end of a partition is reached which means all characters in that partition have been considered, we add the length of that partition to the result.
+
