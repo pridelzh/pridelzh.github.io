@@ -1150,3 +1150,126 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is ensure that all the preshowed characters are in the same partition and will never appear in the later partitions, so the end is updated accordingly and when the end of a partition is reached which means all characters in that partition have been considered, we add the length of that partition to the result.
 
+28. **Problem:** Climb stairs.
+
+    **Solution:** Use dynamic programming to calculate the number of ways to reach each step.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int climbStairs(int n) {
+            if(n == 1) return 1;
+            if(n == 2) return 2;
+
+            int prev2 = 1;
+            int prev1 = 2;
+            int current;
+
+            for(int i = 3; i <= n; i++) {
+                current = prev1 + prev2;
+                prev2 = prev1;
+                prev1 = current;
+            }
+
+            return current;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of steps.
+
+    **Points:** DP[n] = DP[n-1] + DP[n-2], the number of ways to reach step n is the sum of the ways to reach step n-1 and step n-2, as you can reach step n by taking a single step from n-1 or a double step from n-2.
+
+29. **Problem:** Yang Hui's Triangle.
+
+    **Solution:** Use dynamic programming to generate the triangle row by row.
+
+    **Image example:**
+    ![Yang Hui's Triangle](../assets/images/2026-08-02-record-algorithm-exercise/image-6.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<vector<int>> generate(int numRows) {
+            vector<vector<int>> ans(numRows);
+
+            for(int i = 0; i < numRows; i++) {
+                ans[i].resize(i + 1);
+                ans[i][0] = ans[i][i] = 1; // First and last elements are always 1
+                for(int j = 1; j < i; j++) {
+                    ans[i][j] = ans[i - 1][j - 1] + ans[i - 1][j]; // Sum of the two elements above
+                }
+            }
+
+            return ans;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n^2), where n is the number of rows.
+
+    **Points:** The key is to use dynamic programming to build each row of the triangle based on the values of the previous row, ensuring that the first and last elements of each row are set to 1, and the inner elements are calculated as the sum of the two elements directly above them.
+
+30. **Problem:** Rob problem.
+
+    **Solution:** Use dynamic programming to calculate the maximum amount of money that can be robbed without alerting the police.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int rob(vector<int>& nums) {
+            if(nums.empty()) return 0;
+            if(nums.size() == 1) return nums[0];
+
+            int n = nums.size();
+            vector<int> dp(n);
+            dp[0] = nums[0];
+            dp[1] = max(nums[0], nums[1]);
+
+            for(int i = 2; i < n; i++) {
+                dp[i] = max(dp[i - 1], dp[i - 2] + nums[i]);
+            }
+
+            return dp[n - 1];
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of houses.
+
+    **Points:** The key is to use dynamic programming to keep track of the maximum amount of money that can be robbed up to each house, ensuring that no two adjacent houses are robbed, dp[i] = max(dp[i-1], dp[i-2] + nums[i]).
+
+31. **Problem:** Longest increasing subsequence.
+
+    **Solution:** Use dynamic programming to find the length of the longest increasing subsequence in an array.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int lengthOfLIS(vector<int>& nums) {
+            if(nums.empty()) return 0;
+
+            int n = nums.size();
+            vector<int> dp(n, 1); // Each element is an increasing subsequence of length 1
+
+            for(int i = 1; i < n; i++) {
+                for(int j = 0; j < i; j++) {
+                    if(nums[i] > nums[j]) {
+                        dp[i] = max(dp[i], dp[j] + 1);
+                    }
+                }
+            }
+
+            return *max_element(dp.begin(), dp.end());
+        }
+    };
+    ```
+
+    **Time complexity:** O(n^2), where n is the number of elements in the array.
+
+    **Points:** The key is to use dynamic programming to build up the lengths of increasing subsequences ending at each index, and then find the maximum length among them.
+               
