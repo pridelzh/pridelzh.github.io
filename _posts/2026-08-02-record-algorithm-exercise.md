@@ -915,3 +915,78 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use a stack to store the position and repetition count of each opening bracket, allowing for efficient string reconstruction when closing brackets are encountered.
 
+21. **Problem:** Daily temperatures
+    
+    **Solution:** Use a stack to keep track of the indices of the temperatures. For each temperature, pop from the stack until the current temperature is less than or equal to the temperature at the index stored in the stack. The difference in indices gives the number of days until a warmer temperature.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<int> dailyTemperatures(vector<int>& temperatures) {
+            int n = temperatures.size();
+            vector<int> result(n, 0);
+            stack<int> st; // Store indices of temperatures         
+
+            for(int i=0; i<n; i++) {
+                while(!st.empty() and temperatures[i] > temperatures[st.top()]) {
+                    int prev = st.top();
+                    st.pop();
+                    result[prev] = i - prev;
+                }
+                st.push(i);
+            }
+
+            return result;
+        }
+    };
+    ``` 
+    **Time complexity:** O(n), where n is the number of temperatures.
+
+    **Points:** The key is to use a stack to efficiently track the indices of temperatures, allowing for quick determination of the number of days until a warmer temperature is encountered.
+
+22. **Problem:** Quick_select Problem.
+
+    **Solution:** Use quick_sort algorithm and judge the right position of the target element k.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int quick_select(vector<int>& nums, int left, int right, int k) {
+            if (left == right) {
+                return nums[left];
+            }
+
+            int i=left, j=right;
+            int pivot = nums[left + (right - left) / 2];
+            while (i <= j) {
+                while (nums[i] < pivot) i++;
+                while (nums[j] > pivot) j--;
+                if (i <= j) {
+                    swap(nums[i], nums[j]);
+                    i++;
+                    j--;
+                }
+            }
+
+            if (k <= j) {
+                return quick_select(nums, left, j, k);
+            }
+            if (k >= i) {
+                return quick_select(nums, i, right, k);
+            }
+
+            return nums[k];
+        }
+
+        int findKthLargest(vector<int>& nums, int k) {
+            int n = nums.size();
+            return quick_select(nums, 0, n - 1, n - k);
+        }
+    };
+    ```
+
+    **Time complexity:** O(n) average, O(n^2) worst case.
+
+    **Points:** The key is to use the quick select algorithm to efficiently find the kth largest element without fully sorting the array.
