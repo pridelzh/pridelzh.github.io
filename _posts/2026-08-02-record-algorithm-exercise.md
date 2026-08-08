@@ -1392,4 +1392,38 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n^2), where n is the number of elements in the array.
 
     **Points:** The key is to use dynamic programming to build up the lengths of increasing subsequences ending at each index, and then find the maximum length among them.
+
+36. **Problem:** Max product subarray.
+
+    **Solution:** Use dynamic programming to find the maximum product of a contiguous subarray.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int maxProduct(vector<int>& nums) {
+            if(!nums.size()){ 
+                return 0;
+            }
+
+            int n = nums.size();
+            vector<long long> maxProd(n,nums[0]), minProd(n,nums[0]);
+
+            for(int i=1;i<n;i++){
+                long long x = nums[i];
+                maxProd[i] = max({x, x*maxProd[i-1], x*minProd[i-1]});
+                minProd[i] = min({x, x*maxProd[i-1], x*minProd[i-1]});
+            }
+
+            return *max_element(maxProd.begin(), maxProd.end());
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use dynamic programming to keep track of both the maximum and minimum products at each index, as a negative number can turn a small product into a large one and vice versa.
+
+    
+                
                
