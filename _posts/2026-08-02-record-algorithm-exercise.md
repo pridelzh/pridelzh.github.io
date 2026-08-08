@@ -1328,4 +1328,68 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n * m), where n is the amount and m is the number of different coins.
 
     **Points:** The key is to use dynamic programming to build up the minimum number of coins needed for each amount up to the target amount, by considering all coin denominations and updating the dp array accordingly.
+
+34. **Problem:** Separate the word and judge whether it can be merged according to the dictionary.
+
+    **Solution:** Use dynamic programming to determine if the string can be segmented into a satisfied string and a word in the dictionary.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public: 
+        bool wordBreak(string s, vector<string>& wordDict) {
+            unordered_set<string> dict(wordDict.begin(), wordDict.end());
+
+            int n = s.size();
+            vector<bool> dp(n + 1, false);
+            dp[0] = true; // Empty string can be segmented
+
+            for(int i = 0; i <= n; i++) {
+                for(int j = 0; j < i; j++) {
+                    if(dp[j] and dict.find(s.substr(j, i - j)) != dict.end()) {
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+
+            return dp[n];
+        }
+    };
+    ```
+
+    **Time complexity:** O(n^2), where n is the length of the string.
+
+    **Points:** The key is to use dynamic programming to determine if the string can be segmented into a sequence of words from the dictionary, ensuring that each substring is a valid word in the dictionary.
+
+35. **Problem:** Longest increasing subsequence.
+
+    **Solution:** Use dynamic programming to find the length of the longest increasing subsequence in an array.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int lengthOfLIS(vector<int>& nums) {
+            if(nums.empty()) return 0;
+
+            int n = nums.size();
+            vector<int> dp(n, 1);
+
+            for(int i = 1; i < n; i++) {
+                for(int j = 0; j < i; j++) {
+                    if(nums[i] > nums[j]) {
+                        dp[i] = max(dp[i], dp[j] + 1);
+                    }
+                }
+            }
+
+            return *max_element(dp.begin(), dp.end());
+        }
+    };
+    ```
+
+    **Time complexity:** O(n^2), where n is the number of elements in the array.
+
+    **Points:** The key is to use dynamic programming to build up the lengths of increasing subsequences ending at each index, and then find the maximum length among them.
                
