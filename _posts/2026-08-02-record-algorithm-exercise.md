@@ -1272,4 +1272,60 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n^2), where n is the number of elements in the array.
 
     **Points:** The key is to use dynamic programming to build up the lengths of increasing subsequences ending at each index, and then find the maximum length among them.
+
+32. **Problem:** Perfect square number.
+
+    **Solution:** Use dynamic programming to find the minimum number of perfect square numbers that sum to a given number.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int numSquares(int n) {
+            vector<int> dp(n+1, INT_MAX);
+            dp[0] = 0;
+
+            for(int i=1;i<=n;i++){
+                for(int j=1;j*j<=i;j++){
+                    dp[i] = min(dp[i], dp[i-j*j]+1);
+                }
+            }
+
+            return dp[n];
+        }
+    };
+    ```
+
+    **Time complexity:** O(n * sqrt(n)), where n is the given number.
+
+    **Points:** The key is to use dynamic programming to build up the minimum number of perfect squares needed for each number up to n, by considering all perfect squares less than or equal to the current number and updating the dp array accordingly.
+
+33. **Problem:** Coin change.
+
+    **Solution:** Use dynamic programming to find the minimum number of coins needed to make up a given amount.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int coinChange(vector<int>& coins, int amount) {
+            vector<int> dp(amount + 1, INT_MAX);
+            dp[0] = 0;
+
+            for(int i = 0; i <= amount; i++) {
+                for(int coin : coins) {
+                    if(coin<=i){
+                        dp[i] = min(dp[i], dp[i - coin] + 1);
+                    }
+                }
+            }
+
+            return dp[amount] > amount ? -1 : dp[amount];
+        }
+    };
+    ```
+
+    **Time complexity:** O(n * m), where n is the amount and m is the number of different coins.
+
+    **Points:** The key is to use dynamic programming to build up the minimum number of coins needed for each amount up to the target amount, by considering all coin denominations and updating the dp array accordingly.
                
