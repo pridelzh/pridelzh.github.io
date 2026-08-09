@@ -1424,6 +1424,60 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use dynamic programming to keep track of both the maximum and minimum products at each index, as a negative number can turn a small product into a large one and vice versa.
 
+37. **Problem:** Partition equal subset sum.
+
+    **Solution:** Use dynamic programming to determine if the array can be partitioned into two subsets with equal sum.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        bool canPartition(vector<int>& nums) {
+            int n=nums.size();
+            if(n < 2){
+                return false;
+            }
+
+            int sum=accumulate(nums.begin(), nums.end(), 0);
+            if(sum % 2 != 0){
+                return false;
+            }
+
+            int max_num=*max_element(nums.begin(), nums.end());
+            int target=sum/2;
+            if(max_num > target){
+                return false;
+            }
+
+            vector<vector<bool>> dp(n, vector<bool>(target + 1, false));
+
+            for(int i=0;i<n;i++){
+                dp[i][0]=true;
+            }
+
+            dp[0][nums[0]]=true;
+
+            for(int i=1;i<n;i++){
+                int num=nums[i];
+                for(int j=1;j<=target;j++){
+                    if(j >= num){
+                        dp[i][j]=dp[i-1][j] or dp[i-1][j-num];
+                    }
+                    else{
+                        dp[i][j]=dp[i-1][j];
+                    }
+                }
+            }
+
+            return dp[n-1][target];
+        }
+    };
+    ```
+
+    **Time complexity:** O(n * target), where n is the number of elements in the array and target is half of the total sum.
+
+    **Points:** The key is to use dynamic programming to determine if a subset of the array can sum up to half of the total sum, effectively checking if the array can be partitioned into two equal subsets.
+
     
                 
                
