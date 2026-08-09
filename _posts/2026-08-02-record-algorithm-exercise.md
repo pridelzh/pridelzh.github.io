@@ -1478,6 +1478,69 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use dynamic programming to determine if a subset of the array can sum up to half of the total sum, effectively checking if the array can be partitioned into two equal subsets.
 
+38. **Problem:** Unique paths.
+
+    **Solution:** Use dynamic programming to calculate the number of unique paths from the top-left corner to the bottom-right corner of a grid.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int uniquePaths(int m, int n) {
+            vector<vector<int>> dp(m, vector<int>(n, 1));
+
+            for(int i = 1; i < m; i++) {
+                for(int j = 1; j < n; j++) {
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                }
+            }
+
+            return dp[m - 1][n - 1];
+        }
+    };
+    ```
+
+    **Time complexity:** O(m * n), where m is the number of rows and n is the number of columns in the grid.
+
+    **Points:** The key is to use dynamic programming to build up the number of unique paths to each cell in the grid based on the paths to the cells directly above and to the left.
+
+39. **Problem:** Minimum path sum.
     
+    **Solution:** Use dynamic programming to calculate the minimum path sum from the top-left corner to the bottom-right corner of a grid.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int minPathSum(vector<vector<int>>& grid) {
+            int m = grid.size();
+            int n = grid[0].size();
+
+            vector<vector<int>> dp(m, vector<int>(n, 0));
+            dp[0][0] = grid[0][0];
+
+            for(int i = 1; i < m; i++) {
+                dp[i][0] = dp[i - 1][0] + grid[i][0];
+            }
+            for(int j = 1; j < n; j++) {
+                dp[0][j] = dp[0][j - 1] + grid[0][j];
+            }
+
+            for(int i = 1; i < m; i++) {
+                for(int j = 1; j < n; j++) {
+                    dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+                }
+            }
+
+            return dp[m - 1][n - 1];
+        }
+    };
+    ```
+
+    **Time complexity:** O(m * n), where m is the number of rows and n is the number of columns in the grid.
+
+    **Points:** The key is to use dynamic programming to build up the minimum path sum to each cell in the grid based on the minimum sums to the cells directly above and to the left, the minimum num is determined by the up or left cell.
+
+
                 
                
