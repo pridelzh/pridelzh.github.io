@@ -1581,6 +1581,39 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use dynamic programming to build up a table that tracks whether substrings are palindromes, updating the longest palindromic substring found as we iterate through the string, ensuring that we check both the characters at the ends and the status of the substring in between.
 
+41. **Problem:** Longest common substring.
 
+    **Solution:** Use dynamic programming to calculate the length of the longest common substring between two strings.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int longestCommonSubstring(string s1, string s2) {
+            int m = s1.size();
+            int n = s2.size();
+            vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+            
+            for(int i = 1; i <= m; i++) {
+                char c1 = s1[i - 1];
+                for(int j = 1; j <= n; j++) {
+                    char c2 = s2[j - 1];
+                    if(c1 == c2) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                    }
+                    else {
+                        dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                    }
+                }
+            }
+
+            return dp[m][n];
+        }
+    };
+    ```
+
+    **Time complexity:** O(m * n), where m is the number of rows and n is the number of columns in the grid.
+
+    **Points:** The key is to use dynamic programming to build up the length of the longest common substring at each position in the grid, ensuring that we only consider substrings that are common to both strings, dp[i][j] represents the length of the common substring ending at positions i-1 and j-1 in s1 and s2 respectively, if s1[i-1] == s2[j-1] then dp[i][j] = dp[i-1][j-1] + 1, while if they are not equal, we take the maximum of the previous values dp[i-1][j] and dp[i][j-1].
                 
                
