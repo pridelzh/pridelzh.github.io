@@ -1541,6 +1541,46 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use dynamic programming to build up the minimum path sum to each cell in the grid based on the minimum sums to the cells directly above and to the left, the minimum num is determined by the up or left cell.
 
+40. **Problem:** Longest palindromic substring.
+
+    **Solution:** Use dynamic programming to find the longest palindromic substring in a given string.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        string longestPalindrome(string s) {
+            int n = s.size();
+            if(n == 0) return "";
+
+            vector<vector<bool>> dp(n, vector<bool>(n, false));
+            int start = 0, maxLen = 1;
+
+            for(int i = 0; i < n; i++) {
+                dp[i][i] = true;
+            }
+
+            for(int i=n-1; i>=0; i--) {
+                for(int j=i+1; j<n; j++) {
+                    if(s[i] == s[j] and (j - i <= 2 or dp[i + 1][j - 1])) {
+                        dp[i][j] = true;
+                        if(j - i + 1 > maxLen) {
+                            start = i;
+                            maxLen = j - i + 1;
+                        }
+                    }
+                }
+            }
+
+            return s.substr(start, maxLen);
+        }
+    };
+    ```
+
+    **Time complexity:** O(n^2), where n is the length of the string.
+
+    **Points:** The key is to use dynamic programming to build up a table that tracks whether substrings are palindromes, updating the longest palindromic substring found as we iterate through the string, ensuring that we check both the characters at the ends and the status of the substring in between.
+
 
                 
                
