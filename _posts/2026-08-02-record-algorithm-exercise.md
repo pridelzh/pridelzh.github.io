@@ -1660,5 +1660,36 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(m * n), where m is the length of the first string and n is the length of the second string.
 
     **Points:** The key is to use dynamic programming to build up the minimum edit distance at each position in the grid, ensuring that we only consider the operations needed to transform one string into another. The value at dp[i][j] represents the minimum number of operations required to convert the first i characters of word1 into the first j characters of word2. If the characters match, we take the value from dp[i-1][j-1]; if they do not match, we take the minimum value from either dp[i-1][j]+1 (deletion), dp[i][j-1]+1 (insertion), or dp[i-1][j-1]+1 (substitution).
-                
-               
+
+43. **Problem:** Next permutation.
+
+    **Solution:** Find the first element from the right that is smaller than its next element, then swap it with the smallest element to its right that is larger than it, and finally reverse the elements to its right.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void nextPermutation(vector<int>& nums) {
+            int n = nums.size();
+
+            int i = n - 2;
+            while(i >= 0 && nums[i] >= nums[i + 1]) {
+                i--;
+            }
+
+            if(i >= 0) {
+                int j = n - 1;
+                while(nums[j] <= nums[i]) {
+                    j--;
+                }
+                swap(nums[i], nums[j]);
+            }
+
+            reverse(nums.begin() + i + 1, nums.end());
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** After putting the smaller one element in place, we reverse the elements to its right to get the next permutation in lexicographical order.
