@@ -1693,3 +1693,39 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** After putting the smaller one element in place, we reverse the elements to its right to get the next permutation in lexicographical order.
+
+44. **Problem:** Trapping rain water.
+
+    **Solution:** Use two pointers to calculate the trapped water by keeping track of the maximum heights from both ends.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int trap(vector<int>& height) {
+            int ans = 0;
+            int left = 0, right = height.size() - 1;
+            int leftMax = 0, rightMax = 0;
+
+            while(left < right) {
+                leftMax = max(leftMax, height[left]);
+                rightMax = max(rightMax, height[right]);
+
+                if(leftMax < rightMax) {
+                    ans += leftMax - height[left];
+                    left++;
+                } 
+                else {
+                    ans += rightMax - height[right];
+                    right--;
+                }
+            }
+
+            return ans;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use two pointers to traverse the array from both ends, keeping track of the maximum heights encountered so far and calculating the trapped water based on the difference between the current height and the maximum height.
