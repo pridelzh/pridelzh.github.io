@@ -1729,3 +1729,35 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use two pointers to traverse the array from both ends, keeping track of the maximum heights encountered so far and calculating the trapped water based on the difference between the current height and the maximum height.
+
+45. **Problem:** Longest substring without repeating characters.
+
+    **Solution:** Use a sliding window approach with a hash map to keep track of the characters and their indices.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int lengthOfLongestSubstring(string s) {
+            unordered_set<char> charSet;
+            int left = 0, maxLength = 0;
+            int n = s.size();
+
+            for(int right = 0; right < n; right++) {
+                while(charSet.find(s[right]) != charSet.end()) {
+                    charSet.erase(s[left]);
+                    left++;
+                }
+                charSet.insert(s[right]);
+                maxLength = max(maxLength, right - left + 1);
+            }
+
+            return maxLength;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the length of the string.
+
+    **Points:** The key is to use a sliding window approach with a hash set to keep track of the characters in the current substring, expanding the window by moving the right pointer and contracting it by moving the left pointer when a duplicate character is found, if you find that the current character is already in the set, you should move the left pointer to remove it until it's no longer in the set because it must be a substring of the original string.
+
