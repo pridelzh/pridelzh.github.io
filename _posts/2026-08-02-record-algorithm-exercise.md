@@ -1761,3 +1761,41 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use a sliding window approach with a hash set to keep track of the characters in the current substring, expanding the window by moving the right pointer and contracting it by moving the left pointer when a duplicate character is found, if you find that the current character is already in the set, you should move the left pointer to remove it until it's no longer in the set because it must be a substring of the original string.
 
+46. **Problem:** Find all anagrams in a string.
+
+    **Solution:** Use a sliding window approach with a hash map to keep track of the characters and their frequencies.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<int> findAnagrams(string s, string p) {
+            vector<int> ans;
+            vector<int> pCount(26, 0), sCount(26, 0);
+            int pLen = p.size(), sLen = s.size();
+            if (sLen < pLen) return ans;
+
+            for (char c : p) {
+                pCount[c - 'a']++;
+            }
+
+            int left = 0;
+            for (int right = 0; right < sLen; right++) {
+                sCount[s[right] - 'a']++;
+                if (right - left + 1 == pLen) {
+                    if (sCount == pCount) {
+                        ans.push_back(left);
+                    }
+                    sCount[s[left] - 'a']--;
+                    left++;
+                }
+            }
+
+            return ans;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the length of the string s.
+
+    **Points:** The key is to use a sliding window approach with a hash map to keep track of the characters and their frequencies, expanding the window by moving the right pointer and contracting it by moving the left pointer when the window size equals the length of string p.
