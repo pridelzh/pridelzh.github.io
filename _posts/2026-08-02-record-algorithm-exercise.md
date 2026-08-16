@@ -1800,7 +1800,7 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use a sliding window approach with a hash map to keep track of the characters and their frequencies, expanding the window by moving the right pointer and contracting it by moving the left pointer when the window size equals the length of string p.
 
-47. **Problem:** subarray sum equal to k.
+47. **Problem:** Subarray sum equal to k.
 
     **Solution:** Use a prefix sum approach with a hash map to store the frequencies of the prefix sums.
 
@@ -1829,3 +1829,41 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the length of the array nums.
 
     **Points:** The key is to use a prefix sum approach with a hash map to store the frequencies of the prefix sums, and then for each element, check if there exists a previous prefix sum such that the difference between them is equal to k, the method prefix sum is used to efficiently calculate the sum of any subarray, by minus the prefix sum of the previous element we can get the sum of the subarray between the two elements and use a hash map to store the frequencies of the prefix sums so that we can quickly look up the number of subarrays that sum to k.
+
+48. **Problem:** Sliding window maximum.
+
+    **Solution:** Use a max heap to keep track of the maximum element in the current sliding window, and update the heap as the window slides.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+            priority_queue<pair<int, int>> maxHeap; // Store pairs of (value, index)
+            vector<int> result;
+
+            for(int i=0;i<k;i++){
+                maxHeap.push({nums[i], i});
+            }
+
+            result.push_back(maxHeap.top().first);
+
+            for(int i=k;i<nums.size();i++){
+                maxHeap.push({nums[i], i});
+                while(maxHeap.top().second <= i - k){
+                    maxHeap.pop();
+                }
+                result.push_back(maxHeap.top().first);
+            }
+
+            return result;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n log k), where n is the length of the array and k is the size of the sliding window.
+
+    **Space complexity:** O(k), where k is the size of the sliding window.
+
+    **Points:** The key is to use a max heap to keep track of the maximum element in the current sliding window, and update the heap as the window slides, the priority queue is used to maintain the elements in the window in a way that allows for efficient retrieval of the maximum element, we compare the value by its true value and decide whether to pop it from the heap based on its index to ensure that we only consider elements that are still within the current window.
+
