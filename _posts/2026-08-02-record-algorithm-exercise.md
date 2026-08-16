@@ -1799,3 +1799,33 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the length of the string s.
 
     **Points:** The key is to use a sliding window approach with a hash map to keep track of the characters and their frequencies, expanding the window by moving the right pointer and contracting it by moving the left pointer when the window size equals the length of string p.
+
+47. **Problem:** subarray sum equal to k.
+
+    **Solution:** Use a prefix sum approach with a hash map to store the frequencies of the prefix sums.
+
+    **Code example:**
+    ```cpp
+    class Solution {    
+        int subarraySum(vector<int>& nums, int k) {
+            unordered_map<int, int> prefixSumCount;
+            prefixSumCount[0] = 1; // Base case: one way to have a sum of 0
+            int currentSum = 0;
+            int count = 0;
+
+            for (int num : nums) {
+                currentSum += num;
+                if (prefixSumCount.find(currentSum - k) != prefixSumCount.end()) {
+                    count += prefixSumCount[currentSum - k];
+                }
+                prefixSumCount[currentSum]++;
+            }
+
+            return count;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the length of the array nums.
+
+    **Points:** The key is to use a prefix sum approach with a hash map to store the frequencies of the prefix sums, and then for each element, check if there exists a previous prefix sum such that the difference between them is equal to k, the method prefix sum is used to efficiently calculate the sum of any subarray, by minus the prefix sum of the previous element we can get the sum of the subarray between the two elements and use a hash map to store the frequencies of the prefix sums so that we can quickly look up the number of subarrays that sum to k.
