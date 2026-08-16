@@ -1834,6 +1834,9 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Solution:** Use a max heap to keep track of the maximum element in the current sliding window, and update the heap as the window slides.
 
+    **Image example:**
+    ![Sliding window maximum](../assets/images/2026-08-02-record-algorithm-exercise/image-7.png)
+
     **Code example:**
     ```cpp
     class Solution {
