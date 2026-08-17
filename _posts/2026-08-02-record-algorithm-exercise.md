@@ -1987,3 +1987,24 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n log n), where n is the number of intervals.
 
     **Points:** The key is to sort the intervals first and then traverse them to merge overlapping ones, and compare the end of the previous interval with the start of the current interval.
+
+52. **Problem:** Rotate array.
+
+    **Solution:** Reverse the entire array, then reverse the first k elements, and finally reverse the remaining elements.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void rotate(vector<int>& nums, int k) {
+            k %= nums.size();
+            reverse(nums.begin(), nums.end());
+            reverse(nums.begin(), nums.begin() + k);
+            reverse(nums.begin() + k, nums.end());
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use the three-step reversal technique to rotate the array in place.
