@@ -1870,3 +1870,59 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use a max heap to keep track of the maximum element in the current sliding window, and update the heap as the window slides, the priority queue is used to maintain the elements in the window in a way that allows for efficient retrieval of the maximum element, we compare the value by its true value and decide whether to pop it from the heap based on its index to ensure that we only consider elements that are still within the current window.
 
+49. **Problem:** Minimum window substring.
+
+    **Solution:** Use a sliding window approach with two pointers to find the minimum window that contains all characters of the target string.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        unordered_map<char, int> ori, charCount;
+
+        bool check() {
+            for (auto it : ori) {
+                if (charCount[it.first] < it.second) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        string minWindow(string s, string t) {
+            for(char c : t){
+                ori[c]++;
+            }
+
+            int left = 0, right = 0;
+            int len = INT_MAX, start = -1;
+
+            while(right < s.size()){
+                char c = s[right];
+                if(ori.find(c) != ori.end()){
+                    charCount[c]++;
+                }
+
+                while(check() and left <= right){
+                    if(right - left + 1 < len){
+                        len = right - left + 1;
+                        start = left;
+                    }
+                    char d = s[left];
+                    if(ori.find(d) != ori.end()){
+                        charCount[d]--;
+                    }
+                    left++;
+                }
+                right++;
+            }
+
+            return start == -1 ? "" : s.substr(start, len);
+
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the length of the string.
+
+    **Points:** The key is to use a sliding window approach with two pointers to find the minimum window that contains all characters of the target string, and update the window boundaries as we expand and contract the window to ensure we find the optimal solution, use a hash map to store the frequency of characters in the target string and the current window.
