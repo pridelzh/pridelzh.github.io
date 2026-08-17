@@ -1952,3 +1952,38 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the length of the array.
 
     **Points:** The key is to use dynamic programming to keep track of the maximum sum of the subarray ending at each position, and update the overall maximum sum as we iterate through the array, dynamic programming is useful for solving optimization problems by breaking them down into smaller subproblems, and when facing different choices at each step, we can use dynamic programming to find the optimal solution.
+
+51. **Problem:** Merge intervals.
+
+    **Solution:** Traverse the intervals and merge overlapping ones by comparing the end of the previous interval with the start of the current interval.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<vector<int>> merge(vector<vector<int>>& intervals) {
+            if(intervals.empty()){
+                return {};
+            }
+
+            sort(intervals.begin(), intervals.end());
+            vector<vector<int>> merged;
+            merged.push_back(intervals[0]);
+
+            for(int i = 1; i < intervals.size(); i++) {
+                int left = intervals[i][0], right = intervals[i][1];
+                if(merged.back()[1] < left) {
+                    merged.push_back(intervals[i]);
+                } else {
+                    merged.back()[1] = max(merged.back()[1], intervals[i][1]);
+                }
+            }
+
+            return merged;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n log n), where n is the number of intervals.
+
+    **Points:** The key is to sort the intervals first and then traverse them to merge overlapping ones, and compare the end of the previous interval with the start of the current interval.
