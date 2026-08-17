@@ -2008,3 +2008,38 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use the three-step reversal technique to rotate the array in place.
+
+53. **Problem:** Product of array except self.
+
+    **Solution:** Create two arrays to store the product of all elements to the left and right of each index, then multiply the corresponding elements.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<int> productExceptSelf(vector<int>& nums) {
+            int n = nums.size();
+            vector<int> left(n, 1);
+            vector<int> right(n, 1);
+            vector<int> result(n);
+
+            for (int i = 1; i < n; i++) {
+                left[i] = left[i - 1] * nums[i - 1];
+            } //left[0] = 1, left[1] = nums[0], left[2] = nums[0]*nums[1], left[3] = nums[0]*nums[1]*nums[2]
+
+            for (int i = n - 2; i >= 0; i--) {
+                right[i] = right[i + 1] * nums[i + 1];
+            } //right[n-1] = 1, right[n-2] = nums[n-1], right[n-3] = nums[n-1]*nums[n-2], right[n-4] = nums[n-1]*nums[n-2]*nums[n-3]
+
+            for (int i = 0; i < n; i++) {
+                result[i] = left[i] * right[i];
+            }
+
+            return result;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use two auxiliary arrays to store the product of all elements to the left and right of each index, and then multiply the corresponding elements to get the final result. This approach avoids using division and ensures that we can calculate the product for each index in linear time, left[i] represents the product of all elements to the left of index i, and right[i] represents the product of all elements to the right of index i. By multiplying these two values together, we get the product of all elements except for the one at index i. 
