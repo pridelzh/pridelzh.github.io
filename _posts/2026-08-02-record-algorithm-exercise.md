@@ -1926,3 +1926,29 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the length of the string.
 
     **Points:** The key is to use a sliding window approach with two pointers to find the minimum window that contains all characters of the target string, and update the window boundaries as we expand and contract the window to ensure we find the optimal solution, use a hash map to store the frequency of characters in the target string and the current window.
+
+50. **Problem:** Maximum subarray.
+
+    **Solution:** Use dynamic programming.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int maxSubArray(vector<int>& nums) {
+            int maxSum = nums[0];
+            int currentSum = nums[0];
+
+            for(auto num : nums) {
+                currentSum = max(num, currentSum + num);
+                maxSum = max(maxSum, currentSum);
+            }
+
+            return maxSum;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the length of the array.
+
+    **Points:** The key is to use dynamic programming to keep track of the maximum sum of the subarray ending at each position, and update the overall maximum sum as we iterate through the array, dynamic programming is useful for solving optimization problems by breaking them down into smaller subproblems, and when facing different choices at each step, we can use dynamic programming to find the optimal solution.
