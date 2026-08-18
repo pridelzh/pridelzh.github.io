@@ -2043,3 +2043,44 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use two auxiliary arrays to store the product of all elements to the left and right of each index, and then multiply the corresponding elements to get the final result. This approach avoids using division and ensures that we can calculate the product for each index in linear time, left[i] represents the product of all elements to the left of index i, and right[i] represents the product of all elements to the right of index i. By multiplying these two values together, we get the product of all elements except for the one at index i. 
+
+54. **Problem:** Spiral Matrix.
+
+    **Solution:** Use a four-pointer approach to traverse the matrix in a spiral order.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<int> spiralOrder(vector<vector<int>>& matrix) {
+            int rows=matrix.size(), cols=matrix[0].size();
+            vector<int> result;
+            int top=0, bottom=rows-1, left=0, right=cols-1;
+
+            while(result.size() < rows * cols) {
+                for(int i=left; i<=right && result.size() < rows * cols; i++) {
+                    result.push_back(matrix[top][i]);
+                }
+                top++;
+                for(int i=top; i<=bottom && result.size() < rows * cols; i++) {
+                    result.push_back(matrix[i][right]);
+                }
+                right--;
+                for(int i=right; i>=left && result.size() < rows * cols; i--) {
+                    result.push_back(matrix[bottom][i]);
+                }
+                bottom--;
+                for(int i=bottom; i>=top && result.size() < rows * cols; i--) {
+                    result.push_back(matrix[i][left]);
+                }
+                left++;
+            }
+
+            return result;
+        }
+    };
+    ```
+
+    **Time complexity:** O(m * n), where m is the number of rows and n is the number of columns in the matrix.
+
+    **Points:** The key is to use four pointers to keep track of the boundaries of the current layer being traversed, and update these pointers as we complete each layer of the spiral traversal, ensuring that we cover all elements in the matrix without repetition. The four pointers (top, bottom, left, right) define the current boundaries of the spiral traversal, and we adjust them after completing each direction of movement (right, down, left, up) to move inward to the next layer of the spiral.
