@@ -2429,5 +2429,37 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use two pointers (slow and fast) to detect a cycle in the linked list. If there is a cycle, the fast pointer will eventually catch up to the slow pointer.
 
+61. **Problem:** Linked list cycle ii.
 
+    **Solution:** Use a hash set to store visited nodes.
 
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        ListNode *detectCycle(ListNode *head) {
+            unordered_set<ListNode*> visited;
+            while(head){
+                if(visited.count(head)) return head;
+                visited.insert(head);
+                head=head->next;
+            }
+            return nullptr;
+        }
+    };
+    ```
+
+    ```python
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        visited = set()
+        while head:
+            if head in visited:
+                return head
+            visited.add(head)
+            head = head.next
+        return None
+    ```
+
+    **Time complexity:** O(n), where n is the number of nodes in the linked list.
+
+    **Points:** The key is to use a hash set to store visited nodes and detect cycles in the linked list, if find the already visited node, showed that a cycle exists and the node is the start of the cycle. If encounter a null pointer, there is no cycle, and return None.
