@@ -2687,3 +2687,64 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n + m), where n and m are the lengths of the two linked lists.
 
     **Points:** The key is to use two pointers to traverse both linked lists and merge them into a single sorted list, ensuring that we maintain the order of elements from both lists. A dummy node is used to simplify the merging process and avoid edge cases when one of the lists is empty.
+
+65. **problem:** Add two numbers.
+
+    **Solution:** Use a single pointer to traverse the list and remove duplicates by adjusting the next pointers and change the value sum accordingly.
+
+    **Image example:**
+    ![Add two numbers](../assets/images/2026-08-02-record-algorithm-exercise/image-11.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+            ListNode* dummy = new ListNode(0);
+            ListNode* current = dummy;
+            int carry = 0;
+
+            while (l1 or l2 or carry) {
+                int sum = carry;
+                if (l1) {
+                    sum += l1->val;
+                    l1 = l1->next;
+                }
+                if (l2) {
+                    sum += l2->val;
+                    l2 = l2->next;
+                }
+                carry = sum / 10;
+                current->next = new ListNode(sum % 10);
+                current = current->next;
+            }
+
+            return dummy->next;
+        }
+    };
+    ```
+
+    ```python
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode(0)
+        current = dummy
+        carry = 0
+
+        while l1 or l2 or carry:
+            sum = carry
+            if l1:
+                sum += l1.val
+                l1 = l1.next
+            if l2:
+                sum += l2.val
+                l2 = l2.next
+            carry = sum // 10
+            current.next = ListNode(sum % 10)
+            current = current.next
+
+        return dummy.next
+    ```
+
+    **Time complexity:** O(max(n, m)), where n and m are the lengths of the two linked lists.
+
+    **Key points:** The key is to use a single pointer to traverse the linked lists and add corresponding digits, taking care of the carry for sums greater than 9. A dummy node is used to simplify the construction of the result list, and we continue processing until all digits and any remaining carry have been handled, pay attention to the final carry because it needs to be added as a new node until there are no more digits or carry to process.
