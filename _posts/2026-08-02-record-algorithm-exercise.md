@@ -2379,7 +2379,7 @@ excerpt: "A record of traditional algorithm exercises."
 
             ListNode *slow=head, *fast=head->next;
             while(fast!=slow){
-                if(fast==nullptr or fasdt->next==nullptr) return false;
+                if(fast==nullptr or fast->next==nullptr) return false;
 
                 slow=slow->next;
                 fast=fast->next->next;
@@ -2463,3 +2463,68 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of nodes in the linked list.
 
     **Points:** The key is to use a hash set to store visited nodes and detect cycles in the linked list, if find the already visited node, showed that a cycle exists and the node is the start of the cycle. If encounter a null pointer, there is no cycle, and return None.
+
+62. **Problem:** Quick sort model.
+
+    **Solution:** Find a pivot element and partition the array around it.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void quickSort(vector<int>& nums, int left, int right) {
+            if (left >= right) return;
+
+            int pivot = nums[right];
+            int i = left - 1;
+            int j = right + 1;
+
+            while (true) {
+                do {
+                    i++;
+                } while (nums[i] < pivot);
+
+                do {
+                    j--;
+                } while (nums[j] > pivot);
+
+                if (i >= j) break;
+
+                swap(nums[i], nums[j]);
+            }
+
+            quickSort(nums, left, j);
+            quickSort(nums, j + 1, right);
+        }
+    };
+    ```
+    ```python
+    def quickSort(self, nums: List[int], left: int, right: int) -> None:
+        if left >= right:
+            return
+
+        pivot = nums[right]
+        i = left - 1
+        j = right + 1
+
+        while True:
+            i += 1
+            while nums[i] < pivot:
+                i += 1
+
+            j -= 1
+            while nums[j] > pivot:
+                j -= 1
+
+            if i >= j:
+                break
+
+            nums[i], nums[j] = nums[j], nums[i]
+
+        self.quickSort(nums, left, j)
+        self.quickSort(nums, j + 1, right)
+    ```
+
+    **Time complexity:** O(n log n) on average, O(n^2) in the worst case.
+
+    **Points:** The key is to choose a good pivot element and partition the array around it to achieve optimal performance and set i equal to left - 1 and j equal to right + 1, and then continue the sorting process until i >= j.
