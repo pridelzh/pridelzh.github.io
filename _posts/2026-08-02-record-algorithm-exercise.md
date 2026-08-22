@@ -2528,3 +2528,94 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n log n) on average, O(n^2) in the worst case.
 
     **Points:** The key is to choose a good pivot element and partition the array around it to achieve optimal performance and set i equal to left - 1 and j equal to right + 1, and then continue the sorting process until i >= j.
+
+63. **Problem:** Merge sort model.
+
+    **Solution:** Divide the array into halves, sort each half, and then merge them back together.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void mergeSort(vector<int>& nums, int left, int right) {
+            if (left >= right) return;
+
+            int mid = left + (right - left) / 2;
+            mergeSort(nums, left, mid);
+            mergeSort(nums, mid + 1, right);
+            merge(nums, left, mid, right);
+        }
+
+        void merge(vector<int>& nums, int left, int mid, int right) {
+            vector<int> temp(right - left + 1);
+            int i = left, j = mid + 1, k = 0;
+
+            while (i <= mid && j <= right) {
+                if (nums[i] <= nums[j]) {
+                    temp[k] = nums[i];
+                    k++;
+                    i++;
+                } else {
+                    temp[k] = nums[j];
+                    k++;
+                    j++;
+                }
+            }
+
+            while (i <= mid) {
+                temp[k] = nums[i];
+                k++;
+                i++;
+            }
+
+            while (j <= right) {
+                temp[k] = nums[j];
+                k++;
+                j++;
+            }
+
+            for (int p = 0; p < temp.size(); p++) {
+                nums[left + p] = temp[p];
+            }
+        }
+    };
+    ```
+
+    ```python 
+    def mergeSort(self, nums: List[int], left: int, right: int) -> None:
+        if left >= right:
+            return
+
+        mid = left + (right - left) // 2
+        self.mergeSort(nums, left, mid)
+        self.mergeSort(nums, mid + 1, right)
+        self.merge(nums, left, mid, right)
+
+    def merge(self, nums: List[int], left: int, mid: int, right: int) -> None:
+        temp = []
+        i, j = left, mid + 1
+        while i <= mid and j <= right:
+            if nums[i] <= nums[j]:
+                temp.append(nums[i])
+                i += 1
+            else:
+                temp.append(nums[j])
+                j += 1
+
+        # Append any remaining elements from either half
+        while i <= mid:
+            temp.append(nums[i])
+            i += 1
+
+        while j <= right:
+            temp.append(nums[j])
+            j += 1
+
+        # Copy the merged elements back to the original array
+        for k in range(len(temp)):
+            nums[left + k] = temp[k]
+    ```
+
+    **Time complexity:** O(n log n), where n is the number of elements in the array.
+
+    **Points:** The key is to divide the array into halves, sort each half recursively, and then merge the sorted halves back together. The merge function combines two sorted subarrays into a single sorted array by comparing elements from both subarrays and placing them in the correct order.
