@@ -2131,3 +2131,65 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n^2), where n is the number of rows (or columns) in the matrix.
 
     **Points:** The key is to create a new matrix and fill it with the rotated elements, ensuring that each element is placed in its correct position in the rotated matrix or another method is that transpose and reverse the matrix.
+
+56. **Problem:** Search a 2d matrix II.
+
+    **Solution:** Start from the top-right corner and move either down or left based on the comparison with the target, or use binary search for each row.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        bool searchMatrix(vector<vector<int>>& matrix, int target) {
+            int m = matrix.size();
+            int n = matrix[0].size();
+            int i = 0, j = n - 1;
+
+            while(i < m && j >= 0) {
+                if(matrix[i][j] == target) {
+                    return true;
+                } 
+                if(matrix[i][j] > target) {
+                    j--;
+                } else {
+                    i++;
+                }
+            }
+
+            return false;
+        }
+    };
+    ```
+
+    ```cpp
+    class Solution {
+    public:
+        bool searchMatrix(vector<vector<int>>& matrix, int target) {
+            int m = matrix.size();
+            int n = matrix[0].size();
+
+            for(int i = 0; i < m; i++) {
+                if(binary_search(matrix[i].begin(), matrix[i].end(), target)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        bool binary_instance(vector<vector<int>>& matrix, int target) {
+            for(auto& row : matrix) {
+                auto it = lower_bound(row.begin(), row.end(), target);
+                if(it != row.end() && *it == target) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    };
+    ```
+    
+    **Time complexity:** O(m + n), where m is the number of rows and n is the number of columns in the matrix.
+
+    **Points:** The key is to start from the top-right corner of the matrix and move either down or left based on the comparison with the target, or use binary search for each row to find the target efficiently. The first method takes advantage of the sorted properties of the matrix, allowing us to eliminate rows or columns based on the current element's value compared to the target. The second method uses binary search on each row, which is efficient for searching in sorted arrays.
