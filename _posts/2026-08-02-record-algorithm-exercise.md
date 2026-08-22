@@ -2189,7 +2189,63 @@ excerpt: "A record of traditional algorithm exercises."
         }
     };
     ```
-    
+
     **Time complexity:** O(m + n), where m is the number of rows and n is the number of columns in the matrix.
 
     **Points:** The key is to start from the top-right corner of the matrix and move either down or left based on the comparison with the target, or use binary search for each row to find the target efficiently. The first method takes advantage of the sorted properties of the matrix, allowing us to eliminate rows or columns based on the current element's value compared to the target. The second method uses binary search on each row, which is efficient for searching in sorted arrays.
+
+57. **Problem:** Intersection of Two Linked Lists.
+
+    **Solution:** Traverse both lists and when one reaches the end, redirect it to the head of the other list. This way, both pointers will meet at the intersection point or both become NULL if there is no intersection.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        ListNode *getIntersectionNode(ListNode *headA, ListNode *headB){
+            if(!headA or !headB) return nullptr;
+
+            ListNode* pa=headA, *pb=headB;
+            while(pa!=pb){
+                if(!pa){
+                    pa=headB;
+                }
+                else{
+                    pa=pa->next;
+                }
+                if(!pb){
+                    pb=headA;
+                }
+                else{
+                    pb=pb->next;
+                }
+            }
+
+            return pa;
+        }
+    };
+    ```
+    ```python
+    class Solution:
+        def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+            if not headA or not headB:
+                return None
+
+            pa, pb = headA, headB
+            while pa != pb:
+                if not pa:
+                    pa = headB
+                else:
+                    pa = pa.next
+                if not pb:
+                    pb = headA
+                else:
+                    pb = pb.next
+
+            return pa
+    ```
+
+    **Time complexity:** O(m * n), where m is the number of rows and n is the number of columns in the grid.
+
+    **Points:** The key is to use two pointers to traverse both linked lists, redirecting each pointer to the head of the other list when it reaches the end. This ensures that both pointers will meet at the intersection point or both become NULL if there is no intersection.
+
