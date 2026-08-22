@@ -2619,3 +2619,71 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n log n), where n is the number of elements in the array.
 
     **Points:** The key is to divide the array into halves, sort each half recursively, and then merge the sorted halves back together. The merge function combines two sorted subarrays into a single sorted array by comparing elements from both subarrays and placing them in the correct order.
+
+64. **Problem:** Merge two sorted lists.
+
+    **Solution:** Use two pointers to traverse both lists and merge them into a single sorted list.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+            if (!l1) return l2;
+            if (!l2) return l1;
+
+            ListNode* dummy = new ListNode(0);
+            ListNode* current = dummy;
+
+            while (l1 and l2) {
+                if (l1->val < l2->val) {
+                    current->next = l1;
+                    l1 = l1->next;
+                } else {
+                    current->next = l2;
+                    l2 = l2->next;
+                }
+                current = current->next;
+            }
+
+            if (l1) {
+                current->next = l1;
+            } else {
+                current->next = l2;
+            }
+
+            return dummy->next;
+        }
+    };
+    ```
+
+    ```python
+    def mergeTwoLists(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        if not l1:
+            return l2
+        if not l2:
+            return l1
+
+        dummy = ListNode(0)
+        current = dummy
+
+        while l1 and l2:
+            if l1.val < l2.val:
+                current.next = l1
+                l1 = l1.next
+            else:
+                current.next = l2
+                l2 = l2.next
+            current = current.next
+
+        if l1:
+            current.next = l1
+        else:
+            current.next = l2
+
+        return dummy.next
+    ```
+
+    **Time complexity:** O(n + m), where n and m are the lengths of the two linked lists.
+
+    **Points:** The key is to use two pointers to traverse both linked lists and merge them into a single sorted list, ensuring that we maintain the order of elements from both lists. A dummy node is used to simplify the merging process and avoid edge cases when one of the lists is empty.
