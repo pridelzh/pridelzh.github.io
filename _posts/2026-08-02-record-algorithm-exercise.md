@@ -2295,5 +2295,73 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use three pointers (prev, curr, next) to reverse the linked list iteratively, ensuring that we maintain the links between nodes while reversing their order.
 
+59. **Problem:** Palindrome Linked List.
+
+    **Solution:** Find the middle of the linked list, reverse the second half, and compare it with the first half.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        bool isPalindrome(ListNode* head) {
+            if (!head || !head->next) return true;
+
+            ListNode *slow = head, *fast = head;
+            while (fast and fast->next) {
+                slow = slow->next;
+                fast = fast->next->next;
+            }
+
+            ListNode *prev = nullptr;
+            while (slow) {
+                ListNode *next = slow->next;
+                slow->next = prev;
+                prev = slow;
+                slow = next;
+            }
+
+            ListNode *firstHalf = head, *secondHalf = prev;
+            while (secondHalf) {
+                if (firstHalf->val != secondHalf->val) return false;
+                firstHalf = firstHalf->next;
+                secondHalf = secondHalf->next;
+            }
+
+            return true;
+        }
+    };
+    ```    
+
+    ```python
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        if not head or not head.next:
+            return True
+
+        slow, fast = head, head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        prev = None
+        while slow:
+            next_node = slow.next
+            slow.next = prev
+            prev = slow
+            slow = next_node
+
+        first_half, second_half = head, prev
+        while second_half:
+            if first_half.val != second_half.val:
+                return False
+            first_half = first_half.next
+            second_half = second_half.next
+
+        return True
+    ```
+
+    **Time complexity:** O(n), where n is the number of nodes in the linked list.
+
+    **Points:** The key is to use two pointers (slow and fast) to find the middle of the linked list, reverse the second half, and compare it with the first half.
+
 
 
