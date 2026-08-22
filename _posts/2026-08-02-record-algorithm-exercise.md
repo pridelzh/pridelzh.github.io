@@ -2363,5 +2363,71 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use two pointers (slow and fast) to find the middle of the linked list, reverse the second half, and compare it with the first half.
 
+60. **Problem:** Linked list cycle.
+
+    **Solution:** Use fast and slow pointers to detect the cycle.
+
+    **Image example:**
+    ![Linked list cycle](../assets/images/2026-08-02-record-algorithm-exercise/image-10.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        bool hasCycle(ListNode *head) {
+            if (head==nullptr or head->next==nullptr) return false;
+
+            ListNode *slow=head, *fast=head->next;
+            while(fast!=slow){
+                if(fast==nullptr or fasdt->next==nullptr) return false;
+
+                slow=slow->next;
+                fast=fast->next->next;
+            }
+
+            return true;
+        }
+
+        bool hasCycele2(ListNode *head) {
+            ListNode *slow=head, *fast=head;
+            while(fast and fast->next){
+                slow=slow->next;
+                fast=fast->next->next;
+                if(slow==fast) return true;
+            }
+
+            return false;
+        }
+    };
+    ```
+
+    ```python
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                return True
+        return False
+
+    def hasCycle2(self, head: Optional[ListNode]) -> bool:
+        if not head or not head.next:
+            return False
+
+        slow, fast = head, head.next
+        while slow != fast:
+            if not fast or not fast.next:
+                return False
+            slow = slow.next
+            fast = fast.next.next
+
+        return True
+    ```
+
+    **Time complexity:** O(n), where n is the number of nodes in the linked list.
+
+    **Points:** The key is to use two pointers (slow and fast) to detect a cycle in the linked list. If there is a cycle, the fast pointer will eventually catch up to the slow pointer.
+
 
 
