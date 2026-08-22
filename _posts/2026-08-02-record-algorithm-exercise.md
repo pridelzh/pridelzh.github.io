@@ -2748,3 +2748,61 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(max(n, m)), where n and m are the lengths of the two linked lists.
 
     **Key points:** The key is to use a single pointer to traverse the linked lists and add corresponding digits, taking care of the carry for sums greater than 9. A dummy node is used to simplify the construction of the result list, and we continue processing until all digits and any remaining carry have been handled, pay attention to the final carry because it needs to be added as a new node until there are no more digits or carry to process.
+
+66. **Problem:** Remove nth node from the end of a linked list.
+
+    **Solution:** Use two pointers to traverse the list and remove the nth node from the end.
+
+    **Image example:**
+    ![Rmove nth node from the end of linked list](../assets/images/2026-08-02-record-algorithm-exercise/image-12.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        ListNode* removeNthFromEnd(ListNode* head, int n) {
+            ListNode* dummy = new ListNode(0);
+            dummy->next = head;
+
+            ListNode* fast = dummy;
+            ListNode* slow = dummy;
+
+            for (int i = 0; i < n+1; i++) {
+                fast = fast->next;
+            }
+
+            while (fast) {
+                fast = fast->next;
+                slow = slow->next;
+            }
+
+            slow->next = slow->next->next;
+
+            return dummy->next;
+        }
+    };
+    ```
+
+    ```python
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dummy = ListNode(0)
+        dummy.next = head
+
+        fast = dummy
+        slow = dummy
+
+        for _ in range(n + 1):
+            fast = fast.next
+
+        while fast:
+            fast = fast.next
+            slow = slow.next
+
+        slow.next = slow.next.next
+
+        return dummy.next
+    ```
+
+    **Time complexity:** O(n), where n is the number of nodes in the linked list.
+
+    **Points:** The key is to use two pointers to traverse the list, with the fast pointer ahead of the slow pointer by n nodes. When the fast pointer reaches the end, the slow pointer will be at the node before the one to be removed, which means that the fast pointer should walk n+1 steps ahead.
