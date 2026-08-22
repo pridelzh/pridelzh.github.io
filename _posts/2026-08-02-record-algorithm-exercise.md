@@ -2084,3 +2084,50 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(m * n), where m is the number of rows and n is the number of columns in the matrix.
 
     **Points:** The key is to use four pointers to keep track of the boundaries of the current layer being traversed, and update these pointers as we complete each layer of the spiral traversal, ensuring that we cover all elements in the matrix without repetition. The four pointers (top, bottom, left, right) define the current boundaries of the spiral traversal, and we adjust them after completing each direction of movement (right, down, left, up) to move inward to the next layer of the spiral.
+
+55. **Problem:** Rotate Image.
+
+    **Solution:** Transpose the matrix and then reverse each row.
+
+    **Image example:**
+    ![Rotate Image](../assets/images/2026-08-02-record-algorithm-exercise/image-8.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void rotate(vector<vector<int>>& matrix) {
+            int n = matrix.size();
+            // Transpose the matrix
+            for(int i = 0; i < n; i++) {
+                for(int j = i + 1; j < n; j++) {
+                    swap(matrix[i][j], matrix[j][i]);
+                }
+            }
+            // Reverse each row
+            for(int i = 0; i < n; i++) {
+                reverse(matrix[i].begin(), matrix[i].end());
+            }
+        }
+    };
+    ```
+
+    ```cpp
+    class Solution {
+    public:
+        void rotate(vector<vector<int>>& matrix) {
+            int n = matrix.size();
+
+            vector<vector<int>> matrix_new=matrix;
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    matrix[j][n-1-i]=matrix_new[i][j];
+                }
+            }
+        }
+    };
+    ```
+    
+    **Time complexity:** O(n^2), where n is the number of rows (or columns) in the matrix.
+
+    **Points:** The key is to create a new matrix and fill it with the rotated elements, ensuring that each element is placed in its correct position in the rotated matrix or another method is that transpose and reverse the matrix.
