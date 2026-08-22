@@ -2249,3 +2249,34 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use two pointers to traverse both linked lists, redirecting each pointer to the head of the other list when it reaches the end. This ensures that both pointers will meet at the intersection point or both become NULL if there is no intersection.
 
+58. **Problem:** Reverse Linked List.
+
+    **Solution:** Use an iterative approach to reverse the linked list by changing the next pointers of each node.
+
+    **Image example:**
+    ![Reverse linked list](../assets/images/2026-08-02-record-algorithm-exercise/image-9.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        ListNode* reverseList(ListNode* head) {
+            ListNode *prev=nullptr;
+            ListNode *curr=head;
+
+            while(curr){
+                ListNode *next=curr->next;
+                curr->next=prev;
+                prev=curr;
+                curr=next;
+            }
+
+            return prev;
+        }
+    };
+    ```
+
+    **Time complexity:** O(n), where n is the number of nodes in the linked list.
+
+    **Points:** The key is to use three pointers (prev, curr, next) to reverse the linked list iteratively, ensuring that we maintain the links between nodes while reversing their order.
+
