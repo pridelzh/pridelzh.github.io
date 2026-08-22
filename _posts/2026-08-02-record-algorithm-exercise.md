@@ -2276,7 +2276,24 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+            prev = None
+            curr = head
+
+            while curr:
+                next_node = curr.next
+                curr.next = prev
+                prev = curr
+                curr = next_node
+
+            return prev
+    ```
+
     **Time complexity:** O(n), where n is the number of nodes in the linked list.
 
     **Points:** The key is to use three pointers (prev, curr, next) to reverse the linked list iteratively, ensuring that we maintain the links between nodes while reversing their order.
+
+
 
