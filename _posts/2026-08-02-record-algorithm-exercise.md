@@ -2806,3 +2806,61 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of nodes in the linked list.
 
     **Points:** The key is to use two pointers to traverse the list, with the fast pointer ahead of the slow pointer by n nodes. When the fast pointer reaches the end, the slow pointer will be at the node before the one to be removed, which means that the fast pointer should walk n+1 steps ahead.
+
+67. **Problem:** Swap nodes in pairs.
+
+    **Solution:** Use a dummy node and two pointers to swap adjacent nodes in pairs.
+
+    **Image example:**
+    ![Swap nodes in pairs](../assets/images/2026-08-02-record-algorithm-exercise/image-13.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        ListNode* swapPairs(ListNode* head) {
+            if(!head or !head->next) return head;
+
+            ListNode* dummy = new ListNode(0);
+            dummy->next = head;
+            ListNode* current = dummy;
+
+            while (current->next and current->next->next) {
+                ListNode* first = current->next;
+                ListNode* second = current->next->next;
+
+                current->next = second;
+                first->next = second->next;
+                second->next = first;
+                current = first;
+            }
+
+            return dummy->next;
+        }
+    };
+    ```
+
+    ```python
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head or not head.next:
+            return head
+
+        dummy = ListNode(0)
+        dummy.next = head
+        current = dummy
+
+        while current.next and current.next.next:
+            first = current.next
+            second = current.next.next
+
+            current.next = second
+            first.next = second.next
+            second.next = first
+            current = first
+
+        return dummy.next
+    ```
+
+    **Time complexity:** O(n), where n is the number of nodes in the linked list.
+
+    **Points:** The key is to use a dummy node and two pointers to swap adjacent nodes in pairs, ensuring that we maintain the order of elements in the linked list while performing the swaps. The dummy node simplifies edge cases, such as when the list has an odd number of nodes or when the head of the list needs to be swapped, make sure that the current pointer is properly updated after each swap to the second node.
