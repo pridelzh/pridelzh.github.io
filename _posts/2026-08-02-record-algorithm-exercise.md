@@ -588,6 +588,32 @@ excerpt: "A record of traditional algorithm exercises."
             }
         };
     ```
+    ```python
+    class Solution:
+        def dfs(self, i, j, grid):
+            grid[i][j] = '0'  # Mark the cell as visited
+            rows = len(grid)
+            columns = len(grid[0])
+            if i-1 >= 0 and grid[i-1][j] == '1':
+                self.dfs(i-1, j, grid)  # Up
+            if i+1 < rows and grid[i+1][j] == '1':
+                self.dfs(i+1, j, grid)  # Down
+            if j-1 >= 0 and grid[i][j-1] == '1':
+                self.dfs(i, j-1, grid)  # Left
+            if j+1 < columns and grid[i][j+1] == '1':
+                self.dfs(i, j+1, grid)  # Right
+
+        def numIslands(self, grid: List[List[str]]) -> int:
+            rows=len(grid)
+            columns=len(grid[0])
+            count=0
+            for i in range(0,rows):
+                for j in range(0,columns):
+                    if grid[i][j]=='1':
+                        count+=1
+                        self.dfs(i,j,grid)
+            return count
+    ```
 
     **Time complexity:** O(m*n), where m is the number of rows and n is the number of columns in the grid.
 
