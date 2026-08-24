@@ -357,6 +357,18 @@ excerpt: "A record of traditional algorithm exercises."
      };
    ```
 
+   ```python
+   def invertTree(root):
+       if not root:
+            return None
+        else:
+            left=self.invertTree(root.left)
+            right=self.invertTree(root.right)
+            root.left=right
+            root .right=left
+        return root
+   ```
+
    **Time complexity:** O(n), where n is the number of nodes in the binary tree.
 
    **Points:** The key is to use a recursive approach to traverse the tree and swap the left and right children of each node.
@@ -398,9 +410,24 @@ excerpt: "A record of traditional algorithm exercises."
      };
    ```
 
+   ```python
+    def isSymmetric(root):
+         if not root:
+              return True
+         return self.isMirror(root.left, root.right)
+    
+    def isMirror(left, right):
+         if not left and not right:
+            return True
+        if not left or not right:
+            return False
+        
+        return left.val==right.val and self.isMirror(left.left, right.right) and self.isMirror(left.right, right.left)
+   ```
+
    **Time complexity:** O(n), where n is the number of nodes in the binary tree.
 
-   **Points:** The key is to use a recursive approach to traverse the tree and check if the left and right subtrees are mirrors of each other.
+   **Points:** The key is to use a recursive approach to traverse the tree and check if the left and right subtrees are mirrors of each other, and the mirror ones should be left->left and right->right, left->right and right->left.
 
 10. **Problem:** Make a sorted array into a balanced binary search tree.
 
@@ -2864,3 +2891,38 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of nodes in the linked list.
 
     **Points:** The key is to use a dummy node and two pointers to swap adjacent nodes in pairs, ensuring that we maintain the order of elements in the linked list while performing the swaps. The dummy node simplifies edge cases, such as when the list has an odd number of nodes or when the head of the list needs to be swapped, make sure that the current pointer is properly updated after each swap to the second node.
+
+68. **Problem:** Maxdepth of binary tree.
+
+    **Solution:** Use root->left and root->right to traverse the tree recursively and find the maximum depth.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int maxDepth(TreeNode* root) {
+            if(!root) return 0;
+
+            int leftDepth = maxDepth(root->left);
+            int rightDepth = maxDepth(root->right);
+
+            return max(leftDepth, rightDepth) + 1;
+        }
+    };
+    ```
+
+    ```python
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        left_depth = self.maxDepth(root.left)
+        right_depth = self.maxDepth(root.right)
+
+        return max(left_depth, right_depth) + 1
+    ```
+
+    **Time complexity:** O(n), where n is the number of nodes in the binary tree.
+
+    **Points:** The key is to use recursion to traverse the tree and calculate the depth of each subtree, then return the maximum depth plus one for the current node and the count need to be zero when the node is None.
+      
