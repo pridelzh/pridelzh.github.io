@@ -2926,3 +2926,54 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Points:** The key is to use recursion to traverse the tree and calculate the depth of each subtree, then return the maximum depth plus one for the current node and the count need to be zero when the node is None.
       
+69. **Problem:** Diameter of binary tree.
+
+    **Solution:** Use a recursive approach to calculate the diameter of the binary tree, which is the length of the longest path between any two nodes in the tree.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int diameterOfBinaryTree(TreeNode* root) {
+            int diameter = 0;
+            height(root, diameter);
+            return diameter;
+        }
+
+        int height(TreeNode* node, int& diameter) {
+            if (!node) return 0;
+
+            int left=height(node->left, diameter);
+            int right=height(node->right, diameter);
+
+            diameter = max(diameter, left + right);
+            return max(left, right) + 1;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def __init__(self):
+            self.diameter = 0
+
+        def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+
+            self.height(root, self.diameter)
+
+            return self.diameter
+
+        def height(self, node: Optional[TreeNode], diameter: int) -> int:
+            if not node:
+                return 0
+
+            left_height = self.height(node.left, self.diameter)
+            right_height = self.height(node.right, self.diameter)
+
+            self.diameter = max(self.diameter, left_height + right_height)
+            return max(left_height, right_height) + 1
+    ```
+
+    **Time complexity:** O(n), where n is the number of nodes in the binary tree.
+
+    **Points:** The key is to use recursion to traverse the tree and calculate the height of each subtree, then update the maximum diameter found so far. The diameter of a node is the sum of the heights of its left and right subtrees.
