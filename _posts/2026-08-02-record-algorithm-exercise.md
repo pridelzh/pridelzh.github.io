@@ -623,6 +623,9 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Solution:** BFS to make the bad oranges rot all the good oranges.
 
+    **Image example:**
+    ![Bad Orange](../assets/images/2026-08-02-record-algorithm-exercise/image-14.png)
+
     **Code example:**
     ```cpp
     class Solution {
@@ -783,6 +786,34 @@ excerpt: "A record of traditional algorithm exercises."
             return count==numCourses;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+            indeg = [0] * numCourses
+            edge = [[] for _ in range(numCourses)]
+
+            count=0
+            for p in prerequisites:
+                indeg[p[0]]+=1
+                edge[p[1]].append(p[0])
+            
+            q=deque()
+            for i in range(numCourses):
+                if indeg[i]==0:
+                    q.append(i)
+                    count+=1
+            
+            while q:
+                course=q.popleft()
+                for neighbor in edge[course]:
+                    indeg[neighbor]-=1
+                    if indeg[neighbor]==0:
+                        q.append(neighbor)
+                        count+=1
+            
+            return count==numCourses
     ```
 
     **Time complexity:** O(numCourses + prerequisites.size()).
@@ -3051,3 +3082,67 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of nodes in the binary tree.
 
     **Points:** The key is to use recursion to traverse the tree and calculate the height of each subtree, then update the maximum diameter found so far. The diameter of a node is the sum of the heights of its left and right subtrees.
+
+70. **Problem:** Permutations.
+
+    **Solution:** Use backtracking to generate all possible permutations of the given array.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<vector<int>> permute(vector<int>& nums) {
+            vector<vector<int>> result;
+            vector<int> current;
+            vector<bool> used(nums.size(), false);
+            backtrack(nums, current, used, result);
+            return result;
+        }
+
+        void backtrack(vector<int>& nums, vector<int>& current, vector<bool>& used, vector<vector<int>>& result) {
+            if (current.size() == nums.size()) {
+                result.push_back(current);
+                return;
+            }
+
+            for (int i = 0; i < nums.size(); i++) {
+                if (used[i]) continue;
+
+                used[i] = true;
+                current.push_back(nums[i]);
+                backtrack(nums, current, used, result);
+                current.pop_back();
+                used[i] = false;
+            }
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def permute(self, nums: List[int]) -> List[List[int]]:
+            result = []
+            used = [False] * len(nums)
+            current = []
+            self.backtrack(nums, current, used, result)
+            return result
+
+        def backtrack(self, nums: List[int], current: List[int], used: List[bool], result: List[List[int]]):
+            if len(current) == len(nums):
+                result.append(current[:])
+                return
+
+            for i in range(len(nums)):
+                if used[i]:
+                    continue
+
+                used[i] = True
+                current.append(nums[i])
+                self.backtrack(nums, current, used, result)
+                current.pop()
+                used[i] = False
+    ```
+
+    **Time complexity:** O(n! * n), where n is the number of elements in the array.
+
+    **Points:** The key is to use backtracking to explore all possible permutations of the array, keeping track of which elements have been used in the current permutation. When a complete permutation is formed, it is added to the result list. The algorithm explores all branches of the decision tree, ensuring that all unique permutations are generated, feel like that every element has two choices at each step, choose or not choose, then a new permutation is formed, and then try a new branch.
