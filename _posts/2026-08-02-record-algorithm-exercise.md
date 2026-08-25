@@ -3146,3 +3146,57 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n! * n), where n is the number of elements in the array.
 
     **Points:** The key is to use backtracking to explore all possible permutations of the array, keeping track of which elements have been used in the current permutation. When a complete permutation is formed, it is added to the result list. The algorithm explores all branches of the decision tree, ensuring that all unique permutations are generated, feel like that every element has two choices at each step, choose or not choose, then a new permutation is formed, and then try a new branch.
+
+71. **Problem:** Subsets.
+
+    **Solution:** Use backtracking to generate all possible subsets of the given array.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void dfs(int start, vector<int> &cur, vector<vector<int>> &ans, vector<int>& nums){
+            if (start==nums.size()){
+                ans.push_back(cur);
+                return;
+            }
+
+            cur.push_back(nums[start]);
+            dfs(start+1,cur,ans,nums);
+            cur.pop_back();
+            dfs(start+1,cur,ans,nums);
+        }
+
+        vector<vector<int>> subsets(vector<int>& nums) {
+            vector<vector<int>> ans;
+            vector<int> cur;
+            int start=0;
+            dfs(start,cur,ans,nums);
+            return ans;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def subsets(self, nums: List[int]) -> List[List[int]]:
+            ans = []
+            current = []
+            start=0
+            self.backtrack(nums, start, current, ans)
+            return ans
+
+        def backtrack(self, nums: List[int], start: int, current: List[int], result: List[List[int]]):
+            if start == len(nums):
+                result.append(current[:])
+                return
+
+            current.append(nums[start])
+            self.backtrack(nums, start + 1, current, result)
+            current.pop()
+            self.backtrack(nums, start + 1, current, result)
+    ```
+
+    **Time complexity:** O(2^n), where n is the number of elements in the array.
+
+    **Points:** The key is to use backtracking to explore all possible combinations of the array elements to generate subsets. At each step, we can either include or exclude the current element and recursively build the subsets. The algorithm explores all branches of the decision tree, ensuring that all unique subsets are generated.
