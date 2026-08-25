@@ -3272,3 +3272,65 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(3^m * 4^n), where m is the number of digits that map to 3 letters and n is the number of digits that map to 4 letters.
 
     **Points:** The key is to use backtracking to explore all possible letter combinations for the given digits. At each step, we can choose any letter corresponding to the current digit and recursively build the combinations. The algorithm explores all branches of the decision tree, ensuring that all unique combinations are generated.
+
+73. **Problem:** Combination Sum.
+
+    **Solution:** Use backtracking to find all unique combinations of candidates that sum up to the target.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void backtrack(vector<int>& candidates, int target, vector<int>& current, vector<vector<int>>& result, int start, int currentSum) {
+            if (currentSum == target) {
+                result.push_back(current);
+                return;
+            }
+
+            if (currentSum > target) {
+                return;
+            }
+
+            for (int i = start; i < candidates.size(); i++) {
+                current.push_back(candidates[i]);
+                backtrack(candidates, target, current, result, i, currentSum + candidates[i]);
+                current.pop_back();
+            }
+        }
+
+        vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+            vector<vector<int>> result;
+            vector<int> current;
+            int start = 0;
+            int currentSum = 0;
+            backtrack(candidates, target, current, result, start, currentSum);
+            return result;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+            result = []
+            current = []
+            self.backtrack(candidates, target, current, result, 0, 0)
+            return result
+
+        def backtrack(self, candidates: List[int], target: int, current: List[int], result: List[List[int]], start: int, current_sum: int):
+            if current_sum == target:
+                result.append(current[:])
+                return
+
+            if current_sum > target:
+                return
+
+            for i in range(start, len(candidates)):
+                current.append(candidates[i])
+                self.backtrack(candidates, target, current, result, i, current_sum + candidates[i])
+                current.pop()
+    ```
+
+    **Time complexity:** O(C * T) in the worst case, where T is the target value and C is the number of candidate combinations explored by backtracking; in general, the search tree is exponential because each recursive step can branch into multiple choices. A common upper bound is exponential in the target size, such as O(2^T) in the worst case.
+
+    **Points:** The key is to use backtracking with a `start` index to build combinations while keeping the current sum under the target. At each step, we try each candidate from the current position onward, add it to the current path, recurse, and then remove it after returning. We prune branches immediately when the current sum exceeds the target, and we record a valid answer when the sum equals the target.
