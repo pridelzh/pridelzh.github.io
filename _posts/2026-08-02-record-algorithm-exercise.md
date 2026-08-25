@@ -3334,3 +3334,145 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(C * T) in the worst case, where T is the target value and C is the number of candidate combinations explored by backtracking; in general, the search tree is exponential because each recursive step can branch into multiple choices. A common upper bound is exponential in the target size, such as O(2^T) in the worst case.
 
     **Points:** The key is to use backtracking with a `start` index to build combinations while keeping the current sum under the target. At each step, we try each candidate from the current position onward, add it to the current path, recurse, and then remove it after returning. We prune branches immediately when the current sum exceeds the target, and we record a valid answer when the sum equals the target.
+
+74. **Problem:** Generate parentheses.
+
+    **Solution:** Use backtracking to generate all valid combinations of parentheses.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void backtrack(string& current, int left, int right, int max, vector<string>& result) {
+            if (current.length() == max * 2) {
+                result.push_back(current);
+                return;
+            }
+
+            if (left < max) {
+                current.push_back('(');
+                backtrack(current, left + 1, right, max, result);
+                current.pop_back();
+            }
+            if (right < left) {
+                current.push_back(')');
+                backtrack(current, left, right + 1, max, result);
+                current.pop_back();
+            }
+        }
+
+        vector<string> generateParenthesis(int n) {
+            vector<string> result;
+            string current;
+            int left = 0, right = 0;
+            backtrack(current, left, right, n, result);
+            return result;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def generateParenthesis(self, n: int) -> List[str]:
+            result = []
+            current = []
+            self.backtrack(current, 0, 0, n, result)
+            return result
+
+        def backtrack(self, current: List[str], left: int, right: int, max: int, result: List[str]):
+            if len(current) == max * 2:
+                result.append("".join(current))
+                return
+
+            if left < max:
+                current.append('(')
+                self.backtrack(current, left + 1, right, max, result)
+                current.pop()
+
+            if right < left:
+                current.append(')')
+                self.backtrack(current, left, right + 1, max, result)
+                current.pop()
+    ```
+
+    **Time complexity:** O(4^n / sqrt(n)), where n is the number of pairs of parentheses. This is because the number of valid combinations of parentheses is given by the nth Catalan number, which grows asymptotically as O(4^n / sqrt(n)).
+
+    **Points:** The key is to use backtracking to explore all possible combinations of parentheses while ensuring that the generated strings are valid. We maintain counts of left and right parentheses used so far, and we only add a right parenthesis if it does not exceed the number of left parentheses. This ensures that we generate only valid combinations, under according conditions, we can choose to append '(' or ')'.
+
+75. **Problem:** Palindrome partitioning.
+
+    **Solution:** Use backtracking to generate all possible palindrome partitions of the given string.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void backtrack(string& s, int start, vector<string>& current, vector<vector<string>>& result) {
+            if (start == s.size()) {
+                result.push_back(current);
+                return;
+            }
+
+            for (int end = start; end < s.size(); end++) {
+                string substring = s.substr(start, end - start + 1);
+                if (isPalindrome(substring)) {
+                    current.push_back(substring);
+                    backtrack(s, end + 1, current, result);
+                    current.pop_back();
+                }
+            }
+        }
+
+        bool isPalindrome(string& s) {
+            int left = 0, right = s.size() - 1;
+            while (left < right) {
+                if (s[left] != s[right]) return false;
+                left++;
+                right--;
+            }
+            return true;
+        }
+
+        vector<vector<string>> partition(string s) {
+            vector<vector<string>> result;
+            vector<string> current;
+            backtrack(s, 0, current, result);
+            return result;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def partition(self, s: str) -> List[List[str]]:
+            result = []
+            current = []
+            self.backtrack(s, 0, current, result)
+            return result
+
+        def backtrack(self, s: str, start: int, current: List[str], result: List[List[str]]):
+            if start == len(s):
+                result.append(current[:])
+                return
+
+            for end in range(start, len(s)):
+                substring = s[start:end + 1]
+                if self.isPalindrome(substring):
+                    current.append(substring)
+                    self.backtrack(s, end + 1, current, result)
+                    current.pop()
+
+        def isPalindrome(self, s: str) -> bool:
+            left = 0
+            right = len(s) - 1
+            while left < right:
+                if s[left] != s[right]:
+                    return False
+                left += 1
+                right -= 1
+            return True
+    ```
+
+    **Time complexity:** O(n * 2^n), where n is the length of the string. The number of possible partitions is exponential in the length of the string.
+
+    **Points:** The key is to use backtracking to explore all possible partitions of the string while checking if each substring is a palindrome. We maintain a current list of substrings and add it to the result when we reach the end of the string. The `isPalindrome` function checks if a given substring is a palindrome by comparing characters from both ends towards the center and for each start, you are trying to find a end that satisfies the palindrome condition, and then push the substring to the current list, and then you do the same work for the string left, but for each start, there may be another valid end, so you need to explore all possibilities, then you pop the last added substring and try the next possible end and the pop operation also works when we find that there are no satisfied conditions for the current path.
