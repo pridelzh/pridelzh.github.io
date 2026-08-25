@@ -685,6 +685,54 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def orangesRotting(self, grid: List[List[int]]) -> int:
+            rows=len(grid)
+            columns=len(grid[0])
+            freecount=0
+
+            q=deque()
+
+            for i in range(rows):
+                for j in range(columns):
+                    if grid[i][j]==1:
+                        freecount+=1
+                    elif grid[i][j]==2:
+                        q.append([i,j])
+            
+            minutes=0
+            while q:
+                if freecount==0:
+                    return minutes
+                minutes+=1
+
+                size=len(q)
+                for _ in range(size):
+                    temp_lst=q.popleft()
+                    x=temp_lst[0]
+                    y=temp_lst[1]
+
+                    freecount-=self.rot(grid,x-1,y,q)
+                    freecount-=self.rot(grid,x+1,y,q)
+                    freecount-=self.rot(grid,x,y-1,q)
+                    freecount-=self.rot(grid,x,y+1,q)
+
+            return -1 if freecount>0 else minutes
+
+        def rot(self,grid,x,y,q):
+            rows=len(grid)
+            columns=len(grid[0])
+
+            if x<0 or x>=rows or y<0 or y>=columns or grid[x][y]!=1:
+                return 0
+
+            grid[x][y]=2
+            q.append([x,y])
+
+            return 1
+    ```
+
     **Time complexity:** O(m*n), where m is the number of rows and n is the number of columns in the grid.
 
     **Points:** The key is to use a breadth-first search approach to simulate the rotting process, ensuring all adjacent good oranges become bad in each time step.
