@@ -3200,3 +3200,75 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(2^n), where n is the number of elements in the array.
 
     **Points:** The key is to use backtracking to explore all possible combinations of the array elements to generate subsets. At each step, we can either include or exclude the current element and recursively build the subsets. The algorithm explores all branches of the decision tree, ensuring that all unique subsets are generated.
+
+72. **Problem:** Letter combinations of a phone number.
+
+    **Solution:** Use backtracking to generate all possible letter combinations for the given digits.
+
+    **Image example:**
+    ![Phone Number](../assets/images/2026-08-02-record-algorithm-exercise/image-15.png)
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void backtrack(string& digits, int index, string& current, vector<string>& result, unordered_map<char, string>& mapping) {
+            if (index == digits.size()){
+                result.push_back(current);
+                return;
+            }
+
+            string letters = mapping[digits[index]];
+            for (char letter : letters) {
+                current.push_back(letter);
+                backtrack(digits, index + 1, current, result, mapping);
+                current.pop_back();
+            }
+        }
+
+        vector<string> letterCombinations(string digits) {
+            if (digits.empty()) return {};
+
+            unordered_map<char, string> mapping = {
+                {'2', "abc"}, {'3', "def"}, {'4', "ghi"}, {'5', "jkl"},
+                {'6', "mno"}, {'7', "pqrs"}, {'8', "tuv"}, {'9', "wxyz"}
+            };
+            vector<string> result;
+            string current;
+            int index = 0;
+            backtrack(digits, index, current, result, mapping);
+            return result;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def letterCombinations(self, digits: str) -> List[str]:
+            if not digits:
+                return []
+
+            mapping = {
+                '2': "abc", '3': "def", '4': "ghi", '5': "jkl",
+                '6': "mno", '7': "pqrs", '8': "tuv", '9': "wxyz"
+            }
+            result = []
+            current = []
+            self.backtrack(digits, 0, current, result, mapping)
+            return result
+
+        def backtrack(self, digits: str, index: int, current: List[str], result: List[str], mapping: dict):
+            if index == len(digits):
+                result.append("".join(current))
+                return
+
+            letters = mapping[digits[index]]
+            for letter in letters:
+                current.append(letter)
+                self.backtrack(digits, index + 1, current, result, mapping)
+                current.pop()
+    ```
+
+    **Time complexity:** O(3^m * 4^n), where m is the number of digits that map to 3 letters and n is the number of digits that map to 4 letters.
+
+    **Points:** The key is to use backtracking to explore all possible letter combinations for the given digits. At each step, we can choose any letter corresponding to the current digit and recursively build the combinations. The algorithm explores all branches of the decision tree, ensuring that all unique combinations are generated.
