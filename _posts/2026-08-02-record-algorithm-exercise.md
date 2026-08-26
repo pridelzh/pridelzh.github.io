@@ -1049,6 +1049,42 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def isValid(self, s: str) -> bool:
+            stack=[]
+            for c in s:
+                if c in ['(','{','[']:
+                    stack.append(c)
+                else:
+                    if not stack:
+                        return False
+                    top=stack.pop()
+                    if c==')' and top!='(':
+                        return False
+                    if c=='}' and top!='{':
+                        return False
+                    if c==']' and top!='[':
+                        return False
+            return True if not stack else False
+    ```
+
+    ```python
+    class Solution:
+        def isValid(self, s: str) -> bool:
+            stack=[]
+            mapping={')':'(', '}':'{', ']':'['}
+            for c in s:
+                if c in mapping:
+                    if not stack or stack[-1]!=mapping[c]:
+                        return False
+                    stack.pop()
+                else:
+                    stack.append(c)
+            
+            return True if not stack else False
+    ```
+
     **Time complexity:** O(n), where n is the length of the string.
 
     **Points:** The key is to use a stack to match opening and closing brackets, ensuring that each closing bracket corresponds to the most recent opening bracket.
