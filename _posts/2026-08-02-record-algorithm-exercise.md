@@ -1126,6 +1126,28 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def decodeString(self, s: str) -> str:
+            stack=[]
+            ans=""
+            count=0
+            for ch in s:
+                if ch.isdigit():
+                    count=count*10+int(ch)
+                elif ch.isalpha():
+                    ans+=ch
+                elif ch=='[':
+                    stack.append([count,len(ans)])
+                    count=0
+                elif ch==']':
+                    times,pos=stack[-1][0],stack[-1][1]
+                    stack.pop()
+                    temp=ans[pos:len(ans)]
+                    ans+=temp*(times-1)
+            return ans
+    ```
+
     **Time complexity:** O(n), where n is the length of the input string.
 
     **Points:** The key is to use a stack to store the position and repetition count of each opening bracket, allowing for efficient string reconstruction when closing brackets are encountered.
