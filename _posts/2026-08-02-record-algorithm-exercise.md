@@ -1178,9 +1178,26 @@ excerpt: "A record of traditional algorithm exercises."
         }
     };
     ``` 
+
+    ```python
+    class Solution:
+        def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+            n=len(temperatures)
+            result=[0]*n
+            stack=[] # Store indices of temperatures
+
+            for i in range(n):
+                while stack and temperatures[i]>temperatures[stack[-1]]:
+                    prev=stack.pop()
+                    result[prev]=i-prev
+                stack.append(i)
+
+            return result
+    ```
+
     **Time complexity:** O(n), where n is the number of temperatures.
 
-    **Points:** The key is to use a stack to efficiently track the indices of temperatures, allowing for quick determination of the number of days until a warmer temperature is encountered.
+    **Points:** The key is to use a stack to efficiently track the indices of temperatures, allowing for quick determination of the number of days until a warmer temperature is encountered and if the warm temperature is actually reached, the former day is recorded in ans and removed from the stack.
 
 22. **Problem:** Quick_select Problem.
 
