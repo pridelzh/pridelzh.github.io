@@ -1241,6 +1241,47 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```cpp
+    class Solution {
+    public:
+        int findKthLargest(vector<int>& nums, int k) {
+            int n=nums.size();
+            priority_queue<int, vector<int>, greater<int>> pq;
+            for(int i=0;i<n;i++){
+                pq.push(nums[i]);
+                if(pq.size()>k){
+                    pq.pop();
+                }
+            }
+            return pq.top();
+        }
+
+        int findKthLargest_method2(vector<int>& nums, int k) {
+            int n=nums.size();
+            priority_queue<int> pq;
+            for(int i=0;i<n;i++){
+                pq.push(nums[i]);
+                if(pq.size()>n-k+1){
+                    pq.pop();
+                }
+            }
+            return pq.top();
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def findKthLargest(self, nums: List[int], k: int) -> int:
+            n=len(nums)
+            pq=[]
+            for i in range(n):
+                heapq.heappush(pq, nums[i])
+                if len(pq)>k:
+                    heapq.heappop(pq)
+            return pq[0]
+    ```
+
     **Time complexity:** O(n) average, O(n^2) worst case.
 
     **Points:** The key is to use the quick select algorithm to efficiently find the kth largest element without fully sorting the array.
@@ -1275,9 +1316,25 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+            mapping=Counter(nums)
+            maxHeap=[]
+            for num,freq in mapping.items():
+                heapq.heappush(maxHeap,(-freq,num))
+            
+            result=[]
+            for _ in range(k):
+                result.append(maxHeap[0][1])
+                heapq.heappop(maxHeap)
+            
+            return result
+    ```
+
     **Time complexity:** O(n log n), where n is the number of elements in the array.
 
-    **Points:** The key is to use a hash map to count the frequency of each element and a max-heap to efficiently retrieve the k most frequent elements.
+    **Points:** The key is to use a hash map to count the frequency of each element and a max-heap to efficiently retrieve the k most frequent elements, for python language, we can use Counter from collections module or use a dictionary to count the frequency of each element, remember to use the negative value of the frequency as the key for the max-heap, before that please import Couter from collections and import heapq.
 
 24. **Problem:** Find the best time to buy stock.
 
