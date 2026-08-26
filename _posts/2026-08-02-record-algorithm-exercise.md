@@ -845,6 +845,19 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def searchInsert(self, nums: List[int], target: int) -> int:
+            left,right=0,len(nums)-1
+            while left <= right:
+                mid=left+(right-left)//2
+                if target <= nums[mid]:
+                    right=mid-1
+                else:
+                    left=mid+1  
+            return left
+    ```
+
     **Time complexity:** O(log n), where n is the number of elements in the sorted array.
 
     **Points:** The key is to use a binary search approach to efficiently find the insertion point or the target value in a sorted array.
@@ -899,6 +912,40 @@ excerpt: "A record of traditional algorithm exercises."
             return result;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def searchRange(self, nums: List[int], target: int) -> List[int]:
+            left,right=0,len(nums)-1
+            first=-1
+            last=-1
+
+            # Find first occurrence
+            while left <= right:
+                mid=left+(right-left)//2
+                if target==nums[mid]:
+                    right=mid-1
+                    first=mid
+                elif target<nums[mid]:
+                    right=mid-1
+                else:
+                    left=mid+1
+
+            # Find last occurrence
+            left,right=0,len(nums)-1
+            while left <= right:
+                mid=left+(right-left)//2
+                if target==nums[mid]:
+                    left=mid+1
+                    last=mid
+                elif target<nums[mid]:
+                    right=mid-1
+                else:
+                    left=mid+1
+
+            ans=[first,last]
+            return ans
     ```
 
     **Time complexity:** O(log n), where n is the number of elements in the array.
@@ -3476,3 +3523,127 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n * 2^n), where n is the length of the string. The number of possible partitions is exponential in the length of the string.
 
     **Points:** The key is to use backtracking to explore all possible partitions of the string while checking if each substring is a palindrome. We maintain a current list of substrings and add it to the result when we reach the end of the string. The `isPalindrome` function checks if a given substring is a palindrome by comparing characters from both ends towards the center and for each start, you are trying to find a end that satisfies the palindrome condition, and then push the substring to the current list, and then you do the same work for the string left, but for each start, there may be another valid end, so you need to explore all possibilities, then you pop the last added substring and try the next possible end and the pop operation also works when we find that there are no satisfied conditions for the current path.
+
+76. **Problem:** Search a 2d matrix.
+
+    **Solution:** Use binary search to find the target value in the 2D matrix.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        bool searchMatrix(vector<vector<int>>& matrix, int target) {
+            if (matrix.empty() || matrix[0].empty()) return false;
+
+            int rows = matrix.size();
+            int cols = matrix[0].size();
+            int left = 0, right = rows * cols - 1;
+
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                int newrow= mid / cols;
+                int newcol= mid % cols;
+                int midValue = matrix[newrow][newcol];
+
+                if (midValue == target) {
+                    return true;
+                } else if (midValue < target) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+
+            return false;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+            if not matrix or not matrix[0]:
+                return False
+
+            rows = len(matrix)
+            cols = len(matrix[0])
+            left, right = 0, rows * cols - 1
+
+            while left <= right:
+                mid = left + (right - left) // 2
+                newrow= mid // cols
+                newcol= mid % cols
+                mid_value = matrix[newrow][newcol]
+
+                if mid_value == target:
+                    return True
+                elif mid_value < target:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+
+            return False
+    ```
+
+    **Time complexity:** O(log(m * n)), where m is the number of rows and n is the number of columns in the matrix.
+
+    **Points:** The key is to treat the 2D matrix as a 1D sorted array and use binary search to find the target value. We calculate the row and column indices from the mid index during the search process, ensuring that we efficiently narrow down the search space. The matrix is assumed to be sorted in a way that allows this approach to work effectively. This method we see all the 2d matrix as a 1d array, and then we can use the mid index to find the corresponding row and column in the 2d matrix, and then we can compare the value at that position with the target value, and then we can adjust the left and right pointers accordingly.
+
+77. **Problem:** Find minimum element in a rotated sorted array.
+
+    **Solution:** Use binary search to find the minimum element in the rotated sorted array.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int findMin(vector<int>& nums) {
+            if(nums.empty()) return -1;
+
+            if(nums.size() == 1) return nums[0];
+
+            int target = nums[0];
+            int left = 1, right = nums.size() - 1;
+            
+            while(left<=right){
+                int mid = left + (right - left) / 2;
+                if(nums[mid] >= target){
+                    left = mid + 1;
+                }else{
+                    right = mid - 1;
+                }
+            }
+
+            if(left >= nums.size()) return target;
+            return nums[left];
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def findMin(self, nums: List[int]) -> int:
+            if not nums:
+                return -1
+
+            if len(nums) == 1:
+                return nums[0]
+
+            target = nums[0]
+            left, right = 1, len(nums) - 1
+
+            while left <= right:
+                mid = left + (right - left) // 2
+                if nums[mid] >= target:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+
+            if left >= len(nums):
+                return target
+            return nums[left]
+    ```
+
+    **Time complexity:** O(log n), where n is the number of elements in the array.
+
+    **Points:** The key is to use binary search to find the minimum element in the rotated sorted array. We compare the middle element with the first element to determine which half of the array to search next. This approach ensures that we efficiently narrow down the search space in each iteration.
