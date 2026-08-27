@@ -1362,6 +1362,22 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def maxProfit(self, prices: List[int]) -> int:
+            if not prices:
+                return 0
+
+            minPrice = prices[0]
+            maxProfit = 0
+
+            for price in prices:
+                minPrice = min(minPrice, price)
+                maxProfit = max(maxProfit, price - minPrice)
+
+            return maxProfit
+    ```
+
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use a greedy approach to track the minimum price seen so far and calculate the maximum profit by comparing the current price with the minimum price.
@@ -1389,6 +1405,18 @@ excerpt: "A record of traditional algorithm exercises."
             return false;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def canJump(self, nums: List[int]) -> bool:
+            maxReach=0
+            for i in range(len(nums)):
+                if i<=maxReach:
+                    maxReach=max(maxReach,i+nums[i])
+                    if maxReach>=len(nums)-1:
+                        return True
+            return False
     ```
 
     **Time complexity:** O(n), where n is the number of elements in the array.
@@ -1422,6 +1450,25 @@ excerpt: "A record of traditional algorithm exercises."
             return jumps;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def jump(self, nums: List[int]) -> int:
+            jumps=0
+            currentEnd=0
+            farthest=0
+
+            if len(nums)<=1:
+                return 0
+
+            for i in range(len(nums)-1):
+                farthest=max(farthest,i+nums[i])
+                if i==currentEnd:
+                    jumps+=1
+                    currentEnd=farthest
+                if currentEnd>=len(nums)-1:
+                    return jumps
     ```
 
     **Time complexity:** O(n), where n is the number of elements in the array.
