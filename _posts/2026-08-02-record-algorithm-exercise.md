@@ -1504,6 +1504,26 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def partitionLabels(self, s: str) -> List[int]:
+            last=[0]*26
+            n=len(s)
+            for i in range(n):
+                last[ord(s[i])-ord('a')]=i
+            
+            start=0
+            end=0
+            ans=[]
+            for i in range(n):
+                end=max(end,last[ord(s[i])-ord('a')])
+                if i==end:
+                    ans.append(end-start+1)
+                    start=end+1
+            
+            return ans
+    ```
+
     **Time complexity:** O(n), where n is the length of the string.
 
     **Points:** The key is ensure that all the preshowed characters are in the same partition and will never appear in the later partitions, so the end is updated accordingly and when the end of a partition is reached which means all characters in that partition have been considered, we add the length of that partition to the result.
@@ -1533,6 +1553,43 @@ excerpt: "A record of traditional algorithm exercises."
             return current;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def climbStairs(self, n: int) -> int:
+            if n == 1:
+                return 1
+            if n == 2:
+                return 2
+
+            prev2 = 1
+            prev1 = 2
+
+            for i in range(3, n + 1):
+                current = prev1 + prev2
+                prev2 = prev1
+                prev1 = current
+
+            return current
+    ```
+
+    ```python
+    class Solution:
+        def climbStairs(self, n: int) -> int:
+            if n == 1:
+                return 1
+            if n == 2:
+                return 2
+
+            dp = [0] * (n + 1)
+            dp[1] = 1
+            dp[2] = 2
+
+            for i in range(3, n + 1):
+                dp[i] = dp[i - 1] + dp[i - 2]
+
+            return dp[n]
     ```
 
     **Time complexity:** O(n), where n is the number of steps.
@@ -1566,6 +1623,18 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def generate(self, numRows: int) -> List[List[int]]:
+            ans = []
+            for i in range(numRows):
+                row = [1] * (i + 1)
+                for j in range(1, i):
+                    row[j] = ans[i - 1][j - 1] + ans[i - 1][j]
+                ans.append(row)
+            return ans
+    ```
+
     **Time complexity:** O(n^2), where n is the number of rows.
 
     **Points:** The key is to use dynamic programming to build each row of the triangle based on the values of the previous row, ensuring that the first and last elements of each row are set to 1, and the inner elements are calculated as the sum of the two elements directly above them.
@@ -1594,6 +1663,25 @@ excerpt: "A record of traditional algorithm exercises."
             return dp[n - 1];
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def rob(self, nums: List[int]) -> int:
+            if not nums:
+                return 0
+            if len(nums) == 1:
+                return nums[0]
+
+            n = len(nums)
+            dp = [0] * n
+            dp[0] = nums[0]
+            dp[1] = max(nums[0], nums[1])
+
+            for i in range(2, n):
+                dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
+
+            return dp[n - 1]
     ```
 
     **Time complexity:** O(n), where n is the number of houses.
