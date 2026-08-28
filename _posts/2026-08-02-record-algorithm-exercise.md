@@ -2151,6 +2151,69 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```cpp
+    class Solution {
+    public:
+        string longestPalindrome(string s) {
+            int n = s.size();
+            if(n<2) return s;
+
+            vector<vector<bool>> dp(n,vector<bool>(n,false));
+            for(int i=0;i<n;i++){
+                dp[i][i]=true;
+            }
+
+            int start=0,maxlen=0;
+
+            for(int j=0;j<n;j++){
+                for(int i=0;i<j;i++){
+                    if(s[i]==s[j]){
+                        if(j-i<3 or dp[i+1][j-1]){
+                            dp[i][j]=true;
+                            int len=j-i+1;
+                            if(len>maxlen){
+                                maxlen=len;
+                                start=i;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return s.substr(start,maxlen);
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def longestPalindrome(self, s: str) -> str:
+            n = len(s)
+            if n < 2:
+                return s
+
+            dp = [[False] * n for _ in range(n)]
+            start = 0
+            end = 0
+            maxlen = 1
+
+            for i in range(n):
+                dp[i][i] = True
+
+            for j in range(0, n):
+                for i in range(j+1):
+                    if s[i] == s[j]:
+                        if j - i < 3 or dp[i + 1][j - 1]:
+                            dp[i][j] = True
+                            length = j - i + 1
+                            if length > maxlen:
+                                maxlen = length
+                                start = i
+                                end = j
+
+            return s[start:end + 1]
+    ```
+
     **Time complexity:** O(n^2), where n is the length of the string.
 
     **Points:** The key is to use dynamic programming to build up a table that tracks whether substrings are palindromes, updating the longest palindromic substring found as we iterate through the string, ensuring that we check both the characters at the ends and the status of the substring in between.
