@@ -1742,6 +1742,21 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def numSquares(self, n: int) -> int:
+            dp = [float('inf')] * (n + 1)
+            dp[0] = 0
+
+            for i in range(1, n + 1):
+                j=1
+                while j*j <= i:
+                    dp[i] = min(dp[i], dp[i - j*j] + 1)
+                    j += 1
+                    
+            return dp[n]
+    ```
+
     **Time complexity:** O(n * sqrt(n)), where n is the given number.
 
     **Points:** The key is to use dynamic programming to build up the minimum number of perfect squares needed for each number up to n, by considering all perfect squares less than or equal to the current number and updating the dp array accordingly.
@@ -1769,6 +1784,20 @@ excerpt: "A record of traditional algorithm exercises."
             return dp[amount] > amount ? -1 : dp[amount];
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def coinChange(self, coins: List[int], amount: int) -> int:
+            dp = [float('inf')] * (amount + 1)
+            dp[0] = 0
+
+            for i in range(amount + 1):
+                for coin in coins:
+                    if coin <= i:
+                        dp[i] = min(dp[i], dp[i - coin] + 1)
+
+            return dp[amount] if dp[amount] != float('inf') else -1
     ```
 
     **Time complexity:** O(n * m), where n is the amount and m is the number of different coins.
