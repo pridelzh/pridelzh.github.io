@@ -1983,9 +1983,42 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def canPartition(self, nums: List[int]) -> bool:
+            n=len(nums)
+            if n<2:
+                return False
+            
+            sum1=sum(nums)
+            maxhh=max(nums)
+            if sum%2==1:
+                return False
+            if maxhh>sum1//2:
+                return False
+            
+            target=sum1//2
+            dp=[[False]*(target+1) for _ in range(n)]
+
+            for i in range(n):
+                dp[i][0]=True
+
+            dp[0][nums[0]]=True
+
+            for i in range(1, n):
+                num=nums[i]
+                for j in range(1, target+1):
+                    if j >=num:
+                        dp[i][j]=dp[i-1][j] or dp[i-1][j-num]
+                    else:
+                        dp[i][j]=dp[i-1][j]
+            
+            return dp[n-1][target]
+    ```
+
     **Time complexity:** O(n * target), where n is the number of elements in the array and target is half of the total sum.
 
-    **Points:** The key is to use dynamic programming to determine if a subset of the array can sum up to half of the total sum, effectively checking if the array can be partitioned into two equal subsets.
+    **Points:** The key is to use dynamic programming to determine if a subset of the array can sum up to half of the total sum, effectively checking if the array can be partitioned into two equal subsets, image that you are finding the target sum in a list, and the target sum is half of the total sum, by the list's length increase one by one and then try to find until the target is reached.
 
 38. **Problem:** Unique paths.
 
