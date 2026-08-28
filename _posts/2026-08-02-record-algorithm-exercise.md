@@ -2042,6 +2042,18 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def uniquePaths(self, m: int, n: int) -> int:
+            dp = [[1] * n for _ in range(m)]
+
+            for i in range(1, m):
+                for j in range(1, n):
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+
+            return dp[m - 1][n - 1]
+    ```
+
     **Time complexity:** O(m * n), where m is the number of rows and n is the number of columns in the grid.
 
     **Points:** The key is to use dynamic programming to build up the number of unique paths to each cell in the grid based on the paths to the cells directly above and to the left.
@@ -2077,6 +2089,26 @@ excerpt: "A record of traditional algorithm exercises."
             return dp[m - 1][n - 1];
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def minPathSum(self, grid: List[List[int]]) -> int:
+            rows=len(grid)
+            columns=len(grid[0])
+            dp=[[0]*columns for _ in range(rows)]
+            
+            dp[0][0]=grid[0][0]
+            for i in range(1,rows):
+                dp[i][0]=dp[i-1][o]+grid[i][0]
+            for j in range(1,columns):
+                dp[0][j]=dp[0][j-1]+grid[0][j]
+
+            for i in range(1,rows):
+                for j in range(1,columns):
+                    dp[i][j]=min(dp[i-1][j],dp[i][j-1])+grid[i][j]
+            
+            return dp[rows-1][columns-1]
     ```
 
     **Time complexity:** O(m * n), where m is the number of rows and n is the number of columns in the grid.
