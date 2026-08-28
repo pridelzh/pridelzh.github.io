@@ -1931,7 +1931,7 @@ excerpt: "A record of traditional algorithm exercises."
 
     **Time complexity:** O(n), where n is the number of elements in the array.
 
-    **Points:** The key is to use dynamic programming to keep track of both the maximum and minimum products at each index, as a negative number can turn a small product into a large one and vice versa.
+    **Points:** The key is to use dynamic programming to keep track of both the maximum and minimum products at each index, as a negative number can turn a small product into a large one and vice versa, because the array must be continuous, so the current element is included in the former array or be the new start of a subarray is determined by comparing the values between x, x*maxProd[i-1], and x*minProd[i-1] for the plus or minus of the products.
 
 37. **Problem:** Partition equal subset sum.
 
