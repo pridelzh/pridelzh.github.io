@@ -1864,9 +1864,25 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def lengthOfLIS(self, nums: List[int]) -> int:
+            if not nums:
+                return 0
+
+            n = len(nums)
+            dp = [1] * n
+
+            for i in range(n):
+                for j in range(i):
+                    if nums[j] < nums[i]:
+                        dp[i] = max(dp[i], dp[j] + 1)
+            return max(dp)
+    ```
+
     **Time complexity:** O(n^2), where n is the number of elements in the array.
 
-    **Points:** The key is to use dynamic programming to build up the lengths of increasing subsequences ending at each index, and then find the maximum length among them.
+    **Points:** The key is to use dynamic programming to build up the lengths of increasing subsequences ending at each index, and then find the maximum length among them and remember that the minimum length is 1, and then if nums[i] > nums[j], then dp[i] = max(dp[i], dp[j] + 1) because we dp[j] + 1 is the length of the increasing subsequence ending at index j plus 1.
 
 36. **Problem:** Max product subarray.
 
