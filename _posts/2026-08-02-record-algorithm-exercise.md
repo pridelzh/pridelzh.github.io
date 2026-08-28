@@ -1911,6 +1911,24 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def maxProduct(self, nums: List[int]) -> int:
+            if not nums:
+                return 0
+
+            n = len(nums)
+            maxProd = [nums[0]] * n
+            minProd = [nums[0]] * n
+
+            for i in range(1, n):
+                x = nums[i]
+                maxProd[i] = max(x, x * maxProd[i - 1], x * minProd[i - 1])
+                minProd[i] = min(x, x * maxProd[i - 1], x * minProd[i - 1])
+
+            return max(maxProd)
+    ```
+
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use dynamic programming to keep track of both the maximum and minimum products at each index, as a negative number can turn a small product into a large one and vice versa.
