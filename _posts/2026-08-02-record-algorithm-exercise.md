@@ -2311,6 +2311,31 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def minDistance(self, word1: str, word2: str) -> int:
+            m = len(word1)
+            n = len(word2)
+            dp = [[0] * (n + 1) for _ in range(m + 1)]
+
+            if m * n == 0:
+                return m + n
+
+            for i in range(1, m + 1):
+                dp[i][0] = i
+            for j in range(1, n + 1):
+                dp[0][j] = j
+
+            for i in range(1, m + 1):
+                for j in range(1, n + 1):
+                    if word1[i - 1] == word2[j - 1]:
+                        dp[i][j] = min(dp[i - 1][j - 1], min(dp[i - 1][j] + 1, dp[i][j - 1] + 1))
+                    else:
+                        dp[i][j] = min(dp[i - 1][j - 1] + 1, min(dp[i][j - 1] + 1, dp[i - 1][j] + 1))
+
+            return dp[m][n]
+    ```
+
     **Time complexity:** O(m * n), where m is the length of the first string and n is the length of the second string.
 
     **Points:** The key is to use dynamic programming to build up the minimum edit distance at each position in the grid, ensuring that we only consider the operations needed to transform one string into another. The value at dp[i][j] represents the minimum number of operations required to convert the first i characters of word1 into the first j characters of word2. If the characters match, we take the value from dp[i-1][j-1]; if they do not match, we take the minimum value from either dp[i-1][j]+1 (deletion), dp[i][j-1]+1 (insertion), or dp[i-1][j-1]+1 (substitution).
