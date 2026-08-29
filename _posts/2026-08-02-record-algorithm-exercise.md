@@ -44,6 +44,22 @@ excerpt: "A record of traditional algorithm exercises."
         }    
     }
    ```
+   ```python
+    class Solution:
+          def hasCycle(self, head: ListNode) -> bool:
+                if not head or not head.next:
+                    return False
+                slow = head
+                fast = head.next
+
+                while fast != slow:
+                    if not fast or not fast.next:
+                        return False
+                    slow=slow.next
+                    fast=fast.next.next
+                
+                return True
+   ```
 
    **Time complexity:** O(n), where n is the number of nodes in the linked list.
 
@@ -87,6 +103,29 @@ excerpt: "A record of traditional algorithm exercises."
             return dummy->next;
         }
     };
+   ```
+
+   ```python
+   class Solution:
+        def mergeTwoLists(self, list1: ListNode, list2: ListNode) -> ListNode:
+            dummy = ListNode()
+            current=dummy
+
+            while list1 and list2:
+                if list1.val < list2.val:
+                    current.next = list1
+                    list1 = list1.next
+                else:
+                    current.next = list2
+                    list2 = list2.next
+                current = current.next
+            
+            if list1:
+                current.next = list1
+            else:
+                current.next = list2
+
+            return dummy.next
    ```
 
    **Time complexity:** O(n), where n is the total number of nodes in both linked lists.
