@@ -4186,3 +4186,39 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(log n), where n is the number of elements in the array.
 
     **Points:** The key is to use binary search to find the minimum element in the rotated sorted array. We compare the middle element with the first element to determine which half of the array to search next. This approach ensures that we efficiently narrow down the search space in each iteration.
+
+78. **Problem:** Move zero.
+
+    **Solution:** use two pointers.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        void moveZeroes(vector<int>& nums) {
+            int lastNonZeroFoundAt = 0;
+
+            for (int i = 0; i < nums.size(); i++) {
+                if (nums[i] != 0) {
+                    swap(nums[lastNonZeroFoundAt], nums[i]);
+                    lastNonZeroFoundAt++;
+                }
+            }
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def moveZeroes(self, nums: List[int]) -> None:
+            last_non_zero_found_at = 0
+
+            for i in range(len(nums)):
+                if nums[i] != 0:
+                    nums[last_non_zero_found_at], nums[i] = nums[i], nums[last_non_zero_found_at]
+                    last_non_zero_found_at += 1
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use two pointers to move all non-zero elements to the front of the array, maintaining their relative order. This approach ensures that we only make a single pass through the array, making it efficient.
