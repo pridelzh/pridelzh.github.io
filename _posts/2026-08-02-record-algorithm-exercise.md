@@ -4222,3 +4222,57 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use two pointers to move all non-zero elements to the front of the array, maintaining their relative order. This approach ensures that we only make a single pass through the array, making it efficient.
+
+79. **Problem:** Container With Most Water.
+
+    **Solution:** Use the two-pointer technique to find the maximum area between two vertical lines.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        int maxArea(vector<int>& height) {
+            int left = 0, right = height.size() - 1;
+            int max_area = 0;
+
+            while (left < right) {
+                int width = right - left;
+                int current_height = min(height[left], height[right]);
+                int current_area = width * current_height;
+                max_area = max(max_area, current_area);
+
+                if (height[left] < height[right]) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+
+            return max_area;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def maxArea(self, height: List[int]) -> int:
+            left, right = 0, len(height) - 1
+            max_area = 0
+
+            while left < right:
+                width = right - left
+                current_height = min(height[left], height[right])
+                current_area = width * current_height
+                max_area = max(max_area, current_area)
+
+                if height[left] < height[right]:
+                    left += 1
+                else:
+                    right -= 1
+
+            return max_area
+    ```
+
+    **Time complexity:** O(n), where n is the number of elements in the array.
+
+    **Points:** The key is to use two pointers, one at the beginning and one at the end of the array, and move them towards each other based on the height of the lines. This ensures that we consider all possible pairs of lines and find the maximum area.
