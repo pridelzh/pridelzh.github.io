@@ -2610,6 +2610,43 @@ excerpt: "A record of traditional algorithm exercises."
         }
     };
     ```
+    
+    ```python
+    class Solution:
+        def subarraySum(self, nums: List[int], k: int) -> int:
+            mapping=defaultdict(int)
+            mapping[0]=1
+            pre=0
+            ans=0
+
+            for num in nums:
+                pre+=num
+                if pre-k in mapping:
+                    ans+=mapping[pre-k]
+                mapping[pre]+=1
+            
+            return ans
+    ```
+
+    ```python
+    class Solution:
+        def subarraySum(self, nums: List[int], k: int) -> int:
+            mapping={}
+            mapping[0]=1
+            pre=0
+            ans=0
+
+            for num in nums:
+                pre+=num
+                if pre-k in mapping:
+                    ans+=mapping[pre-k]
+                if pre in mapping:
+                    mapping[pre]+=1
+                else:
+                    mapping[pre]=1
+            
+            return ans
+    ```
 
     **Time complexity:** O(n), where n is the length of the array nums.
 
