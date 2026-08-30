@@ -4276,3 +4276,77 @@ excerpt: "A record of traditional algorithm exercises."
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use two pointers, one at the beginning and one at the end of the array, and move them towards each other based on the height of the lines. This ensures that we consider all possible pairs of lines and find the maximum area.
+
+80. **Problem:** Three sum.
+
+    **Solution:** Use a combination of sorting and the two-pointer technique to find all unique triplets that sum up to zero.
+
+    **Code example:**
+    ```cpp
+    class Solution {
+    public:
+        vector<vector<int>> threeSum(vector<int>& nums) {
+            vector<vector<int>> result;
+            sort(nums.begin(), nums.end());
+            int n = nums.size();
+
+            for (int i = 0; i < n; i++) {
+                if (i > 0 and nums[i] == nums[i - 1]) continue; // Skip duplicates
+                int target = -nums[i];
+
+                int left = i + 1, right = n - 1;
+                while (left < right) {
+                    int sum = nums[left] + nums[right];
+                    if (sum == target) {
+                        result.push_back({nums[i], nums[left], nums[right]});
+                        while (left < right && nums[left] == nums[left + 1]) left++; // Skip duplicates
+                        while (left < right && nums[right] == nums[right - 1]) right--; // Skip duplicates
+                        left++;
+                        right--;
+                    } else if (sum < target) {
+                        left++;
+                    } else {
+                        right--;
+                    }
+                }
+            }
+
+            return result;
+        }
+    };
+    ```
+
+    ```python
+    class Solution:
+        def threeSum(self, nums: List[int]) -> List[List[int]]:
+            result = []
+            nums.sort()
+            n = len(nums)
+
+            for i in range(n):
+                if i > 0 and nums[i] == nums[i - 1]:
+                    continue  # Skip duplicates
+                target = -nums[i]
+
+                left, right = i + 1, n - 1
+                while left < right:
+                    current_sum = nums[left] + nums[right]
+                    if current_sum == target:
+                        result.append([nums[i], nums[left], nums[right]])
+                        while left < right and nums[left] == nums[left + 1]:
+                            left += 1  # Skip duplicates
+                        while left < right and nums[right] == nums[right - 1]:
+                            right -= 1  # Skip duplicates
+                        left += 1
+                        right -= 1
+                    elif current_sum < target:
+                        left += 1
+                    else:
+                        right -= 1
+
+            return result
+    ```
+
+    **Time complexity:** O(n^2), where n is the number of elements in the array. The outer loop runs n times, and for each iteration, the two-pointer technique runs in linear time.
+
+    **Points:** The key is to sort the array first and then use a two-pointer approach to find pairs that sum up to the negative of the current element. We also need to skip duplicates to ensure that we only return unique triplets. This approach efficiently finds all unique triplets that sum to zero by leveraging sorting and the two-pointer technique.
