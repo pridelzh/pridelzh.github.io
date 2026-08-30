@@ -2444,9 +2444,33 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def trap(self, height: List[int]) -> int:
+            ans=0
+            maxleft=maxright=0
+            left=0
+            n=len(height)
+            right=n-1
+
+            while left<right:
+                leftheight=height[left]
+                rightheight=height[right]
+                maxleft=max(maxleft,leftheight)
+                maxright=max(maxright,rightheight)
+                if maxleft<maxright:
+                    ans+=maxleft-leftheight
+                    left+=1
+                else:
+                    ans+=maxright-rightheight
+                    right-=1
+            
+            return ans
+    ```
+
     **Time complexity:** O(n), where n is the number of elements in the array.
 
-    **Points:** The key is to use two pointers to traverse the array from both ends, keeping track of the maximum heights encountered so far and calculating the trapped water based on the difference between the current height and the maximum height.
+    **Points:** The key is to use two pointers to traverse the array from both ends, keeping track of the maximum heights encountered so far and calculating the trapped water based on the difference between the current height and the maximum height, by comparing the left and right maximum heights, and the lower of the two minus the current height to get the trapped water on this position.
 
 45. **Problem:** Longest substring without repeating characters.
 
@@ -2473,6 +2497,23 @@ excerpt: "A record of traditional algorithm exercises."
             return maxLength;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def lengthOfLongestSubstring(self, s: str) -> int:
+            set1=set()
+            left=0
+            ans=0
+
+            for right,ch in enumerate(s):
+                while ch in set1:
+                    set1.remove(s[left])
+                    left+=1
+                set1.add(ch)
+                ans=max(ans,right-left+1)
+            
+            return ans
     ```
 
     **Time complexity:** O(n), where n is the length of the string.
@@ -2512,6 +2553,32 @@ excerpt: "A record of traditional algorithm exercises."
             return ans;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def findAnagrams(self, s: str, p: str) -> List[int]:
+            ans=[]
+            pCount=[0]*26
+            sCount=[0]*26
+            pLen=len(p)
+            sLen=len(s)
+            if sLen<pLen:
+                return ans
+
+            for c in p:
+                pCount[ord(c)-ord('a')]+=1
+
+            left=0
+            for right in range(sLen):
+                sCount[ord(s[right])-ord('a')]+=1
+                if right-left+1==pLen:
+                    if sCount==pCount:
+                        ans.append(left)
+                    sCount[ord(s[left])-ord('a')]-=1
+                    left+=1
+            
+            return ans
     ```
 
     **Time complexity:** O(n), where n is the length of the string s.
