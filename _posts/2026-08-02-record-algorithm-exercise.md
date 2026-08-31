@@ -2812,7 +2812,7 @@ excerpt: "A record of traditional algorithm exercises."
     public:
         int maxSubArray(vector<int>& nums) {
             int maxSum = nums[0];
-            int currentSum = nums[0];
+            int currentSum = 0;
 
             for(auto num : nums) {
                 currentSum = max(num, currentSum + num);
@@ -2822,6 +2822,34 @@ excerpt: "A record of traditional algorithm exercises."
             return maxSum;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def maxSubArray(self, nums: List[int]) -> int:
+            ans=nums[0]
+            pre=0
+
+            for num in nums:
+                pre=max(pre+num,num)
+                ans=max(ans,pre)
+            
+            return ans
+    ```
+
+    ```python
+    class Solution:
+        def maxSubArray(self, nums: List[int]) -> int:
+            n=len(nums)
+            dp=[0]*n
+            dp[0]=nums[0]
+            ans=dp[0]
+
+            for i in range(1,n):
+                dp[i]=max(dp[i-1]+nums[i],nums[i])
+                ans=max(ans,dp[i])
+            
+            return ans
     ```
 
     **Time complexity:** O(n), where n is the length of the array.
