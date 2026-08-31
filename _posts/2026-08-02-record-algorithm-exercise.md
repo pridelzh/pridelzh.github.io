@@ -2926,6 +2926,32 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def rotate(self, nums: List[int], k: int) -> None:
+            n=len(nums)
+            k=k%n
+            nums.reverse()
+            nums[:k]=reversed(nums[:k])
+            nums[k:]=reversed(nums[k:])
+    ```
+
+    ```python
+    class Solution:
+        def rotate(self, nums: List[int], k: int) -> None:
+            def reverse(nums,left,right):
+                while left<right:
+                    nums[left],nums[right]=nums[right],nums[left]
+                    left+=1
+                    right-=1
+
+            n=len(nums)
+            k=k%n
+            reverse(nums,0,n-1)
+            reverse(nums,0,k-1)
+            reverse(nums,k,n-1)
+    ```
+
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use the three-step reversal technique to rotate the array in place.
