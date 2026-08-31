@@ -2686,6 +2686,22 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+            pq=[[-nums[i],i] for i in range(k)]
+            heapq.heapify(pq)
+            ans=[-pq[0][0]]
+
+            for i in range(k,len(nums)):
+                heapq.heappush(pq,[-nums[i],i])
+                while pq[0][1]<=i-k:
+                    heapq.heappop(pq)
+                ans.append(-pq[0][0])
+            
+            return ans
+    ```
+
     **Time complexity:** O(n log k), where n is the length of the array and k is the size of the sliding window.
 
     **Space complexity:** O(k), where k is the size of the sliding window.
@@ -2743,6 +2759,43 @@ excerpt: "A record of traditional algorithm exercises."
 
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def minWindow(self, s: str, t: str) -> str:
+            ori=collections.Counter(t)
+            charCount=collections.defaultdict(int)
+
+            def check():
+                for c in ori:
+                    if ori[c] > charCount[c]:
+                        return False
+                return True
+
+            left=0
+            right=0
+            start=-1
+            length=float('inf')
+
+            if len(s)<len(t):
+                return ""
+
+            while right<len(s):
+                c=s[right]
+                if c in ori:
+                    charCount[c] += 1
+                while check() and left<=right:
+                    if right-left+1<length:
+                        length=right-left+1
+                        start=left
+                    d=s[left]
+                    if d in ori:
+                        charCount[d] -= 1
+                    left+=1
+                right+=1
+
+            return "" if start==-1 else s[start:start+length]
     ```
 
     **Time complexity:** O(n), where n is the length of the string.
