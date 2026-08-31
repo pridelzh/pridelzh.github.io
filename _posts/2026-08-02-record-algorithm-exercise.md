@@ -2887,6 +2887,24 @@ excerpt: "A record of traditional algorithm exercises."
     };
     ```
 
+    ```python
+    class Solution:
+        def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+            if not intervals:
+                return []
+
+            ans=[]
+            intervals.sort()
+
+            for interval in intervals:
+                if not ans or ans[-1][1]<interval[0]:
+                    ans.append(interval)
+                else:
+                    ans[-1][1]=max(ans[-1][1],interval[1])
+            
+            return ans
+    ```
+
     **Time complexity:** O(n log n), where n is the number of intervals.
 
     **Points:** The key is to sort the intervals first and then traverse them to merge overlapping ones, and compare the end of the previous interval with the start of the current interval.
