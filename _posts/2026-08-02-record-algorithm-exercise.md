@@ -171,6 +171,32 @@ excerpt: "A record of traditional algorithm exercises."
     };
    ```
 
+   ```python
+    class ListNode:
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
+    class Solution:
+        def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
+            dummy=new ListNode()
+            current=dummy
+            x=0
+
+            while l1 or l2 or x!=0:
+                if l1:
+                    x+=l1.val   
+                    l1=l1.next
+                if l2:
+                    x+=l2.val   
+                    l2=l2.next
+                next_node=ListNode(x%10)
+                current.next=next_node
+                current=current.next
+                x//=10
+            
+            return dummy.next
+   ```
+
    **Time complexity:** O(n), where n is the total number of nodes in both linked lists.
 
    **Points:** A carry is maintained during the addition process, and the result is stored in a new linked list.
@@ -207,6 +233,28 @@ excerpt: "A record of traditional algorithm exercises."
                 return dummy->next;
           }
      };
+   ```
+
+   ```python
+    class ListNode:
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
+
+    class Solution:
+        def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+            dummy=ListNode(0)
+            dummy.next=head
+            fast=slow=dummy
+            for i in range(n+1):
+                fast = fast.next
+            
+            while fast!=None:
+                fast = fast.next
+                slow = slow.next
+            
+            slow.next = slow.next.next
+            return dummy.next
    ```
 
    **Time complexity:** O(n), where n is the number of nodes in the linked list.
@@ -251,6 +299,29 @@ excerpt: "A record of traditional algorithm exercises."
             return prev->next;
         }
     };
+   ```
+
+   ```python
+    class ListNode:
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
+    class Solution:
+        def swapPairs(self, head: ListNode) -> ListNode:
+            if not head or not head.next:
+                return head
+            dummy = ListNode()
+            dummy.next = head
+            temp = dummy
+
+            while temp.next and temp.next.next:
+                node1=temp.next
+                node2=temp.next.next
+                temp.next=node2
+                node1.next=node2.next
+                node2.next=node1
+            
+            return dummy.next
    ```
 
    **Time complexity:** O(n), where n is the number of nodes in the linked list.
@@ -298,6 +369,29 @@ excerpt: "A record of traditional algorithm exercises."
             return hmap[head];
         }
     };
+   ```
+
+   ```python
+    class node:
+        def __init__(self, val: int, next: 'node' = None, random: 'node' = None):
+            self.val = val
+            self.next = next
+            self.random = random
+    class Solution:
+        def copyRandomList(self, head: 'node') -> 'node':
+            mapping = {}
+            dummy = head
+            while dummy:
+                mapping[dummy] = node(dummy.val)
+                dummy = dummy.next
+            
+            dummy = head
+            while dummy:
+                mapping[dummy].next = mapping[dummy.next]
+                mapping[dummy].random = mapping[dummy.random]
+                dummy = dummy.next
+            
+            return mapping[head]
    ```
 
    **Time complexity:** O(n), where n is the number of nodes in the linked list.
@@ -359,6 +453,39 @@ excerpt: "A record of traditional algorithm exercises."
      };
    ```
 
+   ```python
+    class TreeNode:
+        def __init__(self, val=0, left=None, right=None):
+            self.val = val
+            self.left = left
+            self.right = right
+    class Solution:
+        def maxDepth(self, root: TreeNode) -> int:
+            if not root:
+                return 0
+            return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+    
+    class Solution1:
+        def maxDepth(self, root: TreeNode) -> int:
+            if not root:
+                return 0
+
+            q=deque()
+            q.append(root)
+            depth=0
+            while q:
+                size=len(q)
+                for _ in range(size):
+                    node=q.popleft()
+                    if node.left:
+                        q.append(node.left)
+                    if node.right:
+                        q.append(node.right)
+                depth+=1
+            
+            return depth
+   ```
+
    **Time complexity:** O(n), where n is the number of nodes in the binary tree.
 
    **Points:** The key is to use a recursive approach to traverse the tree and keep track of the maximum depth encountered.
@@ -404,7 +531,7 @@ excerpt: "A record of traditional algorithm exercises."
             left=self.invertTree(root.left)
             right=self.invertTree(root.right)
             root.left=right
-            root .right=left
+            root.right=left
         return root
    ```
 
@@ -504,6 +631,28 @@ excerpt: "A record of traditional algorithm exercises."
         };
     ```
 
+    ```python
+    class TreeNode:
+        def __init__(self, val=0, left=None, right=None):
+            self.val = val
+            self.left = left
+            self.right = right
+    class Solution:
+        def sortedArrayToBST(self, nums: List[int]) -> TreeNode:
+            if not nums:
+                return None
+            return self.buildBST(nums, 0, len(nums)-1)
+
+        def buildBST(self, nums: List[int], start: int, end: int) -> TreeNode:
+            if start > end:
+                return None
+            mid = start + (end - start) // 2
+            root=TreeNode(nums[mid])
+            root.left=self.buildBST(nums, start, mid-1)
+            root.right=self.buildBST(nums, mid+1, end)
+            return root
+    ```
+
     **Time complexity:** O(n), where n is the number of elements in the array.
 
     **Points:** The key is to use a recursive approach to build the tree by selecting the middle element of the array as the root and recursively building the left and right subtrees.
@@ -546,6 +695,26 @@ excerpt: "A record of traditional algorithm exercises."
          };
     ```
 
+    ```python
+    class TreeNode:
+        def __init__(self, val=0, left=None, right=None):
+            self.val = val
+            self.left = left
+            self.right = right
+    class Solution:
+        def kthSmallest(self, root: TreeNode, k: int) -> int:
+            result=[]
+            self.inorder(root, result)
+            return result[k-1]
+
+        def inorder(self, node: TreeNode, result: list):
+            if not node:
+                return
+            self.inorder(node.left, result)
+            result.append(node.val)
+            self.inorder(node.right, result)
+    ```
+
     **Time complexity:** O(n), where n is the number of nodes in the binary tree.
 
     **Points:** The key is to use a recursive approach to traverse the tree and find the kth smallest element by performing an in-order traversal.
@@ -586,6 +755,31 @@ excerpt: "A record of traditional algorithm exercises."
                 }
             }
          };
+    ```
+
+    ```python
+    class TreeNode:
+        def __init__(self, val=0, left=None, right=None):
+            self.val = val
+            self.left = left
+            self.right = right
+    
+    class Solution:
+        def preorder(self, node, result):
+            if not node:
+                return
+            result.append(node.val)
+            self.preorder(node.left, result)
+            self.preorder(node.right, result)
+        
+        def flatten(self, root: TreeNode) -> None:
+            result=[]
+            self.preorder(root, result)
+            current=root
+            for i in range(1,len(result)):
+                current.left=None
+                current.right=TreeNode(result[i])
+                current=current.right
     ```
 
     **Time complexity:** O(n), where n is the number of nodes in the binary tree.
@@ -2985,6 +3179,26 @@ excerpt: "A record of traditional algorithm exercises."
             return result;
         }
     };
+    ```
+
+    ```python
+    class Solution:
+        def productExceptSelf(self, nums: List[int]) -> List[int]:
+            n=len(nums)
+            left=[1]*n
+            right=[1]*n
+            result=[1]*n
+
+            for i in range(1,n):
+                left[i]=left[i-1]*nums[i-1]
+            
+            for i in range(n-2,-1,-1):
+                right[i]=right[i+1]*nums[i+1]
+            
+            for i in range(n):
+                result[i]=left[i]*right[i]
+            
+            return result
     ```
 
     **Time complexity:** O(n), where n is the number of elements in the array.
