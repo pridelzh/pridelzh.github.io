@@ -4070,15 +4070,15 @@ excerpt: "A record of traditional algorithm exercises."
     public:
         int diameterOfBinaryTree(TreeNode* root) {
             int diameter = 0;
-            height(root, diameter);
+            depth(root, diameter);
             return diameter;
         }
 
-        int height(TreeNode* node, int& diameter) {
+        int depth(TreeNode* node, int& diameter) {
             if (!node) return 0;
 
-            int left=height(node->left, diameter);
-            int right=height(node->right, diameter);
+            int left=depth(node->left, diameter);
+            int right=depth(node->right, diameter);
 
             diameter = max(diameter, left + right);
             return max(left, right) + 1;
@@ -4090,22 +4090,18 @@ excerpt: "A record of traditional algorithm exercises."
     class Solution:
         def __init__(self):
             self.diameter = 0
-
         def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-
-            self.height(root, self.diameter)
-
+            self.depth(root)
             return self.diameter
 
-        def height(self, node: Optional[TreeNode], diameter: int) -> int:
+        def depth(self, node: Optional[TreeNode]) -> int:
             if not node:
                 return 0
-
-            left_height = self.height(node.left, self.diameter)
-            right_height = self.height(node.right, self.diameter)
-
-            self.diameter = max(self.diameter, left_height + right_height)
-            return max(left_height, right_height) + 1
+            
+            left=self.depth(node.left)
+            right=self.depth(node.right)
+            self.diameter = max(self.diameter, left + right)
+            return max(left, right) + 1
     ```
 
     **Time complexity:** O(n), where n is the number of nodes in the binary tree.
