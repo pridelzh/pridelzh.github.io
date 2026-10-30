@@ -62,3 +62,7 @@ lerobot这种框架，往往定义的是存储格式，如Parquet、JSON、视�
 * 额外的 reward、language instruction 或 task id。
 
 所以应该是需要写一个 adapter/converter，把 LeRobot 数据映射成 WorldGym 或 CTRL-World 需要的格式。
+
+## 7. 在动作维度不一样的时候，应该如何操作
+
+这边的话说，cosmos_predict2.5的action_cond的版本的动作维度是7维的，因为其是在单臂数据集bridge的基础上训练出来的，我们想要在我们的自己的双臂14维的数据上训练的，所以我们需要先去掉权重的action-encoder部分，之后初始化的时候，初始化一个14维的action-encoder，然后再去训练，训练的时候，面对于两个全连接层，fc1，fc2，一定不可以全为0，可以设置fc1随机化，fc2为0，之后一旦开始训练，fc2获得一个数值，进而可以影响fc1，这样之后，所有的action-encoder都会得到了充足的训练，这样的话就可以在我们的数据集上训练了
