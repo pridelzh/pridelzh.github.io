@@ -66,7 +66,7 @@ class LayoutTest < Minitest::Test
     css = File.read(File.join(ROOT, "assets/css/style.css"))
     assert_includes css, ".content-grid"
     assert_includes css, ".moment-content > p:has(> img)"
-    assert_includes css, "width: calc((100% - 1rem) / 3)"
+    assert_includes css, "grid-template-columns: repeat(3, minmax(0, 1fr))"
     assert_includes css, "grid-template-columns"
     assert_match(/@media\s*\(max-width:/, css)
     refute_includes css, "@keyframes"

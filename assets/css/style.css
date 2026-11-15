@@ -339,34 +339,35 @@ mjx-container[display="true"] {
 }
 
 .moment-content > p:has(> img) {
+  display: grid;
+  gap: 0.45rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 38rem;
   margin: 0.9rem 0;
 }
 
 .moment-content > p:has(> img) img {
   aspect-ratio: 1;
-  display: inline-block;
-  margin: 0.75rem 0.5rem 0 0;
+  display: block;
+  margin: 0;
   max-height: none;
   object-fit: cover;
-  vertical-align: top;
-  width: calc((100% - 1rem) / 3);
+  width: 100%;
 }
 
-.moment-content > p:has(> img) img:first-of-type:last-of-type {
+.moment-content > p:has(> img:nth-child(2)):not(:has(> img:nth-child(3))) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.moment-content > p:has(> img:only-child) {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 32rem;
+}
+
+.moment-content > p:has(> img:only-child) img {
   aspect-ratio: auto;
-  display: block;
   max-height: 32rem;
   object-fit: contain;
-  width: auto;
-}
-
-.moment-content > p:has(> img) img:first-of-type:nth-last-of-type(2),
-.moment-content > p:has(> img) img:first-of-type:nth-last-of-type(2) ~ img {
-  width: calc((100% - 0.5rem) / 2);
-}
-
-.moment-content > p:has(> img) img:last-of-type {
-  margin-right: 0;
 }
 
 .empty-state {
