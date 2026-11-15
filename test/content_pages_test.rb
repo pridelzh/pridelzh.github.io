@@ -8,6 +8,7 @@ class ContentPagesTest < Minitest::Test
       about = output(destination, "about/index.html")
       archive = output(destination, "archive/index.html")
       categories = output(destination, "categories/index.html")
+      moments = output(destination, "moments/index.html")
       not_found = output(destination, "404.html")
       post = output(destination, "notes/2026/07/31/understanding-transformer/index.html")
 
@@ -16,6 +17,10 @@ class ContentPagesTest < Minitest::Test
       assert_includes about, "https://github.com/pridelizihao"
       assert_includes archive, "2026"
       assert_includes archive, "Understanding Transformer"
+      assert_includes moments, "Moments"
+      assert_includes moments, "No moments yet"
+      refute_includes archive, "No moments yet"
+      refute_includes categories, "No moments yet"
 
       [
         "Computer Vision",
@@ -33,6 +38,51 @@ class ContentPagesTest < Minitest::Test
       assert_includes post, "Transformer"
       assert_includes post, 'class="highlight"'
       assert_includes post, "mathjax@3"
+    end
+  end
+
+  def test_moments_render_markdown_and_remain_out_of_post_indexes
+    moments_source = <<~YAML
+      moments:
+        - date: 2026-11-15 20:00:00 +0800
+          content: >-
+            今天完成了一个小功能，也留了一点时间散步。![记录](assets/images/moments/legacy.jpg)
+    YAML
+
+    build_site(
+      extra_files: { "_data/moments.yml" => moments_source },
+      include_project_posts: false
+    ) do |destination|
+      moments = output(destination, "moments/index.html")
+      archive = output(destination, "archive/index.html")
+      categories = output(destination, "categories/index.html")
+
+      assert_includes moments, "今天完成了一个小功能"
+      assert_includes moments, "2026-11-15T20:00:00+08:00"
+      assert_includes moments, 'src="/assets/images/moments/legacy.jpg"'
+      refute_includes archive, "今天完成了一个小功能"
+      refute_includes categories, "今天完成了一个小功能"
+    end
+  end
+
+  def test_moments_render_multiple_markdown_images
+    moments_source = <<~YAML
+      moments:
+        - date: 2026-11-15 20:00:00 +0800
+          content: |
+            今晚的记录
+
+            ![第一张图](assets/images/moments/one.jpg)
+            ![第二张图](../assets/images/moments/two.jpg)
+    YAML
+
+    build_site(extra_files: { "_data/moments.yml" => moments_source }, include_project_posts: false) do |destination|
+      moments = output(destination, "moments/index.html")
+
+      assert_equal 2, moments.scan('<img').size
+      assert_includes moments, 'src="/assets/images/moments/one.jpg"'
+      assert_includes moments, 'src="/assets/images/moments/two.jpg"'
+      assert_includes moments, 'alt="第一张图"'
     end
   end
 

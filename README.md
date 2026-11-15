@@ -24,6 +24,8 @@ The maintained source tree is:
 ├── Gemfile.lock
 ├── README.md
 ├── _config.yml
+├── _data/
+│   └── moments.yml
 ├── _includes/
 │   ├── footer.html
 │   ├── header.html
@@ -54,6 +56,8 @@ The maintained source tree is:
 │           ├── 2026-07-31-research-blog-design.md
 │           └── 2026-08-02-vscode-image-paste-design.md
 ├── index.md
+├── moments-editor.md
+├── moments.md
 └── test/
     ├── content_pages_test.rb
     ├── home_test.rb
@@ -75,6 +79,11 @@ The maintained source tree is:
   deployment.
 - `_config.yml` holds site identity, profile links, URL and permalink settings,
   Markdown options, research categories, and plugins.
+- `_data/moments.yml` stores short personal updates separately from research
+  posts. These entries are rendered on `/moments/` and excluded from the home
+  post feed, archive, and research categories.
+- `moments-editor.md` is an excluded Markdown scratchpad for pasting images;
+  it is never published as a page.
 - `_includes/header.html` renders the site title and primary navigation.
 - `_includes/footer.html` renders the copyright, RSS, and platform links.
 - `_includes/post-meta.html` renders reusable dates, categories, and tags.
@@ -103,6 +112,7 @@ The maintained source tree is:
 - `docs/superpowers/specs/2026-08-02-vscode-image-paste-design.md` records the
   portable image-paste design.
 - `index.md` provides home-page front matter and the introductory text.
+- `moments.md` renders the chronological personal-updates timeline.
 - `test/content_pages_test.rb` protects post rendering, rendered image
   URLs/baseurl behavior, and internal links.
 - `test/home_test.rb` checks the recent/older post split and the empty state.
@@ -194,6 +204,25 @@ Authoring rules:
   default layout.
 - Preview the post and inspect its generated URL. The configured permalink is
   `/notes/:year/:month/:day/:title/`.
+
+## Publish a moment
+
+Short personal updates belong in `_data/moments.yml`:
+
+```yaml
+moments:
+  - date: 2026-11-15 20:00:00 +0800
+    content: |
+      今天完成了一个小功能，也留了一点时间散步。
+      ![完成记录](assets/images/moments/walk.jpg)
+```
+
+The newest entries appear first at `/moments/`. Put any number of Markdown image
+links directly inside `content`; no `image` or `images` field is needed. For
+Markdown-style image pasting, open `moments-editor.md` in VS Code and press
+`Ctrl+V`. The image is copied to `assets/images/moments/`, and the generated
+Markdown link can be pasted directly into the YAML `content` block. Moments
+stay out of the research post feed, archive, and categories.
 
 ## Install and preview locally
 

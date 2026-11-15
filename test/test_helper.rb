@@ -6,8 +6,8 @@ require "tmpdir"
 module SiteTestHelper
   ROOT = File.expand_path("..", __dir__)
   COPY_ENTRIES = %w[
-    _config.yml _includes _layouts _posts assets
-    index.md about.md archive.md categories.md 404.md
+    _config.yml _data _includes _layouts _posts assets
+    index.md about.md archive.md categories.md moments.md moments-editor.md 404.md
   ].freeze
 
   def build_site(extra_files: {}, include_project_posts: true, config_overrides: {})

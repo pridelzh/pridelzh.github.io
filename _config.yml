@@ -23,6 +23,7 @@ research_categories:
   - Programming
   - Research Thoughts
 exclude:
+  - moments-editor.md
   - docs
   - test
   - Gemfile

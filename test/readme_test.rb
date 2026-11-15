@@ -12,6 +12,8 @@ class ReadmeTest < Minitest::Test
   def test_readme_covers_the_complete_workflow
     [
       "Create a new post",
+      "Publish a moment",
+      "_data/moments.yml",
       "_posts/YYYY-MM-DD-short-slug.md",
       "Ctrl+V",
       "Keep post files directly under `_posts/`; nested post directories are not supported by the paste mapping.",
@@ -57,6 +59,6 @@ class ReadmeTest < Minitest::Test
   private
 
   def copyable_post_example
-    @readme.match(/````markdown\n(?<post>.*?)\n````/m)[:post]
+    @readme.match(/````markdown\r?\n(?<post>.*?)\r?\n````/m)[:post]
   end
 end

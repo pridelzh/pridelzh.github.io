@@ -46,7 +46,7 @@ class LayoutTest < Minitest::Test
       html = output(destination, "probe/index.html")
       document = Nokogiri::HTML(html)
       assert_includes html, "PrideLzh Blog"
-      %w[/ /about/ /archive/ /categories/].each do |href|
+      %w[/ /moments/ /about/ /archive/ /categories/].each do |href|
         assert_includes html, %(href="#{href}")
       end
       assert_includes html, "/assets/css/style.css"
