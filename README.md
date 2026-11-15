@@ -214,6 +214,7 @@ moments:
   - date: 2026-11-15 20:00:00 +0800
     content: |
       今天完成了一个小功能，也留了一点时间散步。
+
       ![完成记录](assets/images/moments/walk.jpg)
 ```
 
@@ -222,9 +223,10 @@ links directly inside `content`; no `image` or `images` field is needed. For
 Markdown-style image pasting, open `moments-editor.md` in VS Code and press
 `Ctrl+V`. The image is copied to `assets/images/moments/`, and the generated
 Markdown link can be pasted directly into the YAML `content` block. Moments
-stay out of the research post feed, archive, and categories. Keep consecutive
-image links together without blank lines to render them as a two- or three-column
-gallery; a single image is displayed larger.
+stay out of the research post feed, archive, and categories. Leave one blank
+line between the text and the first image, then keep consecutive image links
+together without blank lines to render them as a two- or three-column gallery;
+a single image is displayed larger.
 
 ## Install and preview locally
 
