@@ -86,6 +86,27 @@ class ContentPagesTest < Minitest::Test
     end
   end
 
+  def test_moments_include_image_preview_script
+    build_site(
+      extra_files: {
+        "_data/moments.yml" => <<~YAML
+          moments:
+            - date: 2026-11-15 20:00:00 +0800
+              content: |
+                ![预览图](assets/images/moments/preview.jpg)
+        YAML
+      },
+      include_project_posts: false
+    ) do |destination|
+      moments = output(destination, "moments/index.html")
+
+      assert_includes moments, 'src="/assets/js/moments-lightbox.js"'
+      script = File.read(File.join(destination, "assets/js/moments-lightbox.js"))
+      assert_includes script, "moment-lightbox"
+      assert_includes script, "showModal"
+    end
+  end
+
   def test_generated_internal_links_resolve
     build_site do |destination|
       html_files = Dir.glob(File.join(destination, "**/*.html"))

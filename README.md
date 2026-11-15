@@ -226,7 +226,8 @@ Markdown link can be pasted directly into the YAML `content` block. Moments
 stay out of the research post feed, archive, and categories. Leave one blank
 line between the text and the first image, then keep consecutive image links
 together without blank lines to render them as a two- or three-column gallery;
-a single image is displayed larger.
+a single image is displayed larger. Click any image on `/moments/` to open a
+larger preview; press `Esc` or click outside the image to close it.
 
 ## Install and preview locally
 

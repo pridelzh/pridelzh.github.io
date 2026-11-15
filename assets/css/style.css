@@ -332,10 +332,87 @@ mjx-container[display="true"] {
 
 .moment-content img {
   border: 1px solid var(--separator);
+  cursor: zoom-in;
   display: block;
   margin: 0;
   max-height: 32rem;
   object-fit: contain;
+}
+
+.moment-content img:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+body.lightbox-open {
+  overflow: hidden;
+}
+
+.moment-lightbox {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  height: 100vh;
+  justify-content: center;
+  max-height: none;
+  max-width: none;
+  margin: 0;
+  padding: 2rem;
+  width: 100vw;
+}
+
+.moment-lightbox[open] {
+  display: flex;
+}
+
+.moment-lightbox::backdrop {
+  background: rgb(0 0 0 / 82%);
+}
+
+.moment-lightbox-content {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.moment-lightbox img {
+  border: 0;
+  cursor: default;
+  max-height: 92vh;
+  max-width: 92vw;
+  object-fit: contain;
+  width: auto;
+}
+
+.moment-lightbox-close {
+  background: rgb(0 0 0 / 62%);
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 1.6rem;
+  height: 2.25rem;
+  line-height: 1;
+  padding: 0 0 0.15rem;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  width: 2.25rem;
+  z-index: 1;
+}
+
+.moment-lightbox-close:hover,
+.moment-lightbox-close:focus-visible {
+  background: var(--accent);
+}
+
+.moment-lightbox-close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
 
 .moment-content > p:has(> img) {

@@ -27,3 +27,5 @@ permalink: /moments/
     </p>
   {% endif %}
 </div>
+
+<script src="{{ '/assets/js/moments-lightbox.js' | relative_url }}" defer></script>
