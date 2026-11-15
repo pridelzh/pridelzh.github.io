@@ -65,6 +65,8 @@ class LayoutTest < Minitest::Test
   def test_stylesheet_contains_two_column_and_mobile_rules
     css = File.read(File.join(ROOT, "assets/css/style.css"))
     assert_includes css, ".content-grid"
+    assert_includes css, ".moment-content > p:has(> img)"
+    assert_includes css, "width: calc((100% - 1rem) / 3)"
     assert_includes css, "grid-template-columns"
     assert_match(/@media\s*\(max-width:/, css)
     refute_includes css, "@keyframes"

@@ -4,7 +4,7 @@ class ContentPagesTest < Minitest::Test
   include SiteTestHelper
 
   def test_about_archive_categories_post_and_404_are_generated
-    build_site do |destination|
+    build_site(extra_files: { "_data/moments.yml" => "moments: []\n" }) do |destination|
       about = output(destination, "about/index.html")
       archive = output(destination, "archive/index.html")
       categories = output(destination, "categories/index.html")
