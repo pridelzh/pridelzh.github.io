@@ -345,7 +345,10 @@ mjx-container[display="true"] {
 }
 
 body.lightbox-open {
+  left: 0;
   overflow: hidden;
+  position: fixed;
+  right: 0;
 }
 
 .moment-lightbox {
@@ -353,11 +356,15 @@ body.lightbox-open {
   background: transparent;
   border: 0;
   height: 100vh;
+  height: 100dvh;
+  inset: 0;
   justify-content: center;
   max-height: none;
   max-width: none;
   margin: 0;
-  padding: 2rem;
+  overflow: hidden;
+  overscroll-behavior: contain;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
   width: 100vw;
 }
 
@@ -366,6 +373,11 @@ body.lightbox-open {
 }
 
 .moment-lightbox::backdrop {
+  background: rgb(0 0 0 / 0%);
+  transition: background 0.18s ease;
+}
+
+.moment-lightbox.is-visible::backdrop {
   background: rgb(0 0 0 / 82%);
 }
 
@@ -374,20 +386,34 @@ body.lightbox-open {
   display: flex;
   height: 100%;
   justify-content: center;
+  min-height: 0;
+  min-width: 0;
+  opacity: 0;
   position: relative;
+  transform: translateY(0.5rem) scale(0.97);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  touch-action: pan-y pinch-zoom;
   width: 100%;
+}
+
+.moment-lightbox.is-visible .moment-lightbox-content {
+  opacity: 1;
+  transform: none;
 }
 
 .moment-lightbox img {
   border: 0;
   cursor: default;
-  max-height: 92vh;
-  max-width: 92vw;
+  display: block;
+  max-height: 100%;
+  max-width: calc(100% - 7rem);
   object-fit: contain;
   width: auto;
 }
 
-.moment-lightbox-close {
+.moment-lightbox-close,
+.moment-lightbox-prev,
+.moment-lightbox-next {
   background: rgb(0 0 0 / 62%);
   border: 1px solid rgb(255 255 255 / 70%);
   border-radius: 50%;
@@ -397,22 +423,69 @@ body.lightbox-open {
   font-size: 1.6rem;
   height: 2.25rem;
   line-height: 1;
-  padding: 0 0 0.15rem;
+  padding: 0;
   position: absolute;
-  right: 0.5rem;
-  top: 0.5rem;
-  width: 2.25rem;
+  text-align: center;
+  touch-action: manipulation;
   z-index: 1;
 }
 
+.moment-lightbox-close {
+  font-size: 1.6rem;
+  width: 3rem;
+  height: 3rem;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+
+.moment-lightbox-prev,
+.moment-lightbox-next {
+  font-size: 2rem;
+  height: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3rem;
+}
+
+.moment-lightbox-prev {
+  left: 0.5rem;
+}
+
+.moment-lightbox-next {
+  right: 0.5rem;
+}
+
 .moment-lightbox-close:hover,
-.moment-lightbox-close:focus-visible {
+.moment-lightbox-close:focus-visible,
+.moment-lightbox-prev:hover,
+.moment-lightbox-prev:focus-visible,
+.moment-lightbox-next:hover,
+.moment-lightbox-next:focus-visible {
   background: var(--accent);
 }
 
 .moment-lightbox-close:focus-visible {
   outline: 2px solid #fff;
   outline-offset: 2px;
+}
+
+.moment-lightbox-prev:focus-visible,
+.moment-lightbox-next:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.moment-lightbox-counter {
+  background: rgb(0 0 0 / 62%);
+  border-radius: 999px;
+  bottom: 0.65rem;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  left: 50%;
+  padding: 0.2rem 0.65rem;
+  position: absolute;
+  transform: translateX(-50%);
 }
 
 .moment-content > p:has(> img) {
@@ -572,5 +645,55 @@ body.lightbox-open {
 
   .content-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .moment-content > p:has(> img) {
+    gap: 0.3rem;
+    max-width: 100%;
+  }
+
+  .moment-content > p:has(> img:only-child) {
+    max-width: 100%;
+  }
+
+  .moment-lightbox {
+    padding: max(0.75rem, env(safe-area-inset-top)) max(0.5rem, env(safe-area-inset-right)) max(0.75rem, env(safe-area-inset-bottom)) max(0.5rem, env(safe-area-inset-left));
+  }
+
+  .moment-lightbox img {
+    max-height: calc(100% - 7rem);
+    max-width: 100%;
+  }
+
+  .moment-lightbox-close {
+    height: 3rem;
+    right: 0.25rem;
+    top: 0.25rem;
+    width: 3rem;
+  }
+
+  .moment-lightbox-prev,
+  .moment-lightbox-next {
+    height: 2.75rem;
+    width: 2.75rem;
+  }
+
+  .moment-lightbox-prev {
+    left: 0.2rem;
+  }
+
+  .moment-lightbox-next {
+    right: 0.2rem;
+  }
+
+  .moment-lightbox-counter {
+    bottom: 0.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moment-lightbox::backdrop,
+  .moment-lightbox-content {
+    transition: none;
   }
 }

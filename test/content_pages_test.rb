@@ -104,6 +104,9 @@ class ContentPagesTest < Minitest::Test
       script = File.read(File.join(destination, "assets/js/moments-lightbox.js"))
       assert_includes script, "moment-lightbox"
       assert_includes script, "showModal"
+      assert_includes script, "ArrowLeft"
+      assert_includes script, "ArrowRight"
+      assert_includes script, "touchstart"
     end
   end
 

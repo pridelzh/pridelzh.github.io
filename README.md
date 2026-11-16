@@ -227,7 +227,11 @@ stay out of the research post feed, archive, and categories. Leave one blank
 line between the text and the first image, then keep consecutive image links
 together without blank lines to render them as a two- or three-column gallery;
 a single image is displayed larger. Click any image on `/moments/` to open a
-larger preview; press `Esc` or click outside the image to close it.
+larger preview. Use the arrows, left/right keys, or a horizontal swipe to move
+between images from the same moment; press `Esc` or click outside the image to
+close it. Opening and switching use brief transitions and respect the device's
+reduced-motion preference. The preview adapts to mobile portrait/landscape
+viewports and keeps the page's scroll position when closed.
 
 ## Install and preview locally
 
@@ -260,6 +264,18 @@ Run the complete Minitest suite with:
 ```bash
 bundle exec ruby -Itest -e 'Dir["test/**/*_test.rb"].sort.each { |file| require_relative file }'
 ```
+
+With Playwright available, run the image-preview browser regression checks:
+
+```bash
+node --test test/moments_lightbox_browser_test.cjs
+```
+
+For an external Playwright installation, set `PLAYWRIGHT_MODULE` to its module
+path. Set `BROWSER_EXECUTABLE` to an installed Chrome/Chromium executable when
+using that browser instead of Playwright's bundled Chromium. These checks cover
+per-moment navigation, keyboard and touch input, scroll restoration, reduced
+motion, and mobile portrait/landscape sizing.
 
 Make a clean production build before publishing:
 

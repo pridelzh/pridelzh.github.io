@@ -68,6 +68,7 @@ class LayoutTest < Minitest::Test
     assert_includes css, ".moment-content > p:has(> img)"
     assert_includes css, "grid-template-columns: repeat(3, minmax(0, 1fr))"
     assert_includes css, ".moment-lightbox"
+    assert_includes css, ".moment-lightbox-prev"
     assert_includes css, "cursor: zoom-in"
     assert_includes css, "grid-template-columns"
     assert_match(/@media\s*\(max-width:/, css)
