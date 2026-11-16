@@ -16,10 +16,10 @@ class ImageAuthoringTest < Minitest::Test
     destinations = settings.fetch("markdown.copyFiles.destination")
     assert_equal ["/_posts/*", "/moments-editor.md"], destinations.keys
     assert_equal(
-      "/assets/images/${documentBaseName}/${fileName}",
+      "assets/images/${documentBaseName}/${fileName}",
       destinations["/_posts/*"]
     )
-    assert_equal "/assets/images/moments/${fileName}", destinations["/moments-editor.md"]
+    assert_equal "assets/images/moments/${fileName}", destinations["/moments-editor.md"]
     refute destinations.key?("/_posts/**/*"), "recursive post mapping is not supported"
     assert_equal "nameIncrementally", settings.fetch("markdown.copyFiles.overwriteBehavior")
   end

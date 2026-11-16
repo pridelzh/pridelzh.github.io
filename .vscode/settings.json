@@ -1,7 +1,7 @@
 {
   "markdown.copyFiles.destination": {
-    "/_posts/*": "/assets/images/${documentBaseName}/${fileName}",
-    "/moments-editor.md": "/assets/images/moments/${fileName}"
+    "/_posts/*": "assets/images/${documentBaseName}/${fileName}",
+    "/moments-editor.md": "assets/images/moments/${fileName}"
   },
   "markdown.copyFiles.overwriteBehavior": "nameIncrementally"
 }
