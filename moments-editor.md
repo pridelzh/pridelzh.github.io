@@ -16,5 +16,5 @@ then remove them from this scratchpad.
 
 ![sence](assets/images/moments/5f716850706b0b2d951af24cb9d1fe17_720.jpg)
 
-![xinjiang food](assets/images/moments/176d7bec99689e94eec0600d2d95d9a0.jpeg)
+![xinjiang food](assets/images/moments/340f55ebbe647f9c5a7fc2067471db50.jpg)
 

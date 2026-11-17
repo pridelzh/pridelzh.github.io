@@ -179,6 +179,12 @@ Commit both the Markdown file and its new image directory. Because the setting
 belongs to this repository, the same behavior applies after cloning it onto a
 different computer; no image-paste extension is required.
 
+The source globs use `**/_posts/*` and `**/moments-editor.md` to avoid
+Windows drive-letter case differences. Destination paths start with `/assets/`
+so VS Code stores images relative to the workspace root. After a settings
+change, use `Developer: Reload Window` if newly pasted links still contain only
+a filename.
+
 As an editor-independent fallback, place the image under `assets/images/`
 manually and use Liquid explicitly:
 
