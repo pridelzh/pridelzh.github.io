@@ -18,3 +18,4 @@ then remove them from this scratchpad.
 
 ![xinjiang food](assets/images/moments/340f55ebbe647f9c5a7fc2067471db50.jpg)
 
+![dangke](assets/images/moments/IMG_20261118_131041.jpg)
